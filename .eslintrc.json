@@ -28,6 +28,7 @@
 		"react-native/no-color-literals": 1,
 		"react-native/no-raw-text": 2,
 		"@typescript-eslint/no-use-before-define": 0,
-		"import/extensions": 0
+		"import/extensions": 0,
+		"react/prop-type":0
 	}
 }

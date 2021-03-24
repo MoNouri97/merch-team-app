@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import theme from '~/config/theme';
 import Testing from '~/screens/Testing';
 
 export default function App() {
@@ -16,8 +17,9 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: theme.bg,
 		alignItems: 'center',
+		width: '100%',
 		justifyContent: 'center',
 	},
 });
