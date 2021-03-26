@@ -2,6 +2,9 @@
 	"include": ["./App.tsx", "./src/**/*"],
 	"exclude": ["./babel.config.js"],
 	"compilerOptions": {
+		"removeComments": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
 		"allowSyntheticDefaultImports": true,
 		"jsx": "react-native",
 		"lib": ["dom", "esnext"],
@@ -12,7 +15,8 @@
 		"strict": true,
 		"baseUrl": "./",
 		"paths": {
-			"~/*": ["./src/*"]
+			"~/*": ["src/*"]
 		}
 	}
+
 }

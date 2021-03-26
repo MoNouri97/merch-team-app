@@ -1,67 +1,35 @@
-import { Formik } from 'formik';
-import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import * as yup from 'yup';
+import React from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import styled from '~/config/styled-components';
 import AppScreen from '~/components/AppScreen';
-import theme from '~/config/theme';
+import AppText from '~/components/AppText';
+import Btn from '~/components/Btn';
+import Input from '~/components/forms/Input';
+import Form from '~/components/forms/Form';
+import ImageInput from '~/components/forms/ImageInput';
 
 interface Props {}
-// validation object
-const validation = yup.object({
-	email: yup.string().required().email(),
-	password: yup.string().required().max(10).min(3),
-});
 
 const Testing: React.FC<Props> = () => (
 	<AppScreen>
-		<Formik
-			initialValues={{
-				email: '',
-				password: '',
-			}}
-			validationSchema={validation}
-			onSubmit={async (values) => {
-				await new Promise((resolve) => setTimeout(resolve, 500));
-				console.log(JSON.stringify(values, null, 2));
-			}}
+		<AppText>my buttons</AppText>
+		<Btn onPress={() => console.log('halo')}>secondary</Btn>
+		<Btn primary>primary </Btn>
+		<AppText>inputs</AppText>
+		<Form
+			initialValues={{ email: 'nouri@gmail.co', placeholder: '' }}
+			onSubmit={() => console.log('sub')}
 		>
-			{({
-				values,
-				errors,
-				handleBlur,
-				handleChange,
-				handleSubmit /** and a lot more helpers */,
-			}) => (
-				<>
-					<TextInput
-						style={styles.input}
-						value={values.email}
-						onChangeText={handleChange('email')}
-						onBlur={handleBlur('email')}
-					/>
-					<TextInput
-						style={styles.input}
-						value={values.password}
-						onChangeText={handleChange('password')}
-						onBlur={handleBlur('password')}
-					/>
-					<Text>{JSON.stringify(values, null, 2)}</Text>
-					<Text>{JSON.stringify(errors, null, 2)}</Text>
-					<Button title="OK" />
-				</>
-			)}
-		</Formik>
+			<Input name="email" icon="search" />
+			<Input name="placeholder" placeholder="here" icon="chevron-down" />
+			<Input name="placeholder" placeholder="date" icon="calendar" />
+			<Input name="placeholder" placeholder="date" icon="calendar" />
+			<ImageInput />
+			<ImageInput />
+			<ImageInput />
+		</Form>
+		<Btn primary>primary </Btn>
 	</AppScreen>
 );
 export default Testing;
-
-const styles = StyleSheet.create({
-	input: {
-		margin: 10,
-		padding: 10,
-		width: '90%',
-		borderRadius: 10,
-		backgroundColor: theme.medium,
-		color: theme.bg,
-	},
-});

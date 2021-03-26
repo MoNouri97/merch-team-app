@@ -1,25 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import theme from '~/config/theme';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { myTheme } from '~/config/theme';
 import Testing from '~/screens/Testing';
+import AppScreen from '~/components/AppScreen';
+import { ThemeProvider } from '~/config/styled-components';
+import Btn from '~/components/Btn';
 
 export default function App() {
 	return (
-		<View style={styles.container}>
+		<ThemeProvider theme={myTheme}>
 			<Testing />
-			{/* eslint-disable-next-line react/style-prop-object */}
 			<StatusBar style="auto" />
-		</View>
+		</ThemeProvider>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: theme.bg,
-		alignItems: 'center',
-		width: '100%',
-		justifyContent: 'center',
-	},
-});
+const styles = StyleSheet.create({});
