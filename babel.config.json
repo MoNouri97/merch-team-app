@@ -1,9 +1,12 @@
 {
-	"presets": ["babel-preset-expo"],
+	"presets": ["@babel/preset-typescript", "babel-preset-expo"],
 	"plugins": [
+		"@babel/plugin-syntax-nullish-coalescing-operator",
 		[
 			"module-resolver",
 			{
+				"root": ["./src"],
+				"extensions": [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
 				"alias": {
 					"~": "./src"
 				}

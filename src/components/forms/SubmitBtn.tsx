@@ -1,7 +1,5 @@
-import AppText from '../AppText';
 import Btn from '../Btn';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { useFormikContext } from 'formik';
 
 interface Props {}

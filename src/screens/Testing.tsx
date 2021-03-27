@@ -13,10 +13,12 @@ interface Props {}
 
 const Testing: React.FC<Props> = () => (
 	<AppScreen>
-		<AppText>my buttons</AppText>
+		<AppText type="title">my buttons</AppText>
 		<Btn onPress={() => console.log('halo')}>secondary</Btn>
 		<Btn primary>primary </Btn>
-		<AppText>inputs</AppText>
+		<AppText size={32} font="DMSans_500Medium">
+			inputs
+		</AppText>
 		<Form
 			initialValues={{ email: 'nouri@gmail.co', placeholder: '' }}
 			onSubmit={() => console.log('sub')}

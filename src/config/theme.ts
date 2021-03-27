@@ -29,7 +29,7 @@ const myTheme: DefaultTheme = {
 		primary: '#9D3D8E',
 		secondary: '#8947CB',
 		black: '#111',
-		white: '#eee',
+		white: '#FFFFFF',
 		green: '#24CE85',
 		yellow: '#FFB84E',
 		red: '#EA5D5D',

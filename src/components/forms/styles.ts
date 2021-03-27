@@ -7,5 +7,5 @@ export const InputContainer = styled.View`
 	align-items: center;
 	justify-content: center;
 	border-radius: ${({ theme }) => theme.borderRadius};
-	background-color: ${({ theme }) => theme.colors.white};
+	background-color: ${({ theme }) => theme.colors.gray[2]};
 `;

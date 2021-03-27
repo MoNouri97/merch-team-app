@@ -26,6 +26,7 @@ const AppScreen: React.FC<Props> = ({ children, style }) => (
 	</Safe>
 );
 const Safe = styled.SafeAreaView`
+	background-color: ${({ theme }) => theme.colors.white};
 	flex: 1;
 	justify-content: center;
 	align-items: stretch;
