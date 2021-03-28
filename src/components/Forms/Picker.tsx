@@ -1,8 +1,6 @@
-import AppScreen from '../AppScreen';
 import AppText from '../AppText';
-import Btn from '../Btn';
 import InputBase from './InputBase';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FlatList, Modal } from 'react-native';
 import { useFormikContext } from 'formik';
 import styled from '~/config/styled-components';
@@ -13,16 +11,16 @@ interface Props {
 	name: string;
 	data: any[];
 }
-const data = [
-	'hello1',
-	'hello2',
-	'hello3',
-	'hello4',
-	'hello5',
-	'hello6',
-	'hello7',
-];
-const Picker: React.FC<Props> = ({ placeholder, label, name }) => {
+// const data = [
+// 	'hello1',
+// 	'hello2',
+// 	'hello3',
+// 	'hello4',
+// 	'hello5',
+// 	'hello6',
+// 	'hello7',
+// ];
+const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 	const [modalShown, setModalShown] = useState(false);
 	const { handleChange, values } = useFormikContext();
 	const onChange = useMemo(() => handleChange(name), [name]);

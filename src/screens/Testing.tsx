@@ -8,6 +8,7 @@ import Input from '~/components/Forms/Input';
 import Form from '~/components/Forms/Form';
 import ImageInput from '~/components/Forms/ImageInput';
 import Picker from '~/components/Forms/Picker';
+import DatePicker from '~/components/Forms/DatePicker';
 
 interface Props {}
 
@@ -29,9 +30,14 @@ const Testing: React.FC<Props> = () => {
 				initialValues={{ email: 'nouri@gmail.co', placeholder: '' }}
 				onSubmit={() => console.log('sub')}
 			>
+				<DatePicker />
 				<Input name="email" icon="search" />
 				<Input name="testing icons" placeholder="any icon" icon="clock" />
-				<Picker placeholder="choose a category..." name="Category" />
+				<Picker
+					data={['one', 'two', 'three']}
+					placeholder="choose a category..."
+					name="Categorie"
+				/>
 				<Input name="placeholder" placeholder="date" icon="calendar" />
 				<ImageInput />
 				<ImageInput />

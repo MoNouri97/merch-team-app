@@ -11,7 +11,6 @@ import {
 } from '@expo-google-fonts/dm-sans';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
-import Testing from '~/screens/Testing';
 import SignIn from '~/screens/SignIn';
 import DrawerNav from '~/screens/Drawer/DrawerNav';
 
@@ -32,8 +31,8 @@ export default function App() {
 			<StatusBar style="auto" />
 			<NavigationContainer>
 				<Stack.Navigator screenOptions={{ headerShown: false }}>
-					<Stack.Screen name="Connexion" component={SignIn} />
 					<Stack.Screen name="Home" component={DrawerNav} />
+					<Stack.Screen name="Connexion" component={SignIn} />
 				</Stack.Navigator>
 			</NavigationContainer>
 		</ThemeProvider>
