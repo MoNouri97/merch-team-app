@@ -1,6 +1,6 @@
 import AppLoading from 'expo-app-loading';
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -12,8 +12,10 @@ import {
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import Testing from '~/screens/Testing';
+import SignIn from '~/screens/SignIn';
+import DrawerNav from '~/screens/Drawer/DrawerNav';
 
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 export default function App() {
 	// fonts
 	let [fontsLoaded] = useFonts({
@@ -29,9 +31,10 @@ export default function App() {
 		<ThemeProvider theme={myTheme}>
 			<StatusBar style="auto" />
 			<NavigationContainer>
-				<Drawer.Navigator initialRouteName="Home">
-					<Drawer.Screen name="Home" component={Testing} />
-				</Drawer.Navigator>
+				<Stack.Navigator screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="Connexion" component={SignIn} />
+					<Stack.Screen name="Home" component={DrawerNav} />
+				</Stack.Navigator>
 			</NavigationContainer>
 		</ThemeProvider>
 	);
