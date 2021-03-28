@@ -1,37 +1,49 @@
-import * as yup from 'yup';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import styled from '~/config/styled-components';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
 import Btn from '~/components/Btn';
-import Input from '~/components/forms/Input';
-import Form from '~/components/forms/Form';
-import ImageInput from '~/components/forms/ImageInput';
+import Input from '~/components/Forms/Input';
+import Form from '~/components/Forms/Form';
+import ImageInput from '~/components/Forms/ImageInput';
+import Picker from '~/components/Forms/Picker';
 
 interface Props {}
 
-const Testing: React.FC<Props> = () => (
-	<AppScreen>
-		<AppText type="title">my buttons</AppText>
-		<Btn onPress={() => console.log('halo')}>secondary</Btn>
-		<Btn primary>primary </Btn>
-		<AppText size={32} font="DMSans_500Medium">
-			inputs
-		</AppText>
-		<Form
-			initialValues={{ email: 'nouri@gmail.co', placeholder: '' }}
-			onSubmit={() => console.log('sub')}
-		>
-			<Input name="email" icon="search" />
-			<Input name="placeholder" placeholder="here" icon="chevron-down" />
-			<Input name="placeholder" placeholder="date" icon="calendar" />
-			<Input name="placeholder" placeholder="date" icon="calendar" />
-			<ImageInput />
-			<ImageInput />
-			<ImageInput />
-		</Form>
-		<Btn primary>primary </Btn>
-	</AppScreen>
-);
+const Testing: React.FC<Props> = () => {
+	const navigation = useNavigation();
+	return (
+		<AppScreen navbar>
+			<AppText type="subtitle">typography</AppText>
+			<Section>
+				<AppText type="title">Title</AppText>
+				<AppText type="subtitle">subtitle</AppText>
+				<AppText type="label">label</AppText>
+			</Section>
+			<AppText type="subtitle">my buttons</AppText>
+			<Btn>secondary</Btn>
+			<Btn primary>primary </Btn>
+			<AppText type="subtitle">inputs</AppText>
+			<Form
+				initialValues={{ email: 'nouri@gmail.co', placeholder: '' }}
+				onSubmit={() => console.log('sub')}
+			>
+				<Input name="email" icon="search" />
+				<Input name="testing icons" placeholder="any icon" icon="clock" />
+				<Picker placeholder="choose a category..." name="Category" />
+				<Input name="placeholder" placeholder="date" icon="calendar" />
+				<ImageInput />
+				<ImageInput />
+				<ImageInput />
+			</Form>
+			<Btn primary>primary </Btn>
+		</AppScreen>
+	);
+};
+
+const Section = styled.View`
+	margin-top: 10px;
+	margin-bottom: 20px;
+`;
 export default Testing;

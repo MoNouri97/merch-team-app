@@ -10,7 +10,10 @@ import { Formik, FormikHelpers, FormikValues } from 'formik';
 interface Props {
 	initialValues: FormikValues;
 	validationSchema?: any | (() => any);
-	onSubmit: any;
+	onSubmit: (
+		values: FormikValues,
+		formikHelpers: FormikHelpers<FormikValues>
+	) => void | Promise<any>;
 }
 const Form: React.FC<Props> = ({
 	children,

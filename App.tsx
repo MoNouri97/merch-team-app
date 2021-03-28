@@ -3,7 +3,6 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
 import {
 	DMSans_400Regular,
 	DMSans_500Medium,
@@ -37,5 +36,3 @@ export default function App() {
 		</ThemeProvider>
 	);
 }
-
-const styles = StyleSheet.create({});
