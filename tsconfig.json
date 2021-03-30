@@ -4,19 +4,51 @@
 	"compilerOptions": {
 		"removeComments": true,
 		"forceConsistentCasingInFileNames": true,
-		"importHelpers": true,
-		"allowSyntheticDefaultImports": true,
+		// "importHelpers": true,
+		"target": "es5",
+		"module": "commonjs",
 		"jsx": "react-native",
-		"lib": ["dom", "esnext"],
-		"moduleResolution": "node",
-		"noEmit": true,
-		"skipLibCheck": true,
-		"resolveJsonModule": true,
+		"lib": [
+			"es6",
+			"esnext.asynciterable"
+		],
 		"strict": true,
-		"baseUrl": "./",
+		"esModuleInterop": true,
+		"rootDir": "src",
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"noUnusedLocals": true,
+		"skipLibCheck": true,
+		"baseUrl": ".",
 		"paths": {
-			"~/*": ["src/*"]
+			"~/*": ["src/*"],
 		}
 	}
-
 }
+
+// {
+// 	"include": ["./App.tsx", "./src/**/*"],
+// 	"exclude": ["./babel.config.js"],
+// 	"compilerOptions": {
+// 		"removeComments": true,
+// 		"forceConsistentCasingInFileNames": true,
+// 		"importHelpers": true,
+// 		"allowSyntheticDefaultImports": true,
+// 		"jsx": "react-native",
+// 		"lib": ["dom", "esnext"],
+// 		"moduleResolution": "node",
+// 		"noEmit": true,
+// 		"skipLibCheck": true,
+// 		"resolveJsonModule": true,
+// 		"strict": true,
+// 		"baseUrl": "./",
+		
+// 		"paths": {
+// 			"~/*": ["src/*"],
+// 		}
+// 	}
+
+// }

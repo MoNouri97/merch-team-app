@@ -1,8 +1,9 @@
 import styled from '~/config/styled-components';
 
 export const InputContainer = styled.View`
-	margin: 5px;
-	flex: 1;
+	/* overflow: hidden; */
+	padding: 0;
+	margin-vertical: 5px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;

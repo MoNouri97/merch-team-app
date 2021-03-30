@@ -1,27 +1,27 @@
+import NavBar from './NavBar';
 import React from 'react';
 import {
 	Platform,
-	SafeAreaView,
 	ScrollView,
 	StatusBar,
 	StyleProp,
-	StyleSheet,
 	ViewStyle,
 } from 'react-native';
 import styled from '~/config/styled-components';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
+	navbar?: boolean;
 }
 
 // eslint-disable-next-line react/prop-types
-const AppScreen: React.FC<Props> = ({ children, style }) => (
+const AppScreen: React.FC<Props> = ({ children, style, navbar = false }) => (
 	<Safe style={style}>
 		<ScrollView
-			contentContainerStyle={{ padding: 10 }}
-			// style={{ backgroundColor: 'tomato', height: '100%' }}
+		// style={{ backgroundColor: 'tomato', height: '100%' }}
 		>
-			{children}
+			{navbar && <NavBar />}
+			<Container>{children}</Container>
 		</ScrollView>
 	</Safe>
 );
@@ -34,11 +34,9 @@ const Safe = styled.SafeAreaView`
 		? StatusBar.currentHeight + 'px'
 		: '0px'};
 `;
-const styles = StyleSheet.create({
-	container: {
-		// width: '100%',
-		// flex: 1,
-		paddingTop: Platform.OS == 'android' ? StatusBar.currentHeight : 0,
-	},
-});
+const Container = styled.View`
+	padding: 15px;
+	justify-content: center;
+	flex-grow: 1;
+`;
 export default AppScreen;
