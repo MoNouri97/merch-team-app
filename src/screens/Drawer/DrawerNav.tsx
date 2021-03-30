@@ -1,3 +1,4 @@
+import Home from '../Home';
 import React from 'react';
 import Testing from '../Testing';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -15,7 +16,7 @@ const DrawerNav: React.FC = ({ children }) => {
 			// }}
 		>
 			{children}
-			<Drawer.Screen name="Home" component={Testing} />
+			<Drawer.Screen name="Acceuil" component={Home} />
 			<Drawer.Screen name="Test" component={Testing} />
 		</Drawer.Navigator>
 	);

@@ -53,7 +53,7 @@ const Testing: React.FC<Props> = () => {
 					setSubmitting(false);
 				}}
 			>
-				<Password name="password" />
+				<Password name="password" placeholder="shhhh" />
 				<Input name="email" icon="search" />
 				<Picker
 					data={['one', 'two', 'three']}
