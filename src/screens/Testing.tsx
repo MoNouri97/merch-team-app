@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import React from 'react';
 import { useNavigation } from '@react-navigation/core';
 import styled from '~/config/styled-components';
@@ -9,8 +10,23 @@ import Form from '~/components/Forms/Form';
 import ImageInput from '~/components/Forms/ImageInput';
 import Picker from '~/components/Forms/Picker';
 import DatePicker from '~/components/Forms/DatePicker';
+import Password from '~/components/Forms/Password';
+import SubmitBtn from '~/components/Forms/SubmitBtn';
 
 interface Props {}
+const initial = {
+	email: 'nouri@gmail.co',
+	Password: '',
+	categorie: '',
+	date: new Date(),
+	images: [] as string[],
+	image1: [] as string[],
+};
+// validation object
+const validation = yup.object({
+	images: yup.array().required().min(3),
+	image1: yup.array().required().min(1),
+});
 
 const Testing: React.FC<Props> = () => {
 	const navigation = useNavigation();
@@ -24,26 +40,31 @@ const Testing: React.FC<Props> = () => {
 			</Section>
 			<AppText type="subtitle">my buttons</AppText>
 			<Btn>secondary</Btn>
-			<Btn primary>primary </Btn>
+			<Btn primary>primary</Btn>
+			<Btn primary onPress={() => navigation.navigate('Connexion')}>
+				login
+			</Btn>
 			<AppText type="subtitle">inputs</AppText>
 			<Form
-				initialValues={{ email: 'nouri@gmail.co', placeholder: '' }}
-				onSubmit={() => console.log('sub')}
+				validationSchema={validation}
+				initialValues={initial}
+				onSubmit={(_, { setSubmitting }) => {
+					console.log('sub');
+					setSubmitting(false);
+				}}
 			>
-				<DatePicker />
+				<Password name="password" />
 				<Input name="email" icon="search" />
-				<Input name="testing icons" placeholder="any icon" icon="clock" />
 				<Picker
 					data={['one', 'two', 'three']}
 					placeholder="choose a category..."
-					name="Categorie"
+					name="categorie"
 				/>
-				<Input name="placeholder" placeholder="date" icon="calendar" />
-				<ImageInput />
-				<ImageInput />
-				<ImageInput />
+				<DatePicker name="date" />
+				<ImageInput name="image1" label="Une image" />
+				<ImageInput multiple name="images" label="plusieur images" />
+				<SubmitBtn>Ok</SubmitBtn>
 			</Form>
-			<Btn primary>primary </Btn>
 		</AppScreen>
 	);
 };

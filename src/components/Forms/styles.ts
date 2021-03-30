@@ -1,6 +1,7 @@
 import styled from '~/config/styled-components';
 
 export const InputContainer = styled.View`
+	/* overflow: hidden; */
 	padding: 0;
 	margin-vertical: 5px;
 	flex-direction: row;

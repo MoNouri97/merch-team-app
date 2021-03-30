@@ -7,9 +7,11 @@ import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
 
-interface IProps {}
+interface IProps {
+	name: string;
+}
 
-const DatePicker: React.FC<IProps> = ({}) => {
+const DatePicker: React.FC<IProps> = ({ name }) => {
 	const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
@@ -24,7 +26,7 @@ const DatePicker: React.FC<IProps> = ({}) => {
 	};
 
 	return (
-		<InputBase label="date" name="date" icon="calendar">
+		<InputBase label="date" name={name} icon="calendar">
 			<Touchable onPress={showDatepicker}>
 				<AppText type="label">{displayDate(date)}</AppText>
 			</Touchable>

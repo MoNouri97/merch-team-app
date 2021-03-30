@@ -4,7 +4,7 @@
 	"compilerOptions": {
 		"removeComments": true,
 		"forceConsistentCasingInFileNames": true,
-		"importHelpers": true,
+		// "importHelpers": true,
 		"target": "es5",
 		"module": "commonjs",
 		"jsx": "react-native",

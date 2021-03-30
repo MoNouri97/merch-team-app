@@ -11,6 +11,7 @@ import { capitalize } from '~/Helpers/capitalize';
 interface Props {
 	name: string;
 	label: string;
+	container?: boolean;
 	icon?: IconName;
 	onIconPress?: () => void;
 }
@@ -20,6 +21,7 @@ const InputBase: React.FC<Props> = ({
 	icon,
 	label,
 	onIconPress,
+	container = true,
 	children,
 }) => {
 	const theme = useContext(ThemeContext);
@@ -27,17 +29,21 @@ const InputBase: React.FC<Props> = ({
 	return (
 		<Container>
 			<AppText>{capitalize(label)}</AppText>
-			<InputContainer>
-				{children}
-				{icon && (
-					<Icon
-						onPress={onIconPress}
-						name={icon}
-						size={20}
-						color={theme.colors.primary}
-					/>
-				)}
-			</InputContainer>
+			{container ? (
+				<InputContainer>
+					{children}
+					{icon && (
+						<Icon
+							onPress={onIconPress}
+							name={icon}
+							size={20}
+							color={theme.colors.primary}
+						/>
+					)}
+				</InputContainer>
+			) : (
+				children
+			)}
 			<ErrorMessage name={name} />
 		</Container>
 	);
