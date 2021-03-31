@@ -1,5 +1,6 @@
 import faker from 'faker';
 
+const day = new Date();
 let Data: Array<{ day: Date; planning: any[] }> = [];
 for (let i = 0; i < 10; i++) {
 	const p = [];
@@ -17,8 +18,9 @@ for (let i = 0; i < 10; i++) {
 			]),
 		});
 	}
+
 	Data.push({
-		day: faker.date.future(),
+		day: day.setDate(i + 1) as any,
 		planning: p,
 	});
 }
