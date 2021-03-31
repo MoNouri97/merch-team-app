@@ -1,4 +1,5 @@
 import Home from '../Home';
+import MonthlyPlanning from '../MonthlyPlanning';
 import React from 'react';
 import SignIn from '../SignIn';
 import Testing from '../Testing';
@@ -17,6 +18,7 @@ const DrawerNav: React.FC = ({ children }) => {
 			// }}
 		>
 			{children}
+			<Drawer.Screen name="Planning" component={MonthlyPlanning} />
 			<Drawer.Screen name="Acceuil" component={Home} />
 			<Drawer.Screen name="Connexion" component={SignIn} />
 			<Drawer.Screen name="Test" component={Testing} />

@@ -4,37 +4,16 @@ import { Card } from '../sharedStyles';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
+import { Data } from '~/Helpers/planningFakeData';
 
 interface IProps {}
 
-const Data = [
-	{
-		GMS: 'GMS1',
-		state: false,
-		time: 30,
-	},
-	{
-		GMS: 'GMS2',
-		state: true,
-		time: 10,
-	},
-	{
-		GMS: 'GMS3',
-		state: false,
-		time: 20,
-	},
-	{
-		GMS: 'GMS4',
-		state: true,
-		time: 15,
-	},
-];
 const PlanningCard: React.FC<IProps> = ({}) => {
 	return (
 		<Container>
 			<AppText type="subtitle">{displayDate(new Date())}</AppText>
-			{Data.map((planning) => (
-				<PlanningItem {...planning} />
+			{Data[0].planning.map((planning) => (
+				<PlanningItem key={planning.GMS} {...planning} />
 			))}
 		</Container>
 	);
