@@ -34,7 +34,7 @@ const PlanningCard: React.FC<IProps> = ({}) => {
 		<Container>
 			<AppText type="subtitle">{displayDate(new Date())}</AppText>
 			{Data.map((planning) => (
-				<PlanningItem {...planning} />
+				<PlanningItem key={planning.GMS} {...planning} />
 			))}
 		</Container>
 	);
