@@ -15,7 +15,7 @@ const MonthlyPlanning: React.FC<IProps> = ({}) => {
 	return (
 		<Screen navbar>
 			{Data.map((day, i) => (
-				<View>
+				<View key={day.day.toISOString()}>
 					<AppText type="label">{displayDate(day.day)}</AppText>
 					{day.planning.map((d) => {
 						const { status, ...planning } = d;
