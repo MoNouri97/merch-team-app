@@ -7,7 +7,7 @@ for (let i = 0; i < 10; i++) {
 		p.push({
 			GMS: faker.company.companyName(),
 			state: false,
-			time: faker.datatype.number({ min: 5, max: 30, precision: 0 }),
+			time: faker.datatype.number({ min: 5, max: 30 }),
 			status: faker.random.arrayElement([
 				'TODO',
 				'TODO',
