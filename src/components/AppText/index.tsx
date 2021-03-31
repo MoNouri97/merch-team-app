@@ -27,7 +27,7 @@ const AppText: React.FC<IProps & TextProps> = ({
 	}
 
 	return (
-		<Text {...props} style={[style]}>
+		<Text numberOfLines={1} {...props} style={[style]}>
 			{children}
 		</Text>
 	);
