@@ -1,6 +1,6 @@
 import ProgressBar from './ProgressBar';
 import React from 'react';
-import { Card } from './sharedStyles';
+import { Card } from '../sharedStyles';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
@@ -30,7 +30,7 @@ const ProgressCard: React.FC<IProps> = ({}) => {
 			<PercentText type="title">{Data.global}%</PercentText>
 			<ProgressBar percent={Data.global} />
 			{Data.categories.map(({ name, percent }) => (
-				<Row>
+				<Row key={name}>
 					<CatText numberOfLines={1} type="label" color="dimmed">
 						{name}
 					</CatText>

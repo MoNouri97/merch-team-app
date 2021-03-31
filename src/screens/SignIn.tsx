@@ -33,7 +33,7 @@ const SignIn: React.FC<IProps> = ({}) => {
 					}}
 					onSubmit={(values, { setSubmitting }) => {
 						setTimeout(() => {
-							nav.navigate('Home');
+							nav.navigate('Acceuil');
 							setSubmitting(false);
 						}, 500);
 					}}

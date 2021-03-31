@@ -1,18 +1,20 @@
 import React from 'react';
 import AppScreen from '~/components/AppScreen';
-import ProgressCard from '~/components/ProgressCard';
+import PlanningCard from '~/components/Home/PlanningCard';
+import ProgressCard from '~/components/Home/ProgressCard';
 import styled from '~/config/styled-components';
 
 interface IProps {}
 
 const Home: React.FC<IProps> = ({}) => {
 	return (
-		<Container navbar>
+		<Screen navbar>
 			<ProgressCard />
-		</Container>
+			<PlanningCard />
+		</Screen>
 	);
 };
-const Container = styled(AppScreen)(({ theme }) => ({
+const Screen = styled(AppScreen)(({ theme }) => ({
 	backgroundColor: theme.colors.gray[2],
 }));
 export default Home;
