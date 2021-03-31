@@ -1,5 +1,7 @@
 export interface Planning {
 	GMS: string;
-	state: boolean;
+	done: boolean;
 	time: number;
+	status: PlanningStatus;
 }
+export type PlanningStatus = 'TODO' | 'DONE' | 'DELAYED';
