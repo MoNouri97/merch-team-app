@@ -40,7 +40,7 @@ const Text = styled.Text<IProps>`
 			case 'light':
 				return theme.colors.white;
 			case 'dimmed':
-				return theme.colors.gray[3];
+				return theme.colors.gray[4];
 			default:
 				return theme.colors.black;
 		}
