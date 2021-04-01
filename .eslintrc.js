@@ -1,0 +1,41 @@
+module.exports = {
+	env: {
+		browser: true,
+		es2021: true,
+		'react-native/react-native': true,
+		node: true,
+	},
+	extends: [
+		'airbnb',
+		'eslint:recommended',
+		'plugin:import/recommended',
+		'plugin:react/recommended',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+		'prettier',
+	],
+	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		project: ['./*', './tsconfig.json'],
+		ecmaFeatures: {
+			jsx: true,
+			tsx: true,
+		},
+		ecmaVersion: 12,
+		sourceType: 'module',
+	},
+	plugins: ['react', 'react-native', '@typescript-eslint'],
+	rules: {
+		'react/jsx-props-no-spreading': 0,
+		'no-use-before-define': 0,
+		'import/no-unresolved': 0,
+		'react-native/no-unused-styles': 2,
+		'react-native/split-platform-components': 2,
+		'react-native/no-inline-styles': 2,
+		'react-native/no-color-literals': 1,
+		'react-native/no-raw-text': 2,
+		'@typescript-eslint/no-use-before-define': 0,
+		'import/extensions': 0,
+		'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
+	},
+};
