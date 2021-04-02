@@ -1,8 +1,8 @@
-import AppText from '../AppText';
 import ErrorMessage from './ErrorMessage';
 import React, { useContext } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components';
+import AppText from '../AppText';
 import { InputContainer } from '~/components/Forms/styles';
 import IconName from '~/types/icons';
 import styled from '~/config/styled-components';
@@ -28,7 +28,7 @@ const InputBase: React.FC<Props> = ({
 
 	return (
 		<Container>
-			<AppText>{capitalize(label)}</AppText>
+			<AppText type="label">{capitalize(label)}</AppText>
 			{container ? (
 				<InputContainer>
 					{children}

@@ -16,6 +16,6 @@ export const SUBTITLE: TextType = {
 };
 export const LABEL: TextType = {
 	size: 16,
-	color: 'dark',
+	color: 'dimmed',
 	font: 'DMSans_400Regular',
 };
