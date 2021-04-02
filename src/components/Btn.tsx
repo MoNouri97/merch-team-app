@@ -31,7 +31,7 @@ const Btn: React.FC<Props> = ({
 					color: !primary ? theme.colors.primary : theme.colors.white,
 				}}
 			>
-				{typeof children == 'string' ? (
+				{typeof children === 'string' ? (
 					<BtnText primary={primary}>
 						{!loading ? children : <Feather size={20} name="loader" />}
 					</BtnText>

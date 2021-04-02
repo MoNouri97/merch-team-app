@@ -1,8 +1,8 @@
-import Btn from '../Btn';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
-import InputBase from './InputBase';
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
+import InputBase from './InputBase';
+import Btn from '../Btn';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
@@ -30,6 +30,7 @@ const DatePicker: React.FC<IProps> = ({ name }) => {
 			<Touchable onPress={showDatepicker}>
 				<AppText type="label">{displayDate(date)}</AppText>
 			</Touchable>
+			{/* TODO fix this on ios */}
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"

@@ -1,19 +1,18 @@
-import * as yup from 'yup';
-import React from 'react';
 import { useNavigation } from '@react-navigation/core';
-import styled from '~/config/styled-components';
+import React from 'react';
+import * as yup from 'yup';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
 import Btn from '~/components/Btn';
-import Input from '~/components/Forms/Input';
+import DatePicker from '~/components/Forms/DatePicker';
 import Form from '~/components/Forms/Form';
 import ImageInput from '~/components/Forms/ImageInput';
-import Picker from '~/components/Forms/Picker';
-import DatePicker from '~/components/Forms/DatePicker';
+import Input from '~/components/Forms/Input';
 import Password from '~/components/Forms/Password';
+import Picker from '~/components/Forms/Picker';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
+import styled from '~/config/styled-components';
 
-interface Props {}
 const initial = {
 	email: 'nouri@gmail.co',
 	Password: '',
@@ -28,7 +27,7 @@ const validation = yup.object({
 	image1: yup.array().required().min(1),
 });
 
-const Testing: React.FC<Props> = () => {
+const Testing: React.FC = () => {
 	const navigation = useNavigation();
 	return (
 		<AppScreen navbar>
