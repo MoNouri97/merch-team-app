@@ -4,14 +4,12 @@ import { Card } from '../sharedStyles';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
-import { Data } from '~/Helpers/planningFakeData';
+import { fakePlannings } from '~/Helpers/FakeData';
 
-interface IProps {}
-
-const PlanningCard: React.FC<IProps> = ({}) => (
+const PlanningCard: React.FC = () => (
 	<Container>
 		<AppText type="subtitle">{displayDate(new Date())}</AppText>
-		{Data[0].planning.map((planning) => (
+		{fakePlannings[0].planning.map((planning) => (
 			<PlanningItem key={planning.GMS} {...planning} />
 		))}
 	</Container>

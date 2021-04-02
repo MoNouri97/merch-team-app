@@ -6,12 +6,12 @@ import PlanningItemDetails from '~/components/Shared/PlanningItemDetails';
 import { Card } from '~/components/sharedStyles';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
-import { Data } from '~/Helpers/planningFakeData';
+import { fakePlannings } from '~/Helpers/FakeData';
 import { PlanningStatus } from '~/types/data';
 
 const MonthlyPlanning: React.FC = () => (
 	<Screen navbar>
-		{Data.map((day, i) => (
+		{fakePlannings.map((day, i) => (
 			<View key={day.day.toString()}>
 				<AppText type="label">{displayDate(day.day)}</AppText>
 				{day.planning.map((d) => {

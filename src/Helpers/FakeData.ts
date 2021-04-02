@@ -1,7 +1,17 @@
 import faker from 'faker';
 
+export const fakeGMSs = new Array(10)
+	.fill(null)
+	.map(() => faker.company.companyName());
+export const fakeCategories = new Array(10)
+	.fill(null)
+	.map(() => faker.lorem.word(7));
+export const fakeProducts = new Array(10)
+	.fill(null)
+	.map(() => faker.lorem.word(6));
+
 const day = new Date();
-let Data: Array<{ day: Date; planning: any[] }> = [];
+export const fakePlannings: Array<{ day: Date; planning: any[] }> = [];
 for (let i = 0; i < 10; i++) {
 	const p = [];
 	for (let i = 0; i < 3; i++) {
@@ -19,10 +29,8 @@ for (let i = 0; i < 10; i++) {
 		});
 	}
 
-	Data.push({
+	fakePlannings.push({
 		day: day.setDate(i + 1) as any,
 		planning: p,
 	});
 }
-
-export { Data };
