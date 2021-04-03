@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { LABEL, SUBTITLE, TITLE } from './styles';
+/* eslint-disable no-param-reassign */
+import React from 'react';
 import { TextProps } from 'react-native';
 import styled from '~/config/styled-components';
+import { LABEL, SUBTITLE, TITLE } from './styles';
 
 interface IProps {
 	size?: number;
@@ -16,13 +17,13 @@ const AppText: React.FC<IProps & TextProps> = ({
 	type,
 	...props
 }) => {
-	if (type == 'title') {
+	if (type === 'title') {
 		props = { ...TITLE, ...props };
 	}
-	if (type == 'subtitle') {
+	if (type === 'subtitle') {
 		props = { ...SUBTITLE, ...props };
 	}
-	if (type == 'label') {
+	if (type === 'label') {
 		props = { ...LABEL, ...props };
 	}
 

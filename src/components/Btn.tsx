@@ -1,6 +1,11 @@
 import React, { useContext } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
+import {
+	GestureResponderEvent,
+	Pressable,
+	StyleProp,
+	ViewStyle,
+} from 'react-native';
 import { ThemeContext } from 'styled-components';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
@@ -22,8 +27,8 @@ const Btn: React.FC<Props> = ({
 	const theme = useContext(ThemeContext);
 	return (
 		<Container loading={loading} primary={primary}>
-			<InnerBtn
-				style={[style]}
+			<Pressable
+				style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
 				disabled={loading}
 				onPress={onPress}
 				android_ripple={{
@@ -31,23 +36,26 @@ const Btn: React.FC<Props> = ({
 					color: !primary ? theme.colors.primary : theme.colors.white,
 				}}
 			>
-				{typeof children === 'string' ? (
-					<BtnText primary={primary}>
-						{!loading ? children : <Feather size={20} name="loader" />}
-					</BtnText>
-				) : (
-					children
-				)}
-			</InnerBtn>
+				<InnerBtn>
+					{typeof children === 'string' ? (
+						<BtnText primary={primary}>
+							{!loading ? children : <Feather size={20} name="loader" />}
+						</BtnText>
+					) : (
+						children
+					)}
+				</InnerBtn>
+			</Pressable>
 		</Container>
 	);
 };
-const InnerBtn = styled.Pressable`
+const InnerBtn = styled.View`
 	align-items: center;
 	justify-content: center;
 	padding: 15px 20px;
 	overflow: hidden;
 `;
+
 const Container = styled.View<{ primary?: boolean; loading?: boolean }>`
 	overflow: hidden;
 	border-radius: 100px;
