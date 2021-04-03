@@ -1,10 +1,11 @@
-import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
 import Home from '../Home';
+import LeaveRequest from '../LeaveRequest';
 import MonthlyPlanning from '../MonthlyPlanning';
+import RefProducts from '../RefProducts';
 import SignIn from '../SignIn';
 import Testing from '../Testing';
-import RefProducts from '../RefProducts';
 
 const Drawer = createDrawerNavigator();
 
@@ -18,6 +19,7 @@ const DrawerNav: React.FC = ({ children }) => (
 		// }}
 	>
 		{children}
+		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
 		<Drawer.Screen name="Ref Products" component={RefProducts} />
 		<Drawer.Screen name="Planning" component={MonthlyPlanning} />
 		<Drawer.Screen name="Acceuil" component={Home} />
