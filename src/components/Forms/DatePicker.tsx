@@ -1,4 +1,5 @@
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+import { useField } from 'formik';
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
 import AppText from '~/components/AppText';
@@ -12,7 +13,8 @@ interface IProps {
 }
 
 const DatePicker: React.FC<IProps> = ({ name, label }) => {
-	const [date, setDate] = useState(new Date());
+	const [{ value: date }, , { setValue: setDate }] = useField<Date>(name);
+	// const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
 	const onChange = (_event: Event, selectedDate?: Date) => {
