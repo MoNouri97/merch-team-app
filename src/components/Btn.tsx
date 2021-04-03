@@ -63,8 +63,8 @@ const Container = styled.View<{ primary?: boolean; disabled?: boolean }>`
 
 const BtnText = styled(AppText)<{ primary?: boolean }>`
 	font-size: 15px;
-	text-transform: uppercase;
-	font-weight: bold;
+	text-transform: capitalize;
+	letter-spacing: 1px;
 	color: ${({ theme, primary }) =>
 		!primary ? theme.colors.primary : theme.colors.white};
 `;

@@ -5,7 +5,7 @@ import Btn from '../Btn';
 interface Props {}
 
 const SubmitBtn: React.FC<Props> = ({ children }) => {
-	const { handleSubmit, isSubmitting, errors } = useFormikContext();
+	const { handleSubmit, isSubmitting } = useFormikContext();
 	return (
 		<Btn primary loading={isSubmitting} onPress={() => handleSubmit()}>
 			{children}
