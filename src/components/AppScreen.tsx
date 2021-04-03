@@ -6,8 +6,8 @@ import {
 	StyleProp,
 	ViewStyle,
 } from 'react-native';
-import NavBar from './NavBar';
 import styled from '~/config/styled-components';
+import NavBar from './NavBar';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -16,11 +16,11 @@ interface Props {
 
 const AppScreen: React.FC<Props> = ({ children, style, navbar = false }) => (
 	<Safe style={style}>
+		{navbar && <NavBar />}
 		<ScrollView
 			bounces={false}
 			// style={{ backgroundColor: 'tomato', height: '100%' }}
 		>
-			{navbar && <NavBar />}
 			<Container>{children}</Container>
 		</ScrollView>
 	</Safe>

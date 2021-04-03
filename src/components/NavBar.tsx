@@ -1,11 +1,11 @@
-import React, { useContext, useMemo } from 'react';
-import { DrawerActions, useNavigation, useRoute } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
-import { Platform, TouchableOpacity } from 'react-native';
+import { DrawerActions, useNavigation, useRoute } from '@react-navigation/core';
 import { StatusBar } from 'expo-status-bar';
+import React, { useContext, useMemo } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { ThemeContext } from 'styled-components';
-import AppText from './AppText';
 import styled from '~/config/styled-components';
+import AppText from './AppText';
 
 interface Props {
 	title?: string;
@@ -24,7 +24,7 @@ const NavBar: React.FC<Props> = ({ title }) => {
 				<TouchableOpacity
 					onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
 				>
-					<Icon size={30} name="menu" />
+					<Icon size={20} name="menu" />
 				</TouchableOpacity>
 			)}
 			<Title drawer={drawer} pointerEvents="none">
@@ -35,18 +35,16 @@ const NavBar: React.FC<Props> = ({ title }) => {
 	);
 };
 const Container = styled.View`
-	margin-bottom: 5px;
+	/* margin-bottom: 5px; */
 	background-color: ${({ theme }) => theme.colors.gray[1]};
-	/* padding: 20px 10px; */
+	elevation: 10;
+	box-shadow: 1px 1px 1px black;
 	height: 70px;
 	flex-direction: row;
 	width: 100%;
 	align-items: center;
 	justify-content: center;
 `;
-/* padding-top: ${Platform.OS == 'android'
-		? StatusBar.currentHeight + 'px'
-		: '0px'}; */
 const Title = styled.View<{ drawer: boolean }>`
 	margin-left: ${({ drawer }) => (drawer ? '-50px' : 0)};
 	flex-grow: 1;
@@ -55,5 +53,6 @@ const Title = styled.View<{ drawer: boolean }>`
 `;
 const Icon = styled(Feather)`
 	padding: 10px;
+	/* background: red; */
 `;
 export default NavBar;
