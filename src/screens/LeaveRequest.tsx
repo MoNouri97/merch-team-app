@@ -1,5 +1,5 @@
 import { differenceInDays, isAfter, isFuture } from 'date-fns';
-import { useFormikContext } from 'formik';
+import { FormikHelpers, FormikValues, useFormikContext } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import AppScreen from '~/components/AppScreen';
@@ -21,44 +21,54 @@ const initial = {
 const validation = yup.object({
 	start: yup.date().required(),
 	end: yup.date().required(),
-	reason: yup.string().required().min(5),
+	reason: yup.string().required().max(200),
 });
-const LeaveRequest: React.FC = () => {
-	console.log('hello');
 
-	return (
-		<AppScreen navbar>
-			<Subtitle>Details</Subtitle>
-			<Form
-				initialValues={initial}
-				validationSchema={validation}
-				onSubmit={({ start, end }, { setFieldError, setSubmitting }) => {
-					let valid = true;
-					if (!isFuture(start)) {
-						setFieldError('start', 'la date doit être valide');
-						setSubmitting(false);
-						valid = false;
-					}
-					if (!isFuture(end) || !isAfter(end, start)) {
-						setFieldError('end', 'la date doit être valide');
-						setSubmitting(false);
-						valid = false;
-					}
-					if (!valid) return;
+const handleSubmit = (
+	values: FormikValues,
+	formikHelpers: FormikHelpers<FormikValues>
+) => {
+	const { start, end } = values;
+	const { setFieldError, setSubmitting } = formikHelpers;
+	let valid = true;
+	if (!isFuture(start)) {
+		setFieldError('start', 'la date doit être valide');
+		setSubmitting(false);
+		valid = false;
+	}
+	if (!isFuture(end) || !isAfter(end, start)) {
+		setFieldError('end', 'la date doit être valide');
+		setSubmitting(false);
+		valid = false;
+	}
+	if (!valid) return;
 
-					Alert.alert('ok');
-					setSubmitting(false);
-				}}
-			>
-				<DatePicker name="start" />
-				<DatePicker name="end" />
-				<Duration />
-				<Input name="reason" />
-				<SubmitBtn>Soumettre</SubmitBtn>
-			</Form>
-		</AppScreen>
-	);
+	Alert.alert('ok');
+	setSubmitting(false);
 };
+
+const LeaveRequest: React.FC = () => (
+	<AppScreen navbar>
+		<Subtitle>Details</Subtitle>
+		<Form
+			initialValues={initial}
+			validationSchema={validation}
+			onSubmit={handleSubmit}
+		>
+			<DatePicker name="start" />
+			<DatePicker name="end" />
+			<Duration />
+			<Input
+				name="reason"
+				multiline
+				scrollEnabled={false}
+				// eslint-disable-next-line react-native/no-inline-styles
+				style={{ minHeight: 200, textAlignVertical: 'top' }}
+			/>
+			<SubmitBtn>Soumettre</SubmitBtn>
+		</Form>
+	</AppScreen>
+);
 
 const Duration = () => {
 	const {

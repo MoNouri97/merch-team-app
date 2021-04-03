@@ -1,9 +1,9 @@
-import InputBase from './InputBase';
+import { useFormikContext } from 'formik';
 import React from 'react';
 import { TextInputProps } from 'react-native';
-import { useFormikContext } from 'formik';
 import styled from '~/config/styled-components';
 import IconName from '~/types/icons';
+import InputBase from './InputBase';
 
 interface Props {
 	name: string;

@@ -30,7 +30,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 					<ListContainer>
 						<FlatList
 							data={data}
-							keyExtractor={(item) => item.id}
+							keyExtractor={(item) => item.id.toString()}
 							ItemSeparatorComponent={() => <Separator />}
 							renderItem={({ item }) => (
 								<PickerItem

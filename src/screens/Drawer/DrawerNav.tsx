@@ -19,8 +19,8 @@ const DrawerNav: React.FC = ({ children }) => (
 		// }}
 	>
 		{children}
-		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
 		<Drawer.Screen name="Ref Products" component={RefProducts} />
+		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
 		<Drawer.Screen name="Planning" component={MonthlyPlanning} />
 		<Drawer.Screen name="Acceuil" component={Home} />
 		<Drawer.Screen name="Connexion" component={SignIn} />

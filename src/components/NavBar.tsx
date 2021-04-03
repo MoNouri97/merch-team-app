@@ -16,7 +16,7 @@ const NavBar: React.FC<Props> = ({ title }) => {
 	const navigation = useNavigation();
 	const route = useRoute();
 	const theme = useContext(ThemeContext);
-	const drawer = useMemo(() => navigation.toggleDrawer, [navigation]);
+	const drawer = useMemo(() => (navigation as any).toggleDrawer, [navigation]);
 
 	return (
 		<Container>

@@ -1,6 +1,7 @@
 import { useField } from 'formik';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import styled from '~/config/styled-components';
 import { Fake } from '~/types/data';
 import ListItem from '../Shared/ListItem';
 import InputBase from './InputBase';
@@ -26,17 +27,19 @@ const CheckList: React.FC<IProps> = ({ data, name, label }) => {
 	};
 	return (
 		<InputBase name={name} label={label ?? name} container={false}>
-			{data.map((item, i) => {
-				const check = selected.includes(i);
-				return (
-					<TouchableOpacity
-						key={`${item.id}`}
-						onPress={() => handlePress(i, check)}
-					>
-						<MemItem {...{ item: item.name, check }} />
-					</TouchableOpacity>
-				);
-			})}
+			<Container>
+				{data.map((item, i) => {
+					const check = selected.includes(i);
+					return (
+						<TouchableOpacity
+							key={`${item.id}`}
+							onPress={() => handlePress(i, check)}
+						>
+							<MemItem {...{ item: item.name, check }} />
+						</TouchableOpacity>
+					);
+				})}
+			</Container>
 		</InputBase>
 	);
 };
@@ -47,5 +50,7 @@ const Item: React.FC<{
 	// eslint-disable-next-line react/display-name
 }> = ({ item, check }) => <ListItem header={item} withCheck checked={check} />;
 const MemItem = React.memo(Item);
-
+const Container = styled.View`
+	flex: 1;
+`;
 export default CheckList;
