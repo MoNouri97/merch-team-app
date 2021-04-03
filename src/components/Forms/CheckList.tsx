@@ -29,7 +29,10 @@ const CheckList: React.FC<IProps> = ({ data, name, label }) => {
 			{data.map((item, i) => {
 				const check = selected.includes(i);
 				return (
-					<TouchableOpacity key={item.id} onPress={() => handlePress(i, check)}>
+					<TouchableOpacity
+						key={`${item.id}`}
+						onPress={() => handlePress(i, check)}
+					>
 						<MemItem {...{ item: item.name, check }} />
 					</TouchableOpacity>
 				);

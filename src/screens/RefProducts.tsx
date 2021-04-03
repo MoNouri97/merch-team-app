@@ -40,7 +40,7 @@ const RefProducts: React.FC = () => (
 					<Subtitle>Articles</Subtitle>
 					<Picker name="category" label="categorie" data={fakeCategories} />
 					{!!(values.GMS && values.category) && (
-						<CheckList name="products" data={fakeProducts} />
+						<CheckList name="products" label="produits" data={fakeProducts} />
 					)}
 					<SubmitBtn>Ajouter</SubmitBtn>
 				</>
