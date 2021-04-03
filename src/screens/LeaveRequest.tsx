@@ -52,7 +52,7 @@ const LeaveRequest: React.FC = () => {
 			>
 				<DatePicker name="start" />
 				<DatePicker name="end" />
-				<Dur />
+				<Duration />
 				<Input name="reason" />
 				<SubmitBtn>Soumettre</SubmitBtn>
 			</Form>
@@ -60,7 +60,7 @@ const LeaveRequest: React.FC = () => {
 	);
 };
 
-const Dur = () => {
+const Duration = () => {
 	const {
 		values: { end, start },
 	} = useFormikContext();
