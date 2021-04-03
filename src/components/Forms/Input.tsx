@@ -30,17 +30,19 @@ const Input: React.FC<Props & TextInputProps> = ({
 		>
 			<InputInner
 				value={(values as any)[name]}
-				{...props}
 				onChangeText={handleChange(name)}
 				onBlur={handleBlur(name)}
+				{...props}
 			/>
 		</InputBase>
 	);
 };
-const InputInner = styled.TextInput({
-	fontSize: 20,
+const InputInner = styled.TextInput(({ theme }) => ({
+	fontSize: 16,
 	flex: 1,
 	padding: 15,
-});
+	fontFamily: 'DMSans_400Regular',
+	color: theme.colors.black,
+}));
 
 export default Input;
