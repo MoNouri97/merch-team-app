@@ -3,6 +3,7 @@ import React from 'react';
 import Claim from '../Claim';
 import Home from '../Home';
 import LeaveRequest from '../LeaveRequest';
+import MapGMS from '../MapGMS';
 import MonthlyPlanning from '../MonthlyPlanning';
 import RefProducts from '../RefProducts';
 import SignIn from '../SignIn';
@@ -20,6 +21,7 @@ const DrawerNav: React.FC = ({ children }) => (
 		// }}
 	>
 		{children}
+		<Drawer.Screen name="MapGMS" component={MapGMS} />
 		<Drawer.Screen name="Réclamation" component={Claim} />
 		<Drawer.Screen name="Ref Products" component={RefProducts} />
 		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
