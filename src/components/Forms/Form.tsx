@@ -14,17 +14,20 @@ interface Props {
 		values: FormikValues,
 		formikHelpers: FormikHelpers<FormikValues>
 	) => void | Promise<any>;
+	validate?: (values: FormikValues) => any;
 }
 const Form: React.FC<Props> = ({
 	children,
 	initialValues,
 	validationSchema,
 	onSubmit,
+	validate,
 }) => (
 	<Formik
 		initialValues={initialValues}
 		validationSchema={validationSchema}
 		onSubmit={onSubmit}
+		validate={validate}
 	>
 		{() => children}
 	</Formik>

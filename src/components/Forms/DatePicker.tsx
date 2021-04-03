@@ -1,18 +1,20 @@
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+import { useField } from 'formik';
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
-import InputBase from './InputBase';
-import Btn from '../Btn';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
+import InputBase from './InputBase';
 
 interface IProps {
 	name: string;
+	label?: string;
 }
 
-const DatePicker: React.FC<IProps> = ({ name }) => {
-	const [date, setDate] = useState(new Date());
+const DatePicker: React.FC<IProps> = ({ name, label }) => {
+	const [{ value: date }, , { setValue: setDate }] = useField<Date>(name);
+	// const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
 	const onChange = (_event: Event, selectedDate?: Date) => {
@@ -26,7 +28,7 @@ const DatePicker: React.FC<IProps> = ({ name }) => {
 	};
 
 	return (
-		<InputBase label="date" name={name} icon="calendar">
+		<InputBase label={label ?? name} name={name} icon="calendar">
 			<Touchable onPress={showDatepicker}>
 				<AppText type="label">{displayDate(date)}</AppText>
 			</Touchable>

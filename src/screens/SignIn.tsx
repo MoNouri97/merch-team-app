@@ -1,23 +1,17 @@
-import * as yup from 'yup';
-import React from 'react';
 import { useNavigation } from '@react-navigation/core';
+import React from 'react';
 import AppScreen from '~/components/AppScreen';
 import Form from '~/components/Forms/Form';
 import Input from '~/components/Forms/Input';
 import Password from '~/components/Forms/Password';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import styled from '~/config/styled-components';
+import { yup } from '~/Helpers/yupFrLocal';
 
 // validation object
 const validation = yup.object({
-	email: yup
-		.string()
-		.required('Ce champ est requis')
-		.email('Doit être une adresse e-mail valide'),
-	password: yup
-		.string()
-		.required('Ce champ est requis')
-		.min(4, 'Doit avoir au moins 4 caractères'),
+	email: yup.string().required().email(),
+	password: yup.string().required().min(4),
 });
 const SignIn: React.FC = () => {
 	const nav = useNavigation();

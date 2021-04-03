@@ -1,23 +1,24 @@
-import AppLoading from 'expo-app-loading';
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+/* eslint-disable camelcase */
 import {
 	DMSans_400Regular,
 	DMSans_500Medium,
 	DMSans_700Bold,
 	useFonts,
 } from '@expo-google-fonts/dm-sans';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
-import SignIn from '~/screens/SignIn';
 import DrawerNav from '~/screens/Drawer/DrawerNav';
+import SignIn from '~/screens/SignIn';
 
 const Stack = createStackNavigator();
 export default function App() {
 	// fonts
-	let [fontsLoaded] = useFonts({
+	const [fontsLoaded] = useFonts({
 		DMSans_400Regular,
 		DMSans_500Medium,
 		DMSans_700Bold,
