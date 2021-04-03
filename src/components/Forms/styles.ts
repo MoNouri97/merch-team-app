@@ -1,4 +1,5 @@
 import styled from '~/config/styled-components';
+import AppText from '../AppText';
 
 export const InputContainer = styled.View`
 	/* overflow: hidden; */
@@ -9,4 +10,9 @@ export const InputContainer = styled.View`
 	justify-content: center;
 	border-radius: ${({ theme }) => theme.borderRadius};
 	background-color: ${({ theme }) => theme.colors.gray[2]};
+`;
+export const Subtitle = styled(AppText).attrs(() => ({
+	type: 'subtitle',
+}))`
+	margin-bottom: 20px;
 `;

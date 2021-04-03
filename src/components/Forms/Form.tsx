@@ -1,5 +1,5 @@
-import React from 'react';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
+import React from 'react';
 
 // validation object
 // const validation = yup.object({
@@ -20,15 +20,13 @@ const Form: React.FC<Props> = ({
 	initialValues,
 	validationSchema,
 	onSubmit,
-}) => {
-	return (
-		<Formik
-			initialValues={initialValues}
-			validationSchema={validationSchema}
-			onSubmit={onSubmit}
-		>
-			{() => children}
-		</Formik>
-	);
-};
+}) => (
+	<Formik
+		initialValues={initialValues}
+		validationSchema={validationSchema}
+		onSubmit={onSubmit}
+	>
+		{() => children}
+	</Formik>
+);
 export default Form;

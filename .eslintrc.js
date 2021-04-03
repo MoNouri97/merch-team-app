@@ -37,5 +37,10 @@ module.exports = {
 		'@typescript-eslint/no-use-before-define': 0,
 		'import/extensions': 0,
 		'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
+		'react/prop-types': 0,
+		'react-native/no-raw-text': 0,
+		'no-nested-ternary': 0,
+		'react/style-prop-object': 0,
+		'no-plusplus': 0,
 	},
 };

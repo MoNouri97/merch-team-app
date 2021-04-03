@@ -8,7 +8,6 @@ import Password from '~/components/Forms/Password';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import styled from '~/config/styled-components';
 
-interface IProps {}
 // validation object
 const validation = yup.object({
 	email: yup
@@ -20,7 +19,7 @@ const validation = yup.object({
 		.required('Ce champ est requis')
 		.min(4, 'Doit avoir au moins 4 caractères'),
 });
-const SignIn: React.FC<IProps> = ({}) => {
+const SignIn: React.FC = () => {
 	const nav = useNavigation();
 	return (
 		<AppScreen navbar>

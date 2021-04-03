@@ -1,10 +1,10 @@
-import AppText from './AppText';
 import React, { useContext, useMemo } from 'react';
 import { DrawerActions, useNavigation, useRoute } from '@react-navigation/core';
 import { Feather } from '@expo/vector-icons';
 import { Platform, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeContext } from 'styled-components';
+import AppText from './AppText';
 import styled from '~/config/styled-components';
 
 interface Props {
@@ -16,7 +16,7 @@ const NavBar: React.FC<Props> = ({ title }) => {
 	const navigation = useNavigation();
 	const route = useRoute();
 	const theme = useContext(ThemeContext);
-	const drawer = useMemo(() => navigation['toggleDrawer'], [navigation]);
+	const drawer = useMemo(() => navigation.toggleDrawer, [navigation]);
 
 	return (
 		<Container>
