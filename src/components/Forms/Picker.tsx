@@ -45,9 +45,14 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 						/>
 					</ListContainer>
 				</Modal>
-				<AppText type="label" color="dark">
-					{value === '' ? placeholder ?? 'Choisir ...' : value}
-				</AppText>
+
+				{value === '' ? (
+					<AppText type="label">{placeholder ?? 'Choisir ...'}</AppText>
+				) : (
+					<AppText type="label" color="dark">
+						{value}
+					</AppText>
+				)}
 			</Touchable>
 		</InputBase>
 	);
