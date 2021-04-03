@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import * as yup from 'yup';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
 import Btn from '~/components/Btn';
@@ -12,6 +11,7 @@ import Password from '~/components/Forms/Password';
 import Picker from '~/components/Forms/Picker';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import styled from '~/config/styled-components';
+import { yup } from '~/Helpers/yupFrLocal';
 
 const initial = {
 	email: 'nouri@gmail.co',
