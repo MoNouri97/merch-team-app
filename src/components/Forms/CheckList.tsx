@@ -1,11 +1,12 @@
 import { useField } from 'formik';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import { Fake } from '~/types/data';
 import ListItem from '../Shared/ListItem';
 import InputBase from './InputBase';
 
 interface IProps {
-	data: string[];
+	data: Fake[];
 	name: string;
 	label?: string;
 }
@@ -28,12 +29,8 @@ const CheckList: React.FC<IProps> = ({ data, name, label }) => {
 			{data.map((item, i) => {
 				const check = selected.includes(i);
 				return (
-					<TouchableOpacity
-						// style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-						key={i}
-						onPress={() => handlePress(i, check)}
-					>
-						<MemItem {...{ item, check }} />
+					<TouchableOpacity key={item.id} onPress={() => handlePress(i, check)}>
+						<MemItem {...{ item: item.name, check }} />
 					</TouchableOpacity>
 				);
 			})}

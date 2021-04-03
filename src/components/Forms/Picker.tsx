@@ -30,16 +30,16 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 					<ListContainer>
 						<FlatList
 							data={data}
-							keyExtractor={(_, idx) => idx.toString()}
+							keyExtractor={(item) => item.id}
 							ItemSeparatorComponent={() => <Separator />}
 							renderItem={({ item }) => (
 								<PickerItem
 									onPress={() => {
 										setModalShown(false);
-										setValue(item);
+										setValue(item.name);
 									}}
 								>
-									<AppText>{item}</AppText>
+									<AppText>{item.name}</AppText>
 								</PickerItem>
 							)}
 						/>

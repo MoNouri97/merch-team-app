@@ -1,14 +1,17 @@
 import faker from 'faker';
 
-export const fakeGMSs = new Array(10)
-	.fill(null)
-	.map(() => faker.company.companyName());
-export const fakeCategories = new Array(10)
-	.fill(null)
-	.map(() => faker.lorem.word(7));
-export const fakeProducts = new Array(10)
-	.fill(null)
-	.map(() => faker.lorem.word(6));
+export const fakeGMSs = new Array(10).fill(null).map((_, i) => ({
+	id: i,
+	name: faker.company.companyName(),
+}));
+export const fakeCategories = new Array(10).fill(null).map((_, i) => ({
+	id: i,
+	name: faker.commerce.department(),
+}));
+export const fakeProducts = new Array(10).fill(null).map((_, i) => ({
+	id: i,
+	name: faker.commerce.product(),
+}));
 
 const day = new Date();
 export const fakePlannings: Array<{ day: Date; planning: any[] }> = [];
