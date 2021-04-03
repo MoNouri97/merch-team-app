@@ -1,35 +1,30 @@
-import React, { useContext } from 'react';
 import { Feather } from '@expo/vector-icons';
-import {
-	GestureResponderEvent,
-	Pressable,
-	StyleProp,
-	ViewStyle,
-} from 'react-native';
+import React, { useContext } from 'react';
+import { GestureResponderEvent, Pressable } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 
 interface Props {
 	onPress?: ((event: GestureResponderEvent) => void) | undefined;
-	style?: StyleProp<ViewStyle>;
+	disabled?: boolean;
 	primary?: boolean;
 	loading?: boolean;
 }
 
 const Btn: React.FC<Props> = ({
 	children,
-	style,
+	disabled,
 	onPress,
 	loading = false,
 	primary = false,
 }) => {
 	const theme = useContext(ThemeContext);
 	return (
-		<Container loading={loading} primary={primary}>
+		<Container disabled={disabled || loading} primary={primary}>
 			<Pressable
 				style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-				disabled={loading}
+				disabled={disabled || loading}
 				onPress={onPress}
 				android_ripple={{
 					borderless: false,
@@ -56,10 +51,10 @@ const InnerBtn = styled.View`
 	overflow: hidden;
 `;
 
-const Container = styled.View<{ primary?: boolean; loading?: boolean }>`
+const Container = styled.View<{ primary?: boolean; disabled?: boolean }>`
 	overflow: hidden;
 	border-radius: 100px;
-	opacity: ${({ loading }) => (loading ? 0.5 : 1)};
+	opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 	margin: 5px;
 	background-color: ${({ theme, primary }) =>
 		primary ? theme.colors.primary : 'transparent'};
