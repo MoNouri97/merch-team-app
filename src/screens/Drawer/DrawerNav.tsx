@@ -1,5 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
+import Claim from '../Claim';
 import Home from '../Home';
 import LeaveRequest from '../LeaveRequest';
 import MonthlyPlanning from '../MonthlyPlanning';
@@ -19,6 +20,7 @@ const DrawerNav: React.FC = ({ children }) => (
 		// }}
 	>
 		{children}
+		<Drawer.Screen name="Réclamation" component={Claim} />
 		<Drawer.Screen name="Ref Products" component={RefProducts} />
 		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
 		<Drawer.Screen name="Planning" component={MonthlyPlanning} />
