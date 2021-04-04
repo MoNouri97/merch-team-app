@@ -1,5 +1,6 @@
-import React from 'react';
+import { Feather } from '@expo/vector-icons';
 import { useFormikContext } from 'formik';
+import React from 'react';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 
@@ -12,7 +13,12 @@ const ErrorMessage: React.FC<IProps> = ({ name }) => {
 	if (!(touched[name] && errors[name])) {
 		return null;
 	}
-	return <Message>{errors[name]}</Message>;
+	return (
+		<Message>
+			<Feather size={15} name="alert-circle" />
+			{` ${errors[name]}`}
+		</Message>
+	);
 };
 const Message = styled(AppText)`
 	color: ${({ theme }) => theme.colors.red};
