@@ -11,6 +11,7 @@ import Password from '~/components/Forms/Password';
 import Picker from '~/components/Forms/Picker';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import styled from '~/config/styled-components';
+import { fakeCategories } from '~/Helpers/FakeData';
 import { yup } from '~/Helpers/yupFrLocal';
 
 const initial = {
@@ -55,7 +56,7 @@ const Testing: React.FC = () => {
 				<Password name="password" placeholder="shhhh" />
 				<Input name="email" icon="search" />
 				<Picker
-					data={['one', 'two', 'three']}
+					data={fakeCategories}
 					placeholder="choose a category..."
 					name="categorie"
 				/>
