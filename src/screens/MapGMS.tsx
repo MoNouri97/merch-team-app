@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { Alert, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
 import AppText from '~/components/AppText';
 import Btn from '~/components/Btn';
@@ -9,32 +9,47 @@ import styled from '~/config/styled-components';
 const { width, height } = Dimensions.get('screen');
 const MapGMS: React.FC = () => {
 	// code here ...
-	console.log('hello');
+	console.log('hello from MapGMS');
 	return (
 		<>
-			<MapView style={{ width, height }} />
-			{/* <Container> */}
+			<MapView
+				showsMyLocationButton
+				initialRegion={{
+					latitude: 35.8146462228069,
+					latitudeDelta: 0.0012900715168910892,
+					longitude: 10.640393067151308,
+					longitudeDelta: 0.0007533654570579529,
+				}}
+				style={{
+					width,
+					height,
+				}}
+			/>
 			<Card>
-				<View>
-					<Subtitle>Sahloul</Subtitle>
-					<AppText>30min</AppText>
-				</View>
-				<Btn primary onPress={() => alert('hhh')}>
-					<AppText color="light">Commencer</AppText>
-					<AppText color="light">Rapport</AppText>
-				</Btn>
+				<Col>
+					<Subtitle numberOfLines={2}>Aziza Swiss</Subtitle>
+					<AppText>15min</AppText>
+				</Col>
+				<Col>
+					<Btn primary onPress={() => Alert.alert('report page')}>
+						Commencer
+					</Btn>
+				</Col>
 			</Card>
-			{/* </Container> */}
 		</>
 	);
 };
+const Col = styled.View`
+	flex: 1;
+`;
+
 const Card = styled.View`
 	position: absolute;
 	bottom: 10px;
 	left: 10px;
 	right: 10px;
-	elevation: 10;
-	background: #fff;
+	elevation: 5;
+	background: ${({ theme }) => theme.colors.gray[1]};
 	padding: 20px;
 	border-radius: 25px;
 	flex-direction: row;
