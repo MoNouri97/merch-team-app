@@ -9,7 +9,7 @@ const HomeStack: React.FC = () => {
 	console.log('Hello From HomeStack');
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="Acceuil" component={Home} />
+			<Stack.Screen name="Accueil" component={Home} />
 			<Stack.Screen name="MapGMS" component={MapGMS} />
 		</Stack.Navigator>
 	);
