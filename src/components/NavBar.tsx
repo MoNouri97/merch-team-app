@@ -2,10 +2,22 @@ import { Feather } from '@expo/vector-icons';
 import { DrawerActions, useNavigation, useRoute } from '@react-navigation/core';
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useMemo } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import styled from '~/config/styled-components';
 import AppText from './AppText';
+
+export const DrawerBtn: React.FC<{
+	navigation: any;
+	style?: StyleProp<ViewStyle>;
+}> = ({ navigation, style }) => (
+	<TouchableOpacity
+		style={style}
+		onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
+	>
+		<Icon size={20} name="menu" />
+	</TouchableOpacity>
+);
 
 interface Props {
 	title?: string;
@@ -20,13 +32,7 @@ const NavBar: React.FC<Props> = ({ title }) => {
 
 	return (
 		<Container>
-			{drawer && (
-				<TouchableOpacity
-					onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
-				>
-					<Icon size={20} name="menu" />
-				</TouchableOpacity>
-			)}
+			{drawer && <DrawerBtn navigation={navigation} />}
 			<Title drawer={drawer} pointerEvents="none">
 				<AppText type="title">{title ?? route.name}</AppText>
 			</Title>
