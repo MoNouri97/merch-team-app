@@ -8,7 +8,7 @@ interface IProps {
 	size?: number;
 	font?: 'DMSans_400Regular' | 'DMSans_500Medium' | 'DMSans_700Bold';
 	type?: 'title' | 'subtitle' | 'label';
-	color?: 'light' | 'dark' | 'dimmed';
+	color?: 'light' | 'dark' | 'dimmed' | 'primary';
 }
 
 const AppText: React.FC<IProps & TextProps> = ({
@@ -42,8 +42,13 @@ const Text = styled.Text<IProps>`
 				return theme.colors.white;
 			case 'dimmed':
 				return theme.colors.gray[4];
-			default:
+			case 'primary':
+				return theme.colors.primary;
+			case 'dark':
+			case undefined:
 				return theme.colors.black;
+			default:
+				return color;
 		}
 	}};
 `;
