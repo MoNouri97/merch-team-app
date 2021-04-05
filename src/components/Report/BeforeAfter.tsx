@@ -9,13 +9,13 @@ import EventContainer from './EventContainer';
 
 const validation = yup.object({
 	category: yup.string().required(),
-	produit: yup.string().required(),
+	product: yup.string().required(),
 	before: yup.array().required().min(1),
 	after: yup.array().required().min(1),
 });
 const initial = {
 	category: '',
-	produit: '',
+	product: '',
 	before: [],
 	after: [],
 };
@@ -31,7 +31,7 @@ const BeforeAfter: React.FC = () => (
 			}}
 		>
 			<Picker name="category" label="catégorie" data={fakeCategories} />
-			<Picker name="produit" data={fakeProducts} />
+			<Picker name="product" label="produit" data={fakeProducts} />
 			<ImageInput name="before" />
 			<ImageInput name="after" />
 		</Form>

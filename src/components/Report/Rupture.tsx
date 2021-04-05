@@ -11,13 +11,13 @@ import EventContainer from './EventContainer';
 
 const validation = yup.object({
 	category: yup.string().required(),
-	produit: yup.string().required(),
+	product: yup.string().required(),
 	purchaseOrder: yup.boolean().required(),
 	image: yup.array().required(),
 });
 const initial = {
 	category: '',
-	produit: '',
+	product: '',
 	purchaseOrder: false,
 	image: [],
 };
@@ -33,7 +33,7 @@ const Rupture: React.FC = () => (
 			}}
 		>
 			<Picker name="category" label="catégorie" data={fakeCategories} />
-			<Picker name="produit" data={fakeProducts} />
+			<Picker name="product" label="produit" data={fakeProducts} />
 			<CheckBox name="purchaseOrder" label="bon de commande" text="passeé" />
 			<ImageInput name="image" />
 		</Form>
