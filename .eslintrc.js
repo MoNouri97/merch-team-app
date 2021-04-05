@@ -42,5 +42,6 @@ module.exports = {
 		'no-nested-ternary': 0,
 		'react/style-prop-object': 0,
 		'no-plusplus': 0,
+		'@typescript-eslint/no-non-null-assertion': 0,
 	},
 };
