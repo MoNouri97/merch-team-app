@@ -14,7 +14,7 @@ const ErrorMessage: React.FC<IProps> = ({ name }) => {
 		return null;
 	}
 	return (
-		<Message>
+		<Message numberOfLines={2}>
 			<Feather size={15} name="alert-circle" />
 			{` ${errors[name]}`}
 		</Message>
