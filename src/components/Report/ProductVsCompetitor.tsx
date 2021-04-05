@@ -11,7 +11,8 @@ const validation = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
 	purchaseOrder: yup.boolean().required(),
-	image: yup.array().required(),
+	competitorImage: yup.array().required().min(1),
+	productImage: yup.array().required().min(1),
 });
 const initial = {
 	category: '',
