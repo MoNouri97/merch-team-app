@@ -6,6 +6,7 @@ import Btn from '~/components/Btn';
 import Form from '~/components/Forms/Form';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import BeforeAfter from '~/components/Report/BeforeAfter';
+import ProductVsCompetitor from '~/components/Report/ProductVsCompetitor';
 import ReportHeader from '~/components/Report/ReportHeader';
 import Rupture from '~/components/Report/Rupture';
 import styled from '~/config/styled-components';
@@ -38,6 +39,7 @@ const Report: React.FC = () => {
 			>
 				<BeforeAfter />
 				<Rupture />
+				<ProductVsCompetitor />
 				<Btn>Ajouter</Btn>
 				<SubmitBtn>Soumettre</SubmitBtn>
 			</Form>
