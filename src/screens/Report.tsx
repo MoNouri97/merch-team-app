@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
@@ -6,19 +7,19 @@ import Form from '~/components/Forms/Form';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import BeforeAfter from '~/components/Report/BeforeAfter';
 import ReportHeader from '~/components/Report/ReportHeader';
+import Rupture from '~/components/Report/Rupture';
 import styled from '~/config/styled-components';
 import { yup } from '~/Helpers/yupFrLocal';
 
 const validation = yup.object({});
 const initial = {};
 const Report: React.FC = () => {
-	// code here ...
-	console.log('Hello From Report');
+	const { goBack } = useNavigation();
 	return (
 		<AppScreen>
 			<ReportHeader
 				onActionPress={() => console.log('action')}
-				onClosePress={() => console.log('exit')}
+				onClosePress={() => goBack()}
 			/>
 			<AppText type="subtitle">Aziza - Ibn Khaldoun</AppText>
 			<Time>
@@ -36,6 +37,7 @@ const Report: React.FC = () => {
 				}}
 			>
 				<BeforeAfter />
+				<Rupture />
 				<Btn>Ajouter</Btn>
 				<SubmitBtn>Soumettre</SubmitBtn>
 			</Form>
