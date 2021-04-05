@@ -10,13 +10,13 @@ import Picker from '../Forms/Picker';
 import EventContainer from './EventContainer';
 
 const validation = yup.object({
-	catégorie: yup.string().required(),
+	category: yup.string().required(),
 	produit: yup.string().required(),
 	purchaseOrder: yup.boolean().required(),
 	image: yup.array().required(),
 });
 const initial = {
-	catégorie: '',
+	category: '',
 	produit: '',
 	purchaseOrder: false,
 	image: [],
@@ -32,7 +32,7 @@ const Rupture: React.FC = () => (
 				setSubmitting(false);
 			}}
 		>
-			<Picker name="catégorie" data={fakeCategories} />
+			<Picker name="category" label="catégorie" data={fakeCategories} />
 			<Picker name="produit" data={fakeProducts} />
 			<CheckBox name="purchaseOrder" label="bon de commande" text="passeé" />
 			<ImageInput name="image" />
