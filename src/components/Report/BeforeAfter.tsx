@@ -1,11 +1,11 @@
 import React from 'react';
-import styled from '~/config/styled-components';
+import { Alert } from 'react-native';
 import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
 import { yup } from '~/Helpers/yupFrLocal';
 import Form from '../Forms/Form';
 import ImageInput from '../Forms/ImageInput';
 import Picker from '../Forms/Picker';
-import { Subtitle } from '../Forms/styles';
+import EventContainer from './EventContainer';
 
 const validation = yup.object({
 	catégorie: yup.string().required(),
@@ -19,16 +19,14 @@ const initial = {
 	before: [],
 	after: [],
 };
-interface IProps {}
 
-const BeforeAfter: React.FC<IProps> = ({}) => (
-	<Container>
-		<Subtitle>Before/After</Subtitle>
+const BeforeAfter: React.FC = () => (
+	<EventContainer title="Before/After">
 		<Form
 			initialValues={initial}
 			validationSchema={validation}
 			onSubmit={(values, { setSubmitting }) => {
-				console.log('ok');
+				Alert.alert(JSON.stringify(values, null, 2));
 				setSubmitting(false);
 			}}
 		>
@@ -37,7 +35,6 @@ const BeforeAfter: React.FC<IProps> = ({}) => (
 			<ImageInput name="before" />
 			<ImageInput name="after" />
 		</Form>
-	</Container>
+	</EventContainer>
 );
-const Container = styled.View``;
 export default BeforeAfter;
