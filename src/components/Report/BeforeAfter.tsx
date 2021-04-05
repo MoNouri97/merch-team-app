@@ -6,7 +6,6 @@ import Form from '../Forms/Form';
 import ImageInput from '../Forms/ImageInput';
 import Picker from '../Forms/Picker';
 import { Subtitle } from '../Forms/styles';
-import SubmitBtn from '../Forms/SubmitBtn';
 
 const validation = yup.object({
 	catégorie: yup.string().required(),
@@ -37,7 +36,6 @@ const BeforeAfter: React.FC<IProps> = ({}) => (
 			<Picker name="produit" data={fakeProducts} />
 			<ImageInput name="before" />
 			<ImageInput name="after" />
-			<SubmitBtn>Ok</SubmitBtn>
 		</Form>
 	</Container>
 );

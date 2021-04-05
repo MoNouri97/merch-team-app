@@ -13,7 +13,6 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNav: React.FC = ({ children }) => (
 	<Drawer.Navigator
-		initialRouteName="Accueil"
 		screenOptions={{
 			headerShown: false,
 		}}

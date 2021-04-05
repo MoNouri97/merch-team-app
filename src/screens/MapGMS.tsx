@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { Alert, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import AppText from '~/components/AppText';
 import Btn from '~/components/Btn';
@@ -45,7 +45,12 @@ const MapGMS: React.FC = () => {
 					<AppText>15min</AppText>
 				</Col>
 				<Col>
-					<Btn primary onPress={() => Alert.alert('report page')}>
+					<Btn
+						primary
+						onPress={() => {
+							navigation.navigate('Report');
+						}}
+					>
 						Commencer
 					</Btn>
 				</Col>
