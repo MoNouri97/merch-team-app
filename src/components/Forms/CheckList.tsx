@@ -14,7 +14,6 @@ interface IProps {
 
 const CheckList: React.FC<IProps> = ({ data, name, label }) => {
 	const [{ value: selected }, , { setValue }] = useField<number[]>(name);
-
 	const handlePress = (idx: number, toRemove: boolean) => {
 		if (toRemove) {
 			setValue(
@@ -51,6 +50,7 @@ const Item: React.FC<{
 }> = ({ item, check }) => <ListItem header={item} withCheck checked={check} />;
 const MemItem = React.memo(Item);
 const Container = styled.View`
-	flex: 1;
+	flex-shrink: 0;
+	flex-grow: 1;
 `;
 export default CheckList;
