@@ -7,6 +7,7 @@ import Form from '~/components/Forms/Form';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import Action from '~/components/Report/Action';
 import BeforeAfter from '~/components/Report/BeforeAfter';
+import CompetitorEvent from '~/components/Report/CompetitorEvent';
 import NewProduct from '~/components/Report/NewProduct';
 import PriceChange from '~/components/Report/PriceChange';
 import ProductVsCompetitor from '~/components/Report/ProductVsCompetitor';
@@ -48,6 +49,7 @@ const Report: React.FC = () => {
 				<PriceChange />
 				<NewProduct />
 				<Action />
+				<CompetitorEvent />
 				<Btn>Ajouter</Btn>
 				<SubmitBtn>Soumettre</SubmitBtn>
 			</Form>
