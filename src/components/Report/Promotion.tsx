@@ -25,33 +25,29 @@ const initial = {
 	end: new Date(),
 	images: [],
 };
-const Promotion: React.FC = () => {
-	// code here ...
-	console.log('Hello From ProductVsCompetitor');
-	return (
-		<EventContainer title="Promotion">
-			<Form
-				initialValues={initial}
-				validationSchema={validation}
-				onSubmit={(values, { setSubmitting }) => {
-					Alert.alert(JSON.stringify(values, null, 2));
-					setSubmitting(false);
-				}}
-			>
-				<Picker name="category" label="catégorie" data={fakeCategories} />
-				<Picker name="product" label="produit" data={fakeProducts} />
-				<Input
-					name="percentage"
-					label="pourcentage"
-					keyboardType="numeric"
-					placeholder="10 ou 5 .."
-					icon="percent"
-				/>
-				<DatePicker name="start" label="debut" />
-				<DatePicker name="end" label="fin" />
-				<ImageInput name="images" label="Images" multiple />
-			</Form>
-		</EventContainer>
-	);
-};
+const Promotion: React.FC = () => (
+	<EventContainer title="Promotion">
+		<Form
+			initialValues={initial}
+			validationSchema={validation}
+			onSubmit={(values, { setSubmitting }) => {
+				Alert.alert(JSON.stringify(values, null, 2));
+				setSubmitting(false);
+			}}
+		>
+			<Picker name="category" label="catégorie" data={fakeCategories} />
+			<Picker name="product" label="produit" data={fakeProducts} />
+			<Input
+				name="percentage"
+				label="pourcentage"
+				keyboardType="numeric"
+				placeholder="10 ou 5 .."
+				icon="percent"
+			/>
+			<DatePicker name="start" label="debut" />
+			<DatePicker name="end" label="fin" />
+			<ImageInput name="images" label="Images" multiple />
+		</Form>
+	</EventContainer>
+);
 export default Promotion;
