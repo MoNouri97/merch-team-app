@@ -5,7 +5,7 @@ import ProgressCard from '~/components/Home/ProgressCard';
 import styled from '~/config/styled-components';
 
 const Home: React.FC = () => (
-	<Screen navbar>
+	<Screen center navbar>
 		<ProgressCard />
 		<PlanningCard />
 	</Screen>
