@@ -9,3 +9,9 @@ export interface Fake {
 	id: number | string;
 }
 export type PlanningStatus = 'TODO' | 'DONE' | 'DELAYED';
+export interface Message {
+	id: number;
+	name: string;
+	content: string;
+	document: boolean;
+}

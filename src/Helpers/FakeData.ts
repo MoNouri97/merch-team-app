@@ -17,7 +17,7 @@ const day = new Date();
 export const fakePlannings: Array<{ day: Date; planning: any[] }> = [];
 for (let i = 0; i < 10; i++) {
 	const p = [];
-	for (let i = 0; i < 3; i++) {
+	for (let j = 0; j < 3; j++) {
 		p.push({
 			GMS: faker.company.companyName(),
 			state: false,
@@ -37,3 +37,9 @@ for (let i = 0; i < 10; i++) {
 		planning: p,
 	});
 }
+export const fakeChat = new Array(5).fill(null).map((_, i) => ({
+	id: i,
+	name: 'admin',
+	content: faker.lorem.sentence(3, 5),
+	document: faker.datatype.boolean(),
+}));
