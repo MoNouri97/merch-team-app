@@ -19,7 +19,7 @@ type Action = {
 };
 
 interface WrapperProps {
-	actions: Action[];
+	actions?: Action[];
 	id: number;
 }
 interface InnerProps {
@@ -32,7 +32,7 @@ const ReportEvent: React.FC<WrapperProps & InnerProps> = ({
 	...other
 }) => (
 	<Wrapper>
-		{actions.map((action) => (
+		{actions?.map((action) => (
 			<ActionBtn key={action.icon}>
 				<TouchableOpacity onPress={() => action.onPress(id)}>
 					<Feather size={20} name={action.icon} />

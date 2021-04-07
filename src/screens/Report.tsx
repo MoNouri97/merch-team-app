@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, Modal, ModalProps } from 'react-native';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
@@ -46,6 +46,11 @@ const Report: React.FC = () => {
 		[setEvents, events]
 	);
 
+	const actions = useMemo(
+		() => [{ icon: 'trash-2' as const, onPress: deleteEvent }],
+		[deleteEvent]
+	);
+
 	return (
 		<AppScreen>
 			<ReportHeader
@@ -70,7 +75,7 @@ const Report: React.FC = () => {
 						<ReportEvent
 							type={e.type}
 							id={e.id}
-							actions={[{ icon: 'trash-2', onPress: deleteEvent }]}
+							actions={i !== 0 ? actions : undefined}
 						/>
 						{/* {i > 0 && <Btn onPress={() => deleteEvent(e.id)}>Supprimer</Btn>} */}
 					</React.Fragment>
