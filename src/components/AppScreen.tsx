@@ -13,6 +13,7 @@ import NavBar from './NavBar';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	navbar?: boolean;
+	center?: boolean;
 	scrollProps?: ScrollViewProps;
 }
 
@@ -20,16 +21,18 @@ const AppScreen: React.FC<Props> = ({
 	children,
 	style,
 	navbar = false,
+	center = false,
 	scrollProps,
 }) => (
 	<Safe style={style}>
 		{navbar && <NavBar />}
 		<ScrollView
+			// eslint-disable-next-line react-native/no-inline-styles
+			contentContainerStyle={{ flexGrow: 1 }}
 			bounces={false}
 			{...scrollProps}
-			// style={{ backgroundColor: 'tomato', height: '100%' }}
 		>
-			<Container>{children}</Container>
+			<Container center={center}>{children}</Container>
 		</ScrollView>
 	</Safe>
 );
@@ -42,9 +45,9 @@ const Safe = styled.SafeAreaView`
 		? `${StatusBar.currentHeight}px`
 		: '0px'};
 `;
-const Container = styled.View`
+const Container = styled.View<{ center: boolean }>`
 	padding: 15px;
-	justify-content: center;
+	justify-content: ${({ center }) => (center ? 'space-evenly' : 'flex-start')};
 	flex-grow: 1;
 `;
 export default AppScreen;
