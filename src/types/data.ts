@@ -6,6 +6,6 @@ export interface Planning {
 }
 export interface Fake {
 	name: string;
-	id: number;
+	id: number | string;
 }
 export type PlanningStatus = 'TODO' | 'DONE' | 'DELAYED';

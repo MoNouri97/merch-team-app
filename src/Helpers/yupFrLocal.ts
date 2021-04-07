@@ -4,11 +4,17 @@ import * as yup from 'yup';
 export const yupFrLocal = {
 	mixed: {
 		required: 'ce champ est requis',
+		notType: 'valeur invalide',
 	},
 	string: {
 		min: 'doit être au moins ${min} caractères',
 		max: 'doit être au plus ${max} caractères',
 		email: 'doit être une adresse e-mail valide',
+	},
+	number: {
+		min: 'doit être supérieur ou égale  ${min}',
+		max: 'doit être inférieure ou égale  ${max}',
+		positive: 'doit être un nombre positive',
 	},
 	array: {
 		min: 'ce champ doit contenir au moins ${min} éléments',

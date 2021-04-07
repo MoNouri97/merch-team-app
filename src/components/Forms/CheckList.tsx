@@ -13,27 +13,28 @@ interface IProps {
 }
 
 const CheckList: React.FC<IProps> = ({ data, name, label }) => {
-	const [{ value: selected }, , { setValue }] = useField<number[]>(name);
-
-	const handlePress = (idx: number, toRemove: boolean) => {
+	const [{ value: selected }, , { setValue }] = useField<
+		Array<string | number>
+	>(name);
+	const handlePress = (id: string | number, toRemove: boolean) => {
 		if (toRemove) {
 			setValue(
-				selected.filter((s) => s !== idx),
+				selected.filter((s) => s !== id),
 				false
 			);
 			return;
 		}
-		setValue([...selected, idx], false);
+		setValue([...selected, id], false);
 	};
 	return (
 		<InputBase name={name} label={label ?? name} container={false}>
 			<Container>
-				{data.map((item, i) => {
-					const check = selected.includes(i);
+				{data.map((item) => {
+					const check = selected.includes(item.id);
 					return (
 						<TouchableOpacity
 							key={`${item.id}`}
-							onPress={() => handlePress(i, check)}
+							onPress={() => handlePress(item.id, check)}
 						>
 							<MemItem {...{ item: item.name, check }} />
 						</TouchableOpacity>
@@ -51,6 +52,7 @@ const Item: React.FC<{
 }> = ({ item, check }) => <ListItem header={item} withCheck checked={check} />;
 const MemItem = React.memo(Item);
 const Container = styled.View`
-	flex: 1;
+	flex-shrink: 0;
+	flex-grow: 1;
 `;
 export default CheckList;

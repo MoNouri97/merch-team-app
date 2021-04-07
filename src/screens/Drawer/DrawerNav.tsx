@@ -5,6 +5,7 @@ import HomeStack from '../HomeStack';
 import LeaveRequest from '../LeaveRequest';
 import MonthlyPlanning from '../MonthlyPlanning';
 import RefProducts from '../RefProducts';
+import Report from '../Report';
 import SignIn from '../SignIn';
 import Testing from '../Testing';
 
@@ -12,13 +13,13 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNav: React.FC = ({ children }) => (
 	<Drawer.Navigator
-		initialRouteName="Acceuil"
 		screenOptions={{
 			headerShown: false,
 		}}
 	>
 		{children}
-		<Drawer.Screen name="Acceuil" component={HomeStack} />
+		<Drawer.Screen name="Rapport" component={Report} />
+		<Drawer.Screen name="Accueil" component={HomeStack} />
 		<Drawer.Screen name="Réclamation" component={Claim} />
 		<Drawer.Screen name="Ref Products" component={RefProducts} />
 		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />

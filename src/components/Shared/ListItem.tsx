@@ -43,7 +43,7 @@ const Details = styled.View`
 	border-bottom-width: 1px;
 	border-bottom-color: ${({ theme }) => theme.colors.gray[1]};
 	align-items: center;
-	flex: 1;
+	flex-grow: 1;
 	margin-left: 10px;
 `;
 const State = styled.View`

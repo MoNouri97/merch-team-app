@@ -26,7 +26,7 @@ const SignIn: React.FC = () => {
 					}}
 					onSubmit={(values, { setSubmitting }) => {
 						setTimeout(() => {
-							nav.navigate('Acceuil');
+							nav.navigate('Accueil');
 							setSubmitting(false);
 						}, 500);
 					}}

@@ -1,12 +1,12 @@
-import ErrorMessage from './ErrorMessage';
-import React, { useContext } from 'react';
 import { Feather } from '@expo/vector-icons';
+import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import AppText from '../AppText';
 import { InputContainer } from '~/components/Forms/styles';
-import IconName from '~/types/icons';
 import styled from '~/config/styled-components';
 import { capitalize } from '~/Helpers/capitalize';
+import IconName from '~/types/icons';
+import AppText from '../AppText';
+import ErrorMessage from './ErrorMessage';
 
 interface Props {
 	name: string;

@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	Platform,
 	ScrollView,
+	ScrollViewProps,
 	StatusBar,
 	StyleProp,
 	ViewStyle,
@@ -12,13 +13,20 @@ import NavBar from './NavBar';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	navbar?: boolean;
+	scrollProps?: ScrollViewProps;
 }
 
-const AppScreen: React.FC<Props> = ({ children, style, navbar = false }) => (
+const AppScreen: React.FC<Props> = ({
+	children,
+	style,
+	navbar = false,
+	scrollProps,
+}) => (
 	<Safe style={style}>
 		{navbar && <NavBar />}
 		<ScrollView
 			bounces={false}
+			{...scrollProps}
 			// style={{ backgroundColor: 'tomato', height: '100%' }}
 		>
 			<Container>{children}</Container>
