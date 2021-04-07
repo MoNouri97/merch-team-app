@@ -6,6 +6,7 @@ import { Message } from '~/types/data';
 
 const ChatMessage: React.FC<Message> = ({ content, document, name }) => {
 	const [mine, setMine] = useState(name === 'me');
+	console.log(content);
 
 	return (
 		<Container mine={mine}>
@@ -63,4 +64,4 @@ const InlineIcon = styled(Feather)<{ mine: boolean }>`
 	color: ${({ theme, mine }) =>
 		!mine ? theme.colors.primary : theme.colors.gray[2]};
 `;
-export default ChatMessage;
+export default React.memo(ChatMessage);

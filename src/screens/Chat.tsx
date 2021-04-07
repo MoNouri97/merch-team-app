@@ -15,23 +15,25 @@ const Chat: React.FC = () => {
 	};
 
 	return (
-		<AppScreen navbar autoScroll>
-			<Messages>
-				{messages.map((msg) => (
-					<ChatMessage key={msg.id} {...msg} />
-				))}
-			</Messages>
+		<>
+			<AppScreen navbar autoScroll>
+				<Messages>
+					{messages.map((msg) => (
+						<ChatMessage key={msg.id} {...msg} />
+					))}
+				</Messages>
+			</AppScreen>
 			<Send>
 				<ChatField send={addMsg} />
 			</Send>
-		</AppScreen>
+		</>
 	);
 };
 const Messages = styled.View`
 	height: 100%;
 	align-items: flex-end;
 	justify-content: flex-end;
-	padding-bottom: 50px;
+	padding-bottom: 70px;
 `;
 const Send = styled.View`
 	position: absolute;

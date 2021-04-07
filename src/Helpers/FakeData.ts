@@ -37,9 +37,9 @@ for (let i = 0; i < 10; i++) {
 		planning: p,
 	});
 }
-export const fakeChat = new Array(5).fill(null).map((_, i) => ({
+export const fakeChat = new Array(20).fill(null).map((_, i) => ({
 	id: i,
-	name: 'admin',
+	name: faker.random.arrayElement(['me', 'admin', 'supervisor']),
 	content: faker.lorem.sentence(3, 5),
 	document: faker.datatype.boolean(),
 }));
