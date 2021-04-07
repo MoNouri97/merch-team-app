@@ -7,7 +7,7 @@ interface IProps {
 }
 const EventContainer: React.FC<IProps> = ({ title, children }) => (
 	<Container>
-		<Subtitle>{title}</Subtitle>
+		<Subtitle color="primary">{title}</Subtitle>
 		{children}
 	</Container>
 );
