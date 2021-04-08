@@ -1,11 +1,11 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
+import ChatStack from '~/screens/Chat/ChatStack';
 import Claim from '../Claim';
 import HomeStack from '../HomeStack';
 import LeaveRequest from '../LeaveRequest';
 import MonthlyPlanning from '../MonthlyPlanning';
 import RefProducts from '../RefProducts';
-import Report from '../Report';
 import SignIn from '../SignIn';
 import Testing from '../Testing';
 
@@ -18,7 +18,7 @@ const DrawerNav: React.FC = ({ children }) => (
 		}}
 	>
 		{children}
-		<Drawer.Screen name="Rapport" component={Report} />
+		<Drawer.Screen name="Chat" component={ChatStack} />
 		<Drawer.Screen name="Accueil" component={HomeStack} />
 		<Drawer.Screen name="Réclamation" component={Claim} />
 		<Drawer.Screen name="Ref Products" component={RefProducts} />

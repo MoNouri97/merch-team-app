@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
 	Platform,
 	ScrollView,
-	ScrollViewProps,
 	StatusBar,
 	StyleProp,
 	ViewStyle,
@@ -13,29 +12,41 @@ import NavBar from './NavBar';
 interface Props {
 	style?: StyleProp<ViewStyle>;
 	navbar?: boolean;
+	title?: string;
 	center?: boolean;
-	scrollProps?: ScrollViewProps;
+	autoScroll?: boolean;
 }
 
 const AppScreen: React.FC<Props> = ({
 	children,
 	style,
 	navbar = false,
+	title,
 	center = false,
-	scrollProps,
-}) => (
-	<Safe style={style}>
-		{navbar && <NavBar />}
-		<ScrollView
-			// eslint-disable-next-line react-native/no-inline-styles
-			contentContainerStyle={{ flexGrow: 1 }}
-			bounces={false}
-			{...scrollProps}
-		>
-			<Container center={center}>{children}</Container>
-		</ScrollView>
-	</Safe>
-);
+	autoScroll = false,
+}) => {
+	const ref = useRef<ScrollView>(null);
+	return (
+		<Safe style={style}>
+			{navbar && <NavBar title={title} />}
+			<ScrollView
+				// eslint-disable-next-line react-native/no-inline-styles
+				contentContainerStyle={{ flexGrow: 1 }}
+				bounces={false}
+				ref={ref}
+				onContentSizeChange={
+					!autoScroll
+						? undefined
+						: () => {
+								ref.current?.scrollToEnd();
+						  }
+				}
+			>
+				<Container center={center}>{children}</Container>
+			</ScrollView>
+		</Safe>
+	);
+};
 const Safe = styled.SafeAreaView`
 	background-color: ${({ theme }) => theme.colors.white};
 	flex: 1;
