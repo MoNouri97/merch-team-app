@@ -11,7 +11,7 @@ interface IProps {
 const ChatField: React.FC<IProps> = ({ send }) => (
 	<Formik
 		initialValues={{ msg: '' }}
-		isInitialValid={false}
+		validateOnMount
 		validationSchema={yup.object({ msg: yup.string().required() })}
 		onSubmit={({ msg }, { resetForm }) => {
 			send(msg);
@@ -40,6 +40,7 @@ const Container = styled.View`
 	elevation: 2;
 	box-shadow: 0 0 1px black;
 	flex-grow: 1;
+	margin: 10px;
 	align-items: center;
 	max-height: 70px;
 	padding: 5px;

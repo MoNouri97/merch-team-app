@@ -33,7 +33,7 @@ const Report: React.FC = () => {
 	};
 	const deleteEvent = useCallback(
 		(id: number) => {
-			Alert.alert('Supprimer', 'Supprimer cet section ?', [
+			Alert.alert('Confirmation', 'Supprimer cette section ?', [
 				{
 					text: 'Oui',
 					onPress: () => {

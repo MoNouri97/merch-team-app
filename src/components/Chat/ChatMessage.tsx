@@ -6,7 +6,6 @@ import { Message } from '~/types/data';
 
 const ChatMessage: React.FC<Message> = ({ content, document, name }) => {
 	const [mine, setMine] = useState(name === 'me');
-	console.log(content);
 
 	return (
 		<Container mine={mine}>
