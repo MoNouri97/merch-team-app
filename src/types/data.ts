@@ -1,3 +1,5 @@
+import IconName from './icons';
+
 export interface Planning {
 	GMS: string;
 	done: boolean;
@@ -14,4 +16,9 @@ export interface Message {
 	name: string;
 	content: string;
 	document: boolean;
+}
+export interface Action {
+	icon: IconName;
+	action: () => void | Promise<void>;
+	title?: string;
 }

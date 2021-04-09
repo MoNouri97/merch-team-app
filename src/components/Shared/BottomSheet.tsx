@@ -22,31 +22,22 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 	modalProps,
 	children,
 	...props
-}) => {
-	console.log({ isVisible });
-
-	return (
-		<Modal
-			animationType="slide"
-			transparent
-			visible={isVisible}
-			{...modalProps}
+}) => (
+	<Modal animationType="slide" transparent visible={isVisible} {...modalProps}>
+		<SafeContainer
+			style={StyleSheet.flatten([containerStyle && containerStyle])}
+			{...props}
 		>
-			<SafeContainer
-				style={StyleSheet.flatten([containerStyle && containerStyle])}
-				{...props}
-			>
-				<Content>
-					<ScrollView>{children}</ScrollView>
-				</Content>
+			<Content>
+				<ScrollView>{children}</ScrollView>
+			</Content>
 
-				<CloseSpace onPress={modalProps?.onRequestClose}>
-					{/* <AppText>hi</AppText> */}
-				</CloseSpace>
-			</SafeContainer>
-		</Modal>
-	);
-};
+			<CloseSpace onPress={modalProps?.onRequestClose}>
+				{/* <AppText>hi</AppText> */}
+			</CloseSpace>
+		</SafeContainer>
+	</Modal>
+);
 
 const CloseSpace = styled.TouchableOpacity`
 	flex-grow: 1;
