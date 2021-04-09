@@ -13,17 +13,15 @@ import styled from '~/config/styled-components';
 export type BottomSheetProps = {
 	containerStyle?: StyleProp<ViewStyle>;
 	modalProps?: ModalProps;
-	isVisible?: boolean;
 };
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
 	containerStyle,
-	isVisible,
 	modalProps,
 	children,
 	...props
 }) => (
-	<Modal animationType="slide" transparent visible={isVisible} {...modalProps}>
+	<Modal animationType="slide" transparent {...modalProps}>
 		<SafeContainer
 			style={StyleSheet.flatten([containerStyle && containerStyle])}
 			{...props}

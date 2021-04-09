@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Alert, Modal, ModalProps } from 'react-native';
+import { Alert, ModalProps } from 'react-native';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
 import CheckList from '~/components/Forms/CheckList';
@@ -9,6 +9,7 @@ import SubmitBtn from '~/components/Forms/SubmitBtn';
 import ReportEvent from '~/components/Report/ReportEvent';
 import ReportHeader from '~/components/Report/ReportHeader';
 import Timer from '~/components/Report/Timer';
+import BottomSheet from '~/components/Shared/BottomSheet';
 import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
 import { yup } from '~/Helpers/yupFrLocal';
@@ -109,7 +110,7 @@ const events = [
 const AddEventModal: React.FC<
 	ModalProps & { handleValues: (v: string[]) => void }
 > = ({ handleValues, ...props }) => (
-	<Modal animationType="slide" {...props}>
+	<BottomSheet modalProps={props}>
 		<Form
 			initialValues={{ toAdd: [] }}
 			onSubmit={(v, { setSubmitting }) => {
@@ -121,7 +122,7 @@ const AddEventModal: React.FC<
 			<CheckList name="toAdd" label="" data={events} />
 			<SubmitBtn>Ajouter</SubmitBtn>
 		</Form>
-	</Modal>
+	</BottomSheet>
 );
 
 const Time = styled.View`

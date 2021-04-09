@@ -103,8 +103,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	return (
 		<InputBase container={false} label={displayedLabel} name={name}>
 			<BottomSheet
-				isVisible={modal}
-				modalProps={{ onRequestClose: () => setModal(false) }}
+				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
 			>
 				<ActionList actions={ACTIONS} />
 			</BottomSheet>

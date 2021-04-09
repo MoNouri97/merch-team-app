@@ -40,8 +40,7 @@ const Testing: React.FC = () => {
 			{/* <ReportEvent id={1} type="Promotion" /> */}
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
-				modalProps={{ onRequestClose: () => setModal(false) }}
-				isVisible={modal}
+				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
 			>
 				<ActionList
 					actions={[
