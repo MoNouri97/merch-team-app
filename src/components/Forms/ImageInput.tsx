@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useFormikContext } from 'formik';
-import React, { useContext, useEffect, useMemo, useRef } from 'react';
+import React, { useContext, useMemo, useRef } from 'react';
 import { Alert, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import styled from '~/config/styled-components';
@@ -27,33 +27,18 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 		return label ?? name;
 	}, [label, name, images]);
 
-	useEffect(() => {
-		(async () => {
-			if (Platform.OS !== 'web') {
-				const {
-					status,
-				} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-				if (status !== 'granted') {
-					Alert.alert(
-						'Sorry, we need camera roll permissions to make this work!'
-					);
-				}
-			}
-		})();
-	}, []);
-
 	const deleteImage = (idx: number) => {
 		setFieldValue(
 			name,
-			images.filter((_, i) => i != idx)
+			images.filter((_, i) => i !== idx)
 		);
 	};
 	const addImage = (uri: string) => {
 		setFieldValue(name, [...images, uri]);
 	};
 	const pickImage = async (idx?: number) => {
-		if (idx != undefined && images[idx]) {
-			Alert.alert('Supprimer', 'Supprimer cet image ?', [
+		if (idx !== undefined && images[idx]) {
+			Alert.alert('Supprimer', 'Supprimer cette image ?', [
 				{
 					text: 'Oui',
 					onPress: () => {
@@ -64,35 +49,40 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 			]);
 			return;
 		}
-		const result = await ImagePicker.launchImageLibraryAsync({
+		if (Platform.OS !== 'web') {
+			const {
+				status,
+			} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+			if (status !== 'granted') {
+				Alert.alert('Permission requise');
+				return;
+			}
+			const {
+				status: camStatus,
+			} = await ImagePicker.requestCameraPermissionsAsync();
+			if (camStatus !== 'granted') {
+				Alert.alert('Permission requise');
+				return;
+			}
+		}
+
+		const result = await ImagePicker.launchCameraAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			// allowsEditing: true,
 			// aspect: [4, 3],
 			quality: 0.8,
 		});
-
-		// console.log(result);
-
-		if (!result.cancelled) {
-			// setImages([...images, result.uri]);
-			addImage(result.uri);
+		if (result.cancelled) {
+			return;
 		}
+		addImage(result.uri);
 	};
 
 	return (
 		<InputBase container={false} label={displayedLabel} name={name}>
-			{/* <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-				{images?.map((img, i) => (
-					<Touchable key={img + i} onPress={() => pickImage(i)}>
-						<Image source={{ uri: img }} style={{ width: 200, height: 200 }} />
-					</Touchable>
-				))}
-				<Touchable onPress={() => pickImage()}>
-					<Feather name="camera" size={50} color={theme.colors.gray[3]} />
-				</Touchable>
-			</View> */}
 			<ScrollView
 				horizontal
+				// eslint-disable-next-line react-native/no-inline-styles
 				contentContainerStyle={{ flexGrow: 1 }}
 				ref={scrollRef}
 				onContentSizeChange={() => {
@@ -100,7 +90,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 				}}
 			>
 				{images?.map((img, i) => (
-					<Touchable key={img + i} onPress={() => pickImage(i)}>
+					<Touchable key={img} onPress={() => pickImage(i)}>
 						<Image source={{ uri: img }} />
 					</Touchable>
 				))}
