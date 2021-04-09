@@ -33,7 +33,8 @@ const CheckBox: React.FC<IProps> = ({ name, label, text }) => {
 const Container = styled.TouchableOpacity`
 	flex-direction: row;
 	align-items: center;
-	flex: 1;
+	flex-shrink: 0;
+	flex-grow: 1;
 	padding-vertical: 10px;
 `;
 const State = styled.View`

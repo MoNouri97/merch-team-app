@@ -1,8 +1,8 @@
 import { useField } from 'formik';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import styled from '~/config/styled-components';
 import { Fake } from '~/types/data';
+import { Press } from '../Btn';
 import ListItem from '../Shared/ListItem';
 import InputBase from './InputBase';
 import { Placeholder } from './styles';
@@ -37,12 +37,12 @@ const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
 					data.map((item) => {
 						const check = selected.includes(item.id);
 						return (
-							<TouchableOpacity
+							<Press
 								key={`${item.id}`}
 								onPress={() => handlePress(item.id, check)}
 							>
 								<MemItem {...{ item: item.name, check }} />
-							</TouchableOpacity>
+							</Press>
 						);
 					})
 				)}
