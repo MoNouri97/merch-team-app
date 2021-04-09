@@ -44,8 +44,21 @@ const Testing: React.FC = () => {
 			>
 				<ActionList
 					actions={[
-						{ icon: 'camera', title: 'Camera' },
-						{ icon: 'image', title: 'Gallery' },
+						{
+							icon: 'alert-circle',
+							title: 'Alert',
+							onPress: () => setModal(false),
+						},
+						{
+							icon: 'archive',
+							title: 'Archive',
+							onPress: () => setModal(false),
+						},
+						{
+							icon: 'gift',
+							title: 'Gift',
+							onPress: () => setModal(false),
+						},
 					]}
 				/>
 			</BottomSheet>

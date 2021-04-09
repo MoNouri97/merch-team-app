@@ -22,6 +22,7 @@ const ActionList: React.FC<IProps> = ({ actions }) => (
 const Container = styled.View`
 	flex-direction: row;
 	justify-content: center;
+	flex-wrap: wrap;
 `;
 const Icon = styled(Feather)`
 	color: ${({ theme }) => theme.colors.secondary};
