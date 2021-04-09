@@ -5,14 +5,16 @@ import styled from '~/config/styled-components';
 import { Fake } from '~/types/data';
 import ListItem from '../Shared/ListItem';
 import InputBase from './InputBase';
+import { Placeholder } from './styles';
 
 interface IProps {
-	data: Fake[];
+	data?: Fake[];
 	name: string;
 	label?: string;
+	placeholder?: string;
 }
 
-const CheckList: React.FC<IProps> = ({ data, name, label }) => {
+const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
 	const [{ value: selected }, , { setValue }] = useField<
 		Array<string | number>
 	>(name);
@@ -29,17 +31,21 @@ const CheckList: React.FC<IProps> = ({ data, name, label }) => {
 	return (
 		<InputBase name={name} label={label ?? name} container={false}>
 			<Container>
-				{data.map((item) => {
-					const check = selected.includes(item.id);
-					return (
-						<TouchableOpacity
-							key={`${item.id}`}
-							onPress={() => handlePress(item.id, check)}
-						>
-							<MemItem {...{ item: item.name, check }} />
-						</TouchableOpacity>
-					);
-				})}
+				{!data ? (
+					<Placeholder>{placeholder}</Placeholder>
+				) : (
+					data.map((item) => {
+						const check = selected.includes(item.id);
+						return (
+							<TouchableOpacity
+								key={`${item.id}`}
+								onPress={() => handlePress(item.id, check)}
+							>
+								<MemItem {...{ item: item.name, check }} />
+							</TouchableOpacity>
+						);
+					})
+				)}
 			</Container>
 		</InputBase>
 	);
