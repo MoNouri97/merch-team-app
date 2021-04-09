@@ -34,7 +34,8 @@ const Testing: React.FC = () => {
 	return (
 		<AppScreen navbar>
 			{/* <ReportEvent id={1} type="Rupture" /> */}
-			<ReportEvent id={1} type="ProductVsCompetitor" />
+			{/* <ReportEvent id={1} type="ProductVsCompetitor" /> */}
+			<ReportEvent id={1} type="Promotion" />
 
 			<AppText type="subtitle">typography</AppText>
 			<Section>
