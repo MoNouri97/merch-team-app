@@ -95,8 +95,8 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 
 	const ACTIONS: Action[] = useMemo(
 		() => [
-			{ title: 'Camera', action: imageFromCamera, icon: 'camera' },
-			{ title: 'Gallerie', action: imageFromGallery, icon: 'image' },
+			{ title: 'Camera', onPress: imageFromCamera, icon: 'camera' },
+			{ title: 'Gallerie', onPress: imageFromGallery, icon: 'image' },
 		],
 		[imageFromCamera, imageFromGallery]
 	);

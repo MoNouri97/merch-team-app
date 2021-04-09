@@ -19,6 +19,6 @@ export interface Message {
 }
 export interface Action {
 	icon: IconName;
-	action: () => void | Promise<void>;
+	onPress: () => void | Promise<void>;
 	title?: string;
 }

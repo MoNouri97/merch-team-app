@@ -12,7 +12,7 @@ interface IProps {
 const ActionList: React.FC<IProps> = ({ actions }) => (
 	<Container>
 		{actions.map((a) => (
-			<ActionElement key={a.icon} onPress={a.action}>
+			<ActionElement key={a.icon} onPress={a.onPress}>
 				<Icon size={50} name={a.icon} />
 				<AppText color="dimmed">{a.title} </AppText>
 			</ActionElement>
