@@ -9,6 +9,7 @@ import SubmitBtn from '~/components/Forms/SubmitBtn';
 import ReportEvent from '~/components/Report/ReportEvent';
 import ReportHeader from '~/components/Report/ReportHeader';
 import Timer from '~/components/Report/Timer';
+import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
 import { yup } from '~/Helpers/yupFrLocal';
 import { EventType } from '~/types/events';
@@ -101,7 +102,7 @@ const events = [
 	{ name: 'Événement Conçurent', id: 'CompetitorEvent' },
 	{ name: 'Nouveau produit', id: 'NewProduct' },
 	{ name: 'Changement de prix', id: 'PriceChange' },
-	{ name: 'Produit Vs Conçurent', id: 'ProductVsCompetitor' },
+	{ name: `${PRODUCT} Vs Conçurent`, id: 'ProductVsCompetitor' },
 	{ name: 'Promotion', id: 'Promotion' },
 	{ name: 'Rupture', id: 'Rupture' },
 ];
