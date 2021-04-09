@@ -33,7 +33,8 @@ const Testing: React.FC = () => {
 	const navigation = useNavigation();
 	return (
 		<AppScreen navbar>
-			<ReportEvent id={1} type="Rupture" />
+			{/* <ReportEvent id={1} type="Rupture" /> */}
+			<ReportEvent id={1} type="ProductVsCompetitor" />
 
 			<AppText type="subtitle">typography</AppText>
 			<Section>
