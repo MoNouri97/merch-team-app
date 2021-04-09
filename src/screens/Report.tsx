@@ -18,6 +18,7 @@ import { EventType } from '~/types/events';
 type event = { type: EventType; id: number };
 const validation = yup.object({});
 const initial = {};
+
 const Report: React.FC = () => {
 	const { goBack } = useNavigation();
 	const eventId = useRef(0);
@@ -79,10 +80,8 @@ const Report: React.FC = () => {
 							id={e.id}
 							actions={i !== 0 ? actions : undefined}
 						/>
-						{/* {i > 0 && <Btn onPress={() => deleteEvent(e.id)}>Supprimer</Btn>} */}
 					</React.Fragment>
 				))}
-				{/* <Btn onPress={() => setModal(true)}>Ajouter</Btn> */}
 				<AddEventModal
 					visible={modal}
 					onRequestClose={() => setModal(false)}
