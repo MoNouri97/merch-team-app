@@ -1,9 +1,9 @@
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import styled from '~/config/styled-components';
 import { EventType } from '~/types/events';
 import IconName from '~/types/icons';
+import { Press } from '../Btn';
 import Action from './Action';
 import BeforeAfter from './BeforeAfter';
 import CompetitorEvent from './CompetitorEvent';
@@ -13,13 +13,13 @@ import ProductVsCompetitor from './ProductVsCompetitor';
 import Promotion from './Promotion';
 import Rupture from './Rupture';
 
-type Action = {
+type HeaderAction = {
 	icon: IconName;
 	onPress: (i: number) => void;
 };
 
 interface WrapperProps {
-	actions?: Action[];
+	actions?: HeaderAction[];
 	id: number;
 }
 interface InnerProps {
@@ -33,10 +33,8 @@ const ReportEvent: React.FC<WrapperProps & InnerProps> = ({
 }) => (
 	<Wrapper>
 		{actions?.map((action) => (
-			<ActionBtn key={action.icon}>
-				<TouchableOpacity onPress={() => action.onPress(id)}>
-					<Feather size={20} name={action.icon} />
-				</TouchableOpacity>
+			<ActionBtn key={action.icon} onPress={() => action.onPress(id)}>
+				<Feather size={20} name={action.icon} />
 			</ActionBtn>
 		))}
 		<ReportEventInner {...other} />
@@ -57,11 +55,12 @@ const ReportEventInner: React.FC<InnerProps> = ({ type }) => {
 };
 export default React.memo(ReportEvent);
 
-const ActionBtn = styled.TouchableOpacity`
+const ActionBtn = styled(Press)`
 	position: absolute;
+	padding: 10px;
 	right: 0;
 	z-index: 2;
-	top: 30px;
+	top: 10px;
 `;
 const Wrapper = styled.View`
 	position: relative;

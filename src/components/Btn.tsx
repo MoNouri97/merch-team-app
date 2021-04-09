@@ -1,10 +1,34 @@
 import { Feather } from '@expo/vector-icons';
 import React, { useContext } from 'react';
-import { GestureResponderEvent, Pressable } from 'react-native';
+import {
+	GestureResponderEvent,
+	Platform,
+	Pressable,
+	PressableProps,
+} from 'react-native';
 import { ThemeContext } from 'styled-components';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 
+export const Press: React.FC<PressableProps> = ({ children, ...props }) => {
+	const theme = useContext(ThemeContext);
+	return (
+		<Pressable
+			style={
+				Platform.OS !== 'ios'
+					? undefined
+					: ({ pressed }) => ({ opacity: pressed ? 0.1 : 1 })
+			}
+			android_ripple={{
+				borderless: false,
+				color: theme.colors.gray[2],
+			}}
+			{...props}
+		>
+			{children}
+		</Pressable>
+	);
+};
 interface Props {
 	onPress?: ((event: GestureResponderEvent) => void) | undefined;
 	disabled?: boolean;
@@ -22,8 +46,7 @@ const Btn: React.FC<Props> = ({
 	const theme = useContext(ThemeContext);
 	return (
 		<Container disabled={disabled || loading} primary={primary}>
-			<Pressable
-				style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+			<Press
 				disabled={disabled || loading}
 				onPress={onPress}
 				android_ripple={{
@@ -40,7 +63,7 @@ const Btn: React.FC<Props> = ({
 						children
 					)}
 				</InnerBtn>
-			</Pressable>
+			</Press>
 		</Container>
 	);
 };

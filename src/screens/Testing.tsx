@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
-import React from 'react';
+import React, { useState } from 'react';
 import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
 import Btn from '~/components/Btn';
@@ -10,6 +10,8 @@ import Input from '~/components/Forms/Input';
 import Password from '~/components/Forms/Password';
 import Picker from '~/components/Forms/Picker';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
+import ActionList from '~/components/Shared/ActionList';
+import BottomSheet from '~/components/Shared/BottomSheet';
 import styled from '~/config/styled-components';
 import { fakeCategories } from '~/Helpers/FakeData';
 import { yup } from '~/Helpers/yupFrLocal';
@@ -30,8 +32,36 @@ const validation = yup.object({
 
 const Testing: React.FC = () => {
 	const navigation = useNavigation();
+	const [modal, setModal] = useState(false);
 	return (
 		<AppScreen navbar>
+			{/* <ReportEvent id={1} type="Rupture" /> */}
+			{/* <ReportEvent id={1} type="ProductVsCompetitor" /> */}
+			{/* <ReportEvent id={1} type="Promotion" /> */}
+			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
+			<BottomSheet
+				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
+			>
+				<ActionList
+					actions={[
+						{
+							icon: 'alert-circle',
+							title: 'Alert',
+							onPress: () => setModal(false),
+						},
+						{
+							icon: 'archive',
+							title: 'Archive',
+							onPress: () => setModal(false),
+						},
+						{
+							icon: 'gift',
+							title: 'Gift',
+							onPress: () => setModal(false),
+						},
+					]}
+				/>
+			</BottomSheet>
 			<AppText type="subtitle">typography</AppText>
 			<Section>
 				<AppText type="title">Title</AppText>

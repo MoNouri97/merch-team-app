@@ -1,8 +1,8 @@
+import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
 import { yup } from '~/Helpers/yupFrLocal';
-import Form from '../Forms/Form';
 import ImageInput from '../Forms/ImageInput';
 import Picker from '../Forms/Picker';
 import EventContainer from './EventContainer';
@@ -18,19 +18,24 @@ const initial = {
 	images: [],
 };
 const CompetitorEvent: React.FC = () => (
-	<EventContainer title="Événement Conçurent">
-		<Form
-			initialValues={initial}
-			validationSchema={validation}
-			onSubmit={(values, { setSubmitting }) => {
-				Alert.alert(JSON.stringify(values, null, 2));
-				setSubmitting(false);
-			}}
-		>
-			<Picker name="category" label="catégorie" data={fakeCategories} />
-			<Picker name="competitor" label="conçurent" data={fakeProducts} />
-			<ImageInput name="images" multiple />
-		</Form>
-	</EventContainer>
+	<Formik
+		initialValues={initial}
+		validationSchema={validation}
+		onSubmit={(values, { setSubmitting }) => {
+			Alert.alert(JSON.stringify(values, null, 2));
+			setSubmitting(false);
+		}}
+	>
+		{({ values }) => {
+			const COMPETITOR = values.competitor ? values.competitor : 'conçurent';
+			return (
+				<EventContainer title={`Événement ${COMPETITOR}`}>
+					<Picker name="category" label="catégorie" data={fakeCategories} />
+					<Picker name="competitor" label="conçurent" data={fakeProducts} />
+					<ImageInput name="images" multiple />
+				</EventContainer>
+			);
+		}}
+	</Formik>
 );
 export default CompetitorEvent;

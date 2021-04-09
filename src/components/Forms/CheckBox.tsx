@@ -2,6 +2,7 @@ import { useField } from 'formik';
 import React from 'react';
 import styled from '~/config/styled-components';
 import AppText from '../AppText';
+import { Press } from '../Btn';
 import CheckMark from '../CheckMark';
 import InputBase from './InputBase';
 
@@ -30,10 +31,11 @@ const CheckBox: React.FC<IProps> = ({ name, label, text }) => {
 	);
 };
 
-const Container = styled.TouchableOpacity`
+const Container = styled(Press)`
 	flex-direction: row;
 	align-items: center;
-	flex: 1;
+	flex-shrink: 0;
+	flex-grow: 1;
 	padding-vertical: 10px;
 `;
 const State = styled.View`

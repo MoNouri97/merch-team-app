@@ -16,3 +16,10 @@ export const Subtitle = styled(AppText).attrs(() => ({
 }))`
 	margin-bottom: 20px;
 `;
+export const Placeholder = styled(AppText).attrs(() => ({
+	type: 'label',
+}))`
+	margin-top: 5px;
+	opacity: 0.8;
+	margin-bottom: 5px;
+`;

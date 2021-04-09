@@ -1,10 +1,14 @@
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useFormikContext } from 'formik';
-import React, { useContext, useEffect, useMemo, useRef } from 'react';
+import React, { useContext, useMemo, useRef, useState } from 'react';
 import { Alert, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import styled from '~/config/styled-components';
+import { Action } from '~/types/data';
+import AppText from '../AppText';
+import ActionList from '../Shared/ActionList';
+import BottomSheet from '../Shared/BottomSheet';
 import InputBase from './InputBase';
 
 interface Props {
@@ -15,7 +19,7 @@ interface Props {
 
 const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	const theme = useContext(ThemeContext);
-
+	const [modal, setModal] = useState(false);
 	const { setFieldValue, values } = useFormikContext();
 	const scrollRef = useRef<ScrollView>(null);
 	const images: string[] = (values as any)[name];
@@ -27,33 +31,18 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 		return label ?? name;
 	}, [label, name, images]);
 
-	useEffect(() => {
-		(async () => {
-			if (Platform.OS !== 'web') {
-				const {
-					status,
-				} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-				if (status !== 'granted') {
-					Alert.alert(
-						'Sorry, we need camera roll permissions to make this work!'
-					);
-				}
-			}
-		})();
-	}, []);
-
 	const deleteImage = (idx: number) => {
 		setFieldValue(
 			name,
-			images.filter((_, i) => i != idx)
+			images.filter((_, i) => i !== idx)
 		);
 	};
 	const addImage = (uri: string) => {
 		setFieldValue(name, [...images, uri]);
 	};
 	const pickImage = async (idx?: number) => {
-		if (idx != undefined && images[idx]) {
-			Alert.alert('Supprimer', 'Supprimer cet image ?', [
+		if (idx !== undefined && images[idx]) {
+			Alert.alert('Supprimer', 'Supprimer cette image ?', [
 				{
 					text: 'Oui',
 					onPress: () => {
@@ -64,35 +53,63 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 			]);
 			return;
 		}
+		if (Platform.OS !== 'web') {
+			const {
+				status,
+			} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+			if (status !== 'granted') {
+				Alert.alert('Permission requise');
+				return;
+			}
+			const {
+				status: camStatus,
+			} = await ImagePicker.requestCameraPermissionsAsync();
+			if (camStatus !== 'granted') {
+				Alert.alert('Permission requise');
+				return;
+			}
+		}
+		setModal(true);
+	};
+	const imageFromGallery = React.useCallback(async () => {
+		setModal(false);
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			// allowsEditing: true,
-			// aspect: [4, 3],
 			quality: 0.8,
 		});
-
-		// console.log(result);
-
 		if (!result.cancelled) {
-			// setImages([...images, result.uri]);
 			addImage(result.uri);
 		}
-	};
+	}, [addImage, setModal]);
 
+	const imageFromCamera = React.useCallback(async () => {
+		setModal(false);
+		const result = await ImagePicker.launchCameraAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			quality: 0.5,
+		});
+		if (!result.cancelled) {
+			addImage(result.uri);
+		}
+	}, [addImage, setModal]);
+
+	const ACTIONS: Action[] = useMemo(
+		() => [
+			{ title: 'Camera', onPress: imageFromCamera, icon: 'camera' },
+			{ title: 'Gallerie', onPress: imageFromGallery, icon: 'image' },
+		],
+		[imageFromCamera, imageFromGallery]
+	);
 	return (
 		<InputBase container={false} label={displayedLabel} name={name}>
-			{/* <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-				{images?.map((img, i) => (
-					<Touchable key={img + i} onPress={() => pickImage(i)}>
-						<Image source={{ uri: img }} style={{ width: 200, height: 200 }} />
-					</Touchable>
-				))}
-				<Touchable onPress={() => pickImage()}>
-					<Feather name="camera" size={50} color={theme.colors.gray[3]} />
-				</Touchable>
-			</View> */}
+			<BottomSheet
+				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
+			>
+				<ActionList actions={ACTIONS} />
+			</BottomSheet>
 			<ScrollView
 				horizontal
+				// eslint-disable-next-line react-native/no-inline-styles
 				contentContainerStyle={{ flexGrow: 1 }}
 				ref={scrollRef}
 				onContentSizeChange={() => {
@@ -100,13 +117,14 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 				}}
 			>
 				{images?.map((img, i) => (
-					<Touchable key={img + i} onPress={() => pickImage(i)}>
+					<Touchable key={img} onPress={() => pickImage(i)}>
 						<Image source={{ uri: img }} />
 					</Touchable>
 				))}
 				{(multiple || images.length < 1) && (
 					<Touchable onPress={() => pickImage()}>
 						<Feather name="upload" size={50} color={theme.colors.gray[3]} />
+						<AppText color="dimmed">Choisir une Image</AppText>
 					</Touchable>
 				)}
 			</ScrollView>

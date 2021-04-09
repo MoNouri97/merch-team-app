@@ -12,7 +12,8 @@ import EventContainer from './EventContainer';
 const validation = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
-	percentage: yup.number().positive().max(99),
+	oldPrice: yup.number().positive().required(),
+	newPrice: yup.number().positive().required(),
 	start: yup.date(),
 	end: yup.date(),
 	images: yup.array().required().min(1),
@@ -20,7 +21,8 @@ const validation = yup.object({
 const initial = {
 	category: '',
 	product: '',
-	percentage: null,
+	oldPrice: null,
+	newPrice: null,
 	start: new Date(),
 	end: new Date(),
 	images: [],
@@ -38,11 +40,18 @@ const Promotion: React.FC = () => (
 			<Picker name="category" label="catégorie" data={fakeCategories} />
 			<Picker name="product" label="produit" data={fakeProducts} />
 			<Input
-				name="percentage"
-				label="pourcentage"
+				name="oldPrice"
+				label="Ancien prix"
 				keyboardType="numeric"
-				placeholder="10 ou 5 .."
-				icon="percent"
+				placeholder="6.99"
+				icon="dollar-sign"
+			/>
+			<Input
+				name="newPrice"
+				label="Nouveaux prix"
+				keyboardType="numeric"
+				placeholder="6.99"
+				icon="dollar-sign"
 			/>
 			<DatePicker name="start" label="debut" />
 			<DatePicker name="end" label="fin" />

@@ -18,6 +18,7 @@ const DrawerNav: React.FC = ({ children }) => (
 		}}
 	>
 		{children}
+		<Drawer.Screen name="Test" component={Testing} />
 		<Drawer.Screen name="Chat" component={ChatStack} />
 		<Drawer.Screen name="Accueil" component={HomeStack} />
 		<Drawer.Screen name="Réclamation" component={Claim} />
@@ -25,7 +26,6 @@ const DrawerNav: React.FC = ({ children }) => (
 		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
 		<Drawer.Screen name="Planning" component={MonthlyPlanning} />
 		<Drawer.Screen name="Connexion" component={SignIn} />
-		<Drawer.Screen name="Test" component={Testing} />
 	</Drawer.Navigator>
 );
 export default DrawerNav;
