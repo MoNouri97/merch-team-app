@@ -1,9 +1,10 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import styled from '~/config/styled-components';
 import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
+import { useValues } from '~/Helpers/useValues';
 import { yup } from '~/Helpers/yupFrLocal';
+import { ReportEventFrom } from '~/types/ReportEventForm';
 import CheckBox from '../Forms/CheckBox';
 import CheckList from '../Forms/CheckList';
 import ImageInput from '../Forms/ImageInput';
@@ -23,7 +24,7 @@ const initial = {
 	image: [],
 };
 
-const Rupture: React.FC = () => (
+const Rupture: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<EventContainer title="Rupture">
 		<Formik
 			initialValues={initial}
@@ -33,26 +34,28 @@ const Rupture: React.FC = () => (
 				setSubmitting(false);
 			}}
 		>
-			{({ values }) => (
-				<>
-					<Picker name="category" label="catégorie" data={fakeCategories} />
-					{/* <Picker name="product" label="produit" data={fakeProducts} /> */}
-					<CheckList
-						name="products"
-						label="produits"
-						placeholder="choisir une catégorie . . ."
-						data={values.category ? fakeProducts : undefined}
-					/>
-					<CheckBox
-						name="purchaseOrder"
-						label="bon de commande"
-						text="passeé"
-					/>
-					<ImageInput name="image" />
-				</>
-			)}
+			{({ values }) => {
+				useValues(name, values, setValue);
+				return (
+					<>
+						<Picker name="category" label="catégorie" data={fakeCategories} />
+						{/* <Picker name="product" label="produit" data={fakeProducts} /> */}
+						<CheckList
+							name="products"
+							label="produits"
+							placeholder="choisir une catégorie . . ."
+							data={values.category ? fakeProducts : undefined}
+						/>
+						<CheckBox
+							name="purchaseOrder"
+							label="bon de commande"
+							text="passeé"
+						/>
+						<ImageInput name="image" />
+					</>
+				);
+			}}
 		</Formik>
 	</EventContainer>
 );
-const Container = styled.View``;
 export default Rupture;

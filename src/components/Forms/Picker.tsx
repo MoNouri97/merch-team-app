@@ -9,21 +9,28 @@ interface Props {
 	placeholder?: string;
 	label?: string;
 	name: string;
-	data: any[];
+	data: { id: string | number; name: string }[];
 }
 
 const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 	const [modalShown, setModalShown] = useState(false);
-	const [{ value }, , { setValue }] = useField(name);
+	const [{ value }, , { setValue, setTouched }] = useField(name);
+
+	const closeModal = () => {
+		setModalShown(false);
+		setTouched(true);
+	};
+
 	return (
 		<InputBase
 			label={label ?? name ?? ''}
 			name={name ?? 'picker'}
 			icon="chevron-down"
+			onIconPress={() => setModalShown(true)}
 		>
-			<Touchable onPress={() => setModalShown(!modalShown)}>
+			<Touchable onPress={() => setModalShown(true)}>
 				<Modal
-					onRequestClose={() => setModalShown(false)}
+					onRequestClose={closeModal}
 					visible={modalShown}
 					animationType="slide"
 				>
@@ -36,7 +43,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 								<PickerItem
 									onPress={() => {
 										setModalShown(false);
-										setValue(item.name);
+										setValue(item.name, true);
 									}}
 								>
 									<AppText>{item.name}</AppText>

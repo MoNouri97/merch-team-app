@@ -24,6 +24,12 @@ interface WrapperProps {
 }
 interface InnerProps {
 	type: EventType;
+	name: string;
+	setFieldValue: (
+		field: string,
+		value: any,
+		shouldValidate?: boolean | undefined
+	) => void;
 }
 
 const ReportEvent: React.FC<WrapperProps & InnerProps> = ({
@@ -41,17 +47,23 @@ const ReportEvent: React.FC<WrapperProps & InnerProps> = ({
 	</Wrapper>
 );
 
-const ReportEventInner: React.FC<InnerProps> = ({ type }) => {
-	if (type === 'BeforeAfter') return <BeforeAfter />;
-	if (type === 'Promotion') return <Promotion />;
-	if (type === 'Action') return <Action />;
-	if (type === 'CompetitorEvent') return <CompetitorEvent />;
-	if (type === 'NewProduct') return <NewProduct />;
-	if (type === 'PriceChange') return <PriceChange />;
-	if (type === 'ProductVsCompetitor') return <ProductVsCompetitor />;
-	if (type === 'Rupture') return <Rupture />;
+const ReportEventInner: React.FC<InnerProps> = ({
+	type,
+	setFieldValue,
+	name,
+}) => {
+	let Component;
+	if (type === 'BeforeAfter') Component = BeforeAfter;
+	if (type === 'Promotion') Component = Promotion;
+	if (type === 'Action') Component = Action;
+	if (type === 'CompetitorEvent') Component = CompetitorEvent;
+	if (type === 'NewProduct') Component = NewProduct;
+	if (type === 'PriceChange') Component = PriceChange;
+	if (type === 'ProductVsCompetitor') Component = ProductVsCompetitor;
+	if (type === 'Rupture') Component = Rupture;
 
-	return null;
+	if (!Component) return null;
+	return <Component setValue={setFieldValue} name={name} />;
 };
 export default React.memo(ReportEvent);
 

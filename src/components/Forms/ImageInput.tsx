@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { useFormikContext } from 'formik';
+import { useField } from 'formik';
 import React, { useContext, useMemo, useRef, useState } from 'react';
 import { Alert, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from 'styled-components';
@@ -20,9 +20,9 @@ interface Props {
 const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	const theme = useContext(ThemeContext);
 	const [modal, setModal] = useState(false);
-	const { setFieldValue, values } = useFormikContext();
+	const [{ value }, , { setValue, setTouched }] = useField(name);
 	const scrollRef = useRef<ScrollView>(null);
-	const images: string[] = (values as any)[name];
+	const images: string[] = value ?? [];
 
 	const displayedLabel = useMemo(() => {
 		if (multiple) {
@@ -32,14 +32,16 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	}, [label, name, images]);
 
 	const deleteImage = (idx: number) => {
-		setFieldValue(
-			name,
-			images.filter((_, i) => i !== idx)
+		setValue(
+			images.filter((_, i) => i !== idx),
+			true
 		);
 	};
+
 	const addImage = (uri: string) => {
-		setFieldValue(name, [...images, uri]);
+		setValue([...images, uri], true);
 	};
+
 	const pickImage = async (idx?: number) => {
 		if (idx !== undefined && images[idx]) {
 			Alert.alert('Supprimer', 'Supprimer cette image ?', [
@@ -71,6 +73,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 		}
 		setModal(true);
 	};
+
 	const imageFromGallery = React.useCallback(async () => {
 		setModal(false);
 		const result = await ImagePicker.launchImageLibraryAsync({
@@ -93,6 +96,11 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 		}
 	}, [addImage, setModal]);
 
+	const closeModal = React.useCallback(() => {
+		setModal(false);
+		setTouched(true);
+	}, [setModal]);
+
 	const ACTIONS: Action[] = useMemo(
 		() => [
 			{ title: 'Camera', onPress: imageFromCamera, icon: 'camera' },
@@ -103,7 +111,11 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	return (
 		<InputBase container={false} label={displayedLabel} name={name}>
 			<BottomSheet
-				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
+				modalProps={{
+					animationType: 'fade',
+					visible: modal,
+					onRequestClose: closeModal,
+				}}
 			>
 				<ActionList actions={ACTIONS} />
 			</BottomSheet>
