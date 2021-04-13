@@ -22,7 +22,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	const [modal, setModal] = useState(false);
 	const { setFieldValue, values } = useFormikContext();
 	const scrollRef = useRef<ScrollView>(null);
-	const images: string[] = (values as any)[name];
+	const images: string[] = (values as any)[name] ?? [];
 
 	const displayedLabel = useMemo(() => {
 		if (multiple) {

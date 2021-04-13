@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { Formik } from 'formik';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, ModalProps } from 'react-native';
 import AppScreen from '~/components/AppScreen';
@@ -65,33 +66,39 @@ const Report: React.FC = () => {
 				<AppText type="label">Temps estimée 30:00</AppText>
 				<Timer />
 			</Time>
-			<Form
+			<Formik
 				initialValues={initial}
 				validationSchema={validation}
 				onSubmit={(values, { setSubmitting }) => {
-					console.log('ok');
+					console.log(values);
 					setSubmitting(false);
 				}}
 			>
-				{events.map((e, i) => (
-					<React.Fragment key={e.id}>
-						<ReportEvent
-							type={e.type}
-							id={e.id}
-							actions={i !== 0 ? actions : undefined}
+				{({ values, setFieldValue }) => (
+					<>
+						{events.map((e, i) => (
+							<React.Fragment key={e.id}>
+								<ReportEvent
+									type={e.type}
+									id={e.id}
+									actions={i !== 0 ? actions : undefined}
+									name={`${e.type}${e.id}`}
+									setFieldValue={setFieldValue}
+								/>
+							</React.Fragment>
+						))}
+						<AddEventModal
+							visible={modal}
+							onRequestClose={() => setModal(false)}
+							handleValues={(v) => {
+								addEvents(v as any);
+								setModal(false);
+							}}
 						/>
-					</React.Fragment>
-				))}
-				<AddEventModal
-					visible={modal}
-					onRequestClose={() => setModal(false)}
-					handleValues={(v) => {
-						addEvents(v as any);
-						setModal(false);
-					}}
-				/>
-				<SubmitBtn>Soumettre</SubmitBtn>
-			</Form>
+						<SubmitBtn>Soumettre</SubmitBtn>
+					</>
+				)}
+			</Formik>
 		</AppScreen>
 	);
 };

@@ -1,9 +1,11 @@
+import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
+import { useValues } from '~/Helpers/useValues';
 import { yup } from '~/Helpers/yupFrLocal';
+import { ReportEventFrom } from '~/types/ReportEventForm';
 import DatePicker from '../Forms/DatePicker';
-import Form from '../Forms/Form';
 import ImageInput from '../Forms/ImageInput';
 import Input from '../Forms/Input';
 import Picker from '../Forms/Picker';
@@ -27,9 +29,9 @@ const initial = {
 	end: new Date(),
 	images: [],
 };
-const Promotion: React.FC = () => (
+const Promotion: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<EventContainer title="Promotion">
-		<Form
+		<Formik
 			initialValues={initial}
 			validationSchema={validation}
 			onSubmit={(values, { setSubmitting }) => {
@@ -37,26 +39,33 @@ const Promotion: React.FC = () => (
 				setSubmitting(false);
 			}}
 		>
-			<Picker name="category" label="catégorie" data={fakeCategories} />
-			<Picker name="product" label="produit" data={fakeProducts} />
-			<Input
-				name="oldPrice"
-				label="Ancien prix"
-				keyboardType="numeric"
-				placeholder="6.99"
-				icon="dollar-sign"
-			/>
-			<Input
-				name="newPrice"
-				label="Nouveaux prix"
-				keyboardType="numeric"
-				placeholder="6.99"
-				icon="dollar-sign"
-			/>
-			<DatePicker name="start" label="debut" />
-			<DatePicker name="end" label="fin" />
-			<ImageInput name="images" label="Images" multiple />
-		</Form>
+			{({ values }) => {
+				useValues(name, values, setValue);
+				return (
+					<>
+						<Picker name="category" label="catégorie" data={fakeCategories} />
+						<Picker name="product" label="produit" data={fakeProducts} />
+						<Input
+							name="oldPrice"
+							label="Ancien prix"
+							keyboardType="numeric"
+							placeholder="6.99"
+							icon="dollar-sign"
+						/>
+						<Input
+							name="newPrice"
+							label="Nouveaux prix"
+							keyboardType="numeric"
+							placeholder="6.99"
+							icon="dollar-sign"
+						/>
+						<DatePicker name="start" label="debut" />
+						<DatePicker name="end" label="fin" />
+						<ImageInput name="images" label="Images" multiple />
+					</>
+				);
+			}}
+		</Formik>
 	</EventContainer>
 );
 export default Promotion;
