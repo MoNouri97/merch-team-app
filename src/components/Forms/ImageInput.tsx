@@ -100,6 +100,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 		setModal(false);
 		setTouched(true);
 	}, [setModal]);
+
 	const ACTIONS: Action[] = useMemo(
 		() => [
 			{ title: 'Camera', onPress: imageFromCamera, icon: 'camera' },
