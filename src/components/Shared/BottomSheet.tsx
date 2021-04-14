@@ -44,7 +44,7 @@ const CloseSpace = styled.TouchableOpacity`
 `;
 const SafeContainer = styled(SafeAreaView)`
 	flex: 1;
-	background-color: rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.1);
 	flex-direction: column-reverse;
 `;
 const Content = styled.View`
