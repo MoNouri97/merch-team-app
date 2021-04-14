@@ -39,9 +39,12 @@ const RefProducts: React.FC = () => (
 					<Picker name="GMS" data={fakeGMSs} />
 					<Subtitle>Articles</Subtitle>
 					<Picker name="category" label="catégorie" data={fakeCategories} />
-					{!!(values.GMS && values.category) && (
-						<CheckList name="products" label="produits" data={fakeProducts} />
-					)}
+					<CheckList
+						name="products"
+						label="produits"
+						placeholder="Choisir une GMS et une Catégorie ..."
+						data={values.GMS && values.category ? fakeProducts : undefined}
+					/>
 					<SubmitBtn>Ajouter</SubmitBtn>
 				</>
 			)}

@@ -13,7 +13,7 @@ import EventContainer from './EventContainer';
 
 const validation = yup.object({
 	category: yup.string().required(),
-	product: yup.string().required(),
+	products: yup.array().required().min(1),
 	purchaseOrder: yup.boolean().required(),
 	image: yup.array().required(),
 });
