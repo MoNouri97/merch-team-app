@@ -50,8 +50,6 @@ const AppScreen: React.FC<Props> = ({
 const Safe = styled.SafeAreaView`
 	background-color: ${({ theme }) => theme.colors.white};
 	flex: 1;
-	justify-content: center;
-	align-items: stretch;
 	padding-top: ${Platform.OS === 'android'
 		? `${StatusBar.currentHeight}px`
 		: '0px'};
@@ -61,4 +59,5 @@ const Container = styled.View<{ center: boolean }>`
 	justify-content: ${({ center }) => (center ? 'space-evenly' : 'flex-start')};
 	flex-grow: 1;
 `;
+
 export default AppScreen;
