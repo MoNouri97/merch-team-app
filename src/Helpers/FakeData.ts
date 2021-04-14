@@ -25,7 +25,7 @@ for (let i = 0; i < 10; i++) {
 			status: faker.random.arrayElement([
 				'TODO',
 				'TODO',
-				'TODO',
+				'NO_REPORT',
 				'DONE',
 				'DELAYED',
 			]),
