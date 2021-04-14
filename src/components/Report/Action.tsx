@@ -20,7 +20,7 @@ const initial = {
 	title: '',
 	category: '',
 	product: '',
-	image: [],
+	image: undefined,
 };
 const Action: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<EventContainer title="Action">

@@ -21,8 +21,8 @@ const initial = {
 	Password: '',
 	categorie: '',
 	date: new Date(),
-	images: [] as string[],
-	image1: [] as string[],
+	images: undefined,
+	image1: undefined,
 };
 // validation object
 const validation = yup.object({

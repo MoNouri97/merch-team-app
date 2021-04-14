@@ -14,7 +14,7 @@ const initial = {
 	GMS: '',
 	type: '',
 	content: '',
-	image: [],
+	image: undefined,
 };
 // validation object
 const validation = yup.object({

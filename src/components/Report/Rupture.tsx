@@ -25,7 +25,7 @@ const initial = {
 	category: '',
 	products: [],
 	purchaseOrder: false,
-	image: [],
+	image: undefined,
 };
 
 const Rupture: React.FC<ReportEventFrom> = ({ name, setValue }) => (

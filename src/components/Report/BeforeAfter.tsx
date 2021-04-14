@@ -17,8 +17,8 @@ const validation = yup.object({
 const initial = {
 	category: '',
 	product: '',
-	before: [],
-	after: [],
+	before: undefined,
+	after: undefined,
 };
 
 interface IProps {
