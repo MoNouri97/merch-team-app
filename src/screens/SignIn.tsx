@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import AppScreen from '~/components/AppScreen';
 import Form from '~/components/Forms/Form';
 import Input from '~/components/Forms/Input';
 import Password from '~/components/Forms/Password';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
+import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { yup } from '~/Helpers/yupFrLocal';
 

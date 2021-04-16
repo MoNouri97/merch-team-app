@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AppScreen from '~/components/AppScreen';
 import ChatField from '~/components/Chat/ChatField';
 import ChatMessage from '~/components/Chat/ChatMessage';
+import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { fakeChat } from '~/Helpers/FakeData';
 

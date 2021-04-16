@@ -1,11 +1,10 @@
-import ProgressBar from './ProgressBar';
 import React from 'react';
-import { Card } from '../sharedStyles';
 import AppText from '~/components/AppText';
+import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
+import ProgressBar from './ProgressBar';
 
-interface IProps {}
 const Data = {
 	date: new Date(),
 	global: 80,
@@ -20,26 +19,24 @@ const Data = {
 		},
 	],
 };
-const ProgressCard: React.FC<IProps> = ({}) => {
-	return (
-		<Container>
-			<AppText type="subtitle">Objectifs</AppText>
-			<AppText type="label" color="dimmed">
-				{displayDate(Data.date)}
-			</AppText>
-			<PercentText type="title">{Data.global}%</PercentText>
-			<ProgressBar percent={Data.global} />
-			{Data.categories.map(({ name, percent }) => (
-				<Row key={name}>
-					<CatText numberOfLines={1} type="label" color="dimmed">
-						{name}
-					</CatText>
-					<ProgressBar percent={percent} />
-				</Row>
-			))}
-		</Container>
-	);
-};
+const ProgressCard: React.FC = () => (
+	<Container>
+		<AppText type="subtitle">Objectifs</AppText>
+		<AppText type="label" color="dimmed">
+			{displayDate(Data.date)}
+		</AppText>
+		<PercentText type="title">{Data.global}%</PercentText>
+		<ProgressBar percent={Data.global} />
+		{Data.categories.map(({ name, percent }) => (
+			<Row key={name}>
+				<CatText numberOfLines={1} type="label" color="dimmed">
+					{name}
+				</CatText>
+				<ProgressBar percent={percent} />
+			</Row>
+		))}
+	</Container>
+);
 const Container = styled(Card)``;
 const CatText = styled(AppText)`
 	width: 30%;

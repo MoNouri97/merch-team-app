@@ -3,7 +3,7 @@ import React from 'react';
 import styled from '~/config/styled-components';
 import { Action } from '~/types/data';
 import AppText from '../AppText';
-import { Press } from '../Btn';
+import { Press } from './Btn';
 
 interface IProps {
 	actions: Action[];

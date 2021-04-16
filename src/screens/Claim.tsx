@@ -1,12 +1,12 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import AppScreen from '~/components/AppScreen';
 import Form from '~/components/Forms/Form';
 import ImageInput from '~/components/Forms/ImageInput';
 import Input from '~/components/Forms/Input';
 import Picker from '~/components/Forms/Picker';
 import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
+import AppScreen from '~/components/Shared/AppScreen';
 import { fakeGMSs, fakeProducts } from '~/Helpers/FakeData';
 import { yup } from '~/Helpers/yupFrLocal';
 

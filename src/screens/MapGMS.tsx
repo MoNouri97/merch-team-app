@@ -4,8 +4,8 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import AppText from '~/components/AppText';
-import Btn from '~/components/Btn';
 import { Subtitle } from '~/components/Forms/styles';
+import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
 
 const { width, height } = Dimensions.get('screen');

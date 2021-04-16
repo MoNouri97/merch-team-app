@@ -1,10 +1,8 @@
 import { useFormikContext } from 'formik';
 import React from 'react';
-import Btn from '../Btn';
+import Btn from '~/components/Shared/Btn';
 
-interface Props {}
-
-const SubmitBtn: React.FC<Props> = ({ children }) => {
+const SubmitBtn: React.FC = ({ children }) => {
 	const { handleSubmit, isSubmitting } = useFormikContext();
 	return (
 		<Btn primary loading={isSubmitting} onPress={() => handleSubmit()}>

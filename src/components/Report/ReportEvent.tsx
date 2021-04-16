@@ -3,7 +3,7 @@ import React from 'react';
 import styled from '~/config/styled-components';
 import { EventType } from '~/types/events';
 import IconName from '~/types/icons';
-import { Press } from '../Btn';
+import { Press } from '../Shared/Btn';
 import Action from './Action';
 import BeforeAfter from './BeforeAfter';
 import CompetitorEvent from './CompetitorEvent';

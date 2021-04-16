@@ -1,7 +1,7 @@
 import React from 'react';
-import AppScreen from '~/components/AppScreen';
 import PlanningCard from '~/components/Home/PlanningCard';
 import ProgressCard from '~/components/Home/ProgressCard';
+import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 
 const Home: React.FC = () => (

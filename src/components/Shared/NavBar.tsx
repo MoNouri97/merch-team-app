@@ -4,8 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useMemo } from 'react';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import { ThemeContext } from 'styled-components';
+import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
-import AppText from './AppText';
 
 export const DrawerBtn: React.FC<{
 	navigation: any;

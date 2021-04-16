@@ -1,10 +1,10 @@
 import React from 'react';
-import PlanningItem from './PlanningItem';
-import { Card } from '../sharedStyles';
 import AppText from '~/components/AppText';
+import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
 import { displayDate } from '~/Helpers/displayDate';
 import { fakePlannings } from '~/Helpers/FakeData';
+import PlanningItem from './PlanningItem';
 
 const PlanningCard: React.FC = () => (
 	<Container>

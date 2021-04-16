@@ -1,11 +1,11 @@
 import { useField } from 'formik';
 import React from 'react';
+import InputBase from '~/components/Forms/InputBase';
+import { Placeholder } from '~/components/Forms/styles';
+import { Press } from '~/components/Shared/Btn';
+import ListItem from '~/components/Shared/ListItem';
 import styled from '~/config/styled-components';
 import { Fake } from '~/types/data';
-import { Press } from '../Btn';
-import ListItem from '../Shared/ListItem';
-import InputBase from './InputBase';
-import { Placeholder } from './styles';
 
 interface IProps {
 	data?: Fake[];

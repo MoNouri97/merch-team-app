@@ -2,8 +2,8 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
+import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { fakeProducts } from '~/Helpers/FakeData';
 

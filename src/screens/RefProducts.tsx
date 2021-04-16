@@ -1,11 +1,11 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import AppScreen from '~/components/AppScreen';
 import CheckList from '~/components/Forms/CheckList';
 import Picker from '~/components/Forms/Picker';
 import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
+import AppScreen from '~/components/Shared/AppScreen';
 import { fakeCategories, fakeGMSs, fakeProducts } from '~/Helpers/FakeData';
 import { yup } from '~/Helpers/yupFrLocal';
 

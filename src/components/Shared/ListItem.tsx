@@ -1,7 +1,7 @@
 import React from 'react';
 import AppText from '~/components/AppText';
+import CheckMark from '~/components/Shared/CheckMark';
 import styled from '~/config/styled-components';
-import CheckMark from '../CheckMark';
 
 interface IPops {
 	header: string;

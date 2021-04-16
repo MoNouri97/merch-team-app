@@ -2,13 +2,13 @@ import { differenceInDays, isAfter, isFuture } from 'date-fns';
 import { FormikHelpers, FormikValues, useFormikContext } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import AppScreen from '~/components/AppScreen';
 import AppText from '~/components/AppText';
 import DatePicker from '~/components/Forms/DatePicker';
 import Form from '~/components/Forms/Form';
 import Input from '~/components/Forms/Input';
 import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
+import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { yup } from '~/Helpers/yupFrLocal';
 

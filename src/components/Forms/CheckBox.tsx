@@ -1,10 +1,10 @@
 import { useField } from 'formik';
 import React from 'react';
+import AppText from '~/components/AppText';
+import InputBase from '~/components/Forms/InputBase';
+import { Press } from '~/components/Shared/Btn';
+import CheckMark from '~/components/Shared/CheckMark';
 import styled from '~/config/styled-components';
-import AppText from '../AppText';
-import { Press } from '../Btn';
-import CheckMark from '../CheckMark';
-import InputBase from './InputBase';
 
 interface IProps {
 	name: string;

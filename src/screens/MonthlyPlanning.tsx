@@ -7,9 +7,9 @@ import {
 	View,
 } from 'react-native';
 import AppText from '~/components/AppText';
-import NavBar from '~/components/NavBar';
+import NavBar from '~/components/Shared/NavBar';
 import PlanningItemDetails from '~/components/Shared/PlanningItemDetails';
-import { Card } from '~/components/sharedStyles';
+import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import { displayDate } from '~/Helpers/displayDate';
