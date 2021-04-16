@@ -32,6 +32,10 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	}, [label, name, images]);
 
 	const deleteImage = (idx: number) => {
+		if (images.length <= 1) {
+			setValue(undefined, true);
+			return;
+		}
 		setValue(
 			images.filter((_, i) => i !== idx),
 			true

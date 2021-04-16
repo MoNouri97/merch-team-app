@@ -11,7 +11,7 @@ const PlanningItemDetails: React.FC<Planning & { lightColor?: boolean }> = ({
 	<ListItem
 		header={GMS}
 		subHeader={`${time}min`}
-		withCheck
+		// withCheck
 		checked={done}
 		lightColor={lightColor}
 	/>

@@ -22,8 +22,8 @@ const initial = {
 	product: '',
 	competitor: '',
 	purchaseOrder: false,
-	competitorImage: [],
-	productImage: [],
+	competitorImage: undefined,
+	productImage: undefined,
 };
 const ProductVsCompetitor: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<Formik

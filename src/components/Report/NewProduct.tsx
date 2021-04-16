@@ -17,7 +17,7 @@ const validation = yup.object({
 const initial = {
 	category: '',
 	product: '',
-	image: [],
+	image: undefined,
 };
 const NewProduct: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<EventContainer title="Nouveau produit">
