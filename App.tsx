@@ -9,10 +9,12 @@ import {
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
 
+const queryClient = new QueryClient();
 export default function App() {
 	// fonts
 	const [fontsLoaded] = useFonts({
@@ -25,9 +27,11 @@ export default function App() {
 	}
 
 	return (
-		<ThemeProvider theme={myTheme}>
-			<StatusBar style="auto" />
-			<MainStackNavigation />
-		</ThemeProvider>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={myTheme}>
+				<StatusBar style="auto" />
+				<MainStackNavigation />
+			</ThemeProvider>
+		</QueryClientProvider>
 	);
 }

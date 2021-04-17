@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
+import { useLogin } from '~/api/login';
 import Form from '~/components/Forms/Form';
 import Input from '~/components/Forms/Input';
 import Password from '~/components/Forms/Password';
@@ -14,6 +15,7 @@ const validation = yup.object({
 	password: yup.string().required().min(4),
 });
 const SignIn: React.FC = () => {
+	const login = useLogin();
 	const nav = useNavigation();
 	return (
 		<AppScreen navbar>
@@ -21,14 +23,20 @@ const SignIn: React.FC = () => {
 				<Form
 					validationSchema={validation}
 					initialValues={{
-						email: 'Mohamed.nouri.1997@gmail.com',
-						password: '123456',
+						email: 'merch@spring.co',
+						password: '0000',
 					}}
-					onSubmit={(values, { setSubmitting }) => {
-						setTimeout(() => {
-							nav.navigate('Accueil');
+					onSubmit={async (values, { setSubmitting }) => {
+						try {
+							const { data } = await login.mutateAsync({
+								username: values.email,
+								password: values.password,
+							});
 							setSubmitting(false);
-						}, 500);
+							nav.navigate('Home');
+						} catch (error) {
+							console.log(error);
+						}
 					}}
 				>
 					<Input label="Email" name="email" icon="mail" />
