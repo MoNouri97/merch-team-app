@@ -43,5 +43,6 @@ module.exports = {
 		'react/style-prop-object': 0,
 		'no-plusplus': 0,
 		'@typescript-eslint/no-non-null-assertion': 0,
+		'@typescript-eslint/explicit-module-boundary-types': 0,
 	},
 };
