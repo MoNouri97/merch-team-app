@@ -7,8 +7,8 @@ import Picker from '~/components/Forms/Picker';
 import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
+import { yup } from '~/config/yupFrLocal';
 import { fakeGMSs, fakeProducts } from '~/Helpers/FakeData';
-import { yup } from '~/Helpers/yupFrLocal';
 
 const initial = {
 	GMS: '',

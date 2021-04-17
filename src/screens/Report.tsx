@@ -13,7 +13,7 @@ import AppScreen from '~/components/Shared/AppScreen';
 import BottomSheet from '~/components/Shared/BottomSheet';
 import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
-import { yup } from '~/Helpers/yupFrLocal';
+import { yup } from '~/config/yupFrLocal';
 import { EventType } from '~/types/events';
 
 type event = { type: EventType; id: number };

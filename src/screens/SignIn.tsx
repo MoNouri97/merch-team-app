@@ -7,7 +7,7 @@ import Password from '~/components/Forms/Password';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
-import { yup } from '~/Helpers/yupFrLocal';
+import { yup } from '~/config/yupFrLocal';
 
 // validation object
 const validation = yup.object({

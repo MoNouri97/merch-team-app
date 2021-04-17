@@ -13,8 +13,8 @@ import AppScreen from '~/components/Shared/AppScreen';
 import BottomSheet from '~/components/Shared/BottomSheet';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
+import { yup } from '~/config/yupFrLocal';
 import { fakeCategories } from '~/Helpers/FakeData';
-import { yup } from '~/Helpers/yupFrLocal';
 
 const initial = {
 	email: 'nouri@gmail.co',

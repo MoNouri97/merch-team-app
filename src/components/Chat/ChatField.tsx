@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import React from 'react';
 import styled from '~/config/styled-components';
-import { yup } from '~/Helpers/yupFrLocal';
+import { yup } from '~/config/yupFrLocal';
 
 interface IProps {
 	send: (msg: string) => void;
