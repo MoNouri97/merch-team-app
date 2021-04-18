@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLogin } from '~/api/login';
 import Form from '~/components/Forms/Form';
 import Input from '~/components/Forms/Input';
@@ -8,6 +8,7 @@ import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
+import { UserContext } from '~/context/UserContext';
 
 // validation object
 const validation = yup.object({
@@ -17,6 +18,7 @@ const validation = yup.object({
 const SignIn: React.FC = () => {
 	const login = useLogin();
 	const nav = useNavigation();
+	const { setToken, setUser } = useContext(UserContext);
 	return (
 		<AppScreen navbar>
 			<Container>
@@ -32,11 +34,13 @@ const SignIn: React.FC = () => {
 								username: values.email,
 								password: values.password,
 							});
-							setSubmitting(false);
+							setToken!(data.token);
+							setUser!({ email: data.userName });
 							nav.navigate('Home');
 						} catch (error) {
 							console.log(error);
 						}
+						setSubmitting(false);
 					}}
 				>
 					<Input label="Email" name="email" icon="mail" />
