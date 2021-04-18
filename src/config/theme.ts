@@ -1,5 +1,6 @@
-import { DefaultTheme } from 'styled-components';
+/* eslint-disable no-shadow */
 import 'styled-components';
+import { DefaultTheme } from 'styled-components';
 // import original module declarations
 
 // and extend them!
