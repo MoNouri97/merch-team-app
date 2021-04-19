@@ -1,34 +1,59 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { TOKEN_KEY } from '~/config/constants';
-import { saveToStorage } from '~/Helpers/asyncStorage';
+import React, { createContext, useEffect, useReducer } from 'react';
+import { TOKEN_KEY, USER_KEY } from '~/config/constants';
+import {
+	initialValue,
+	SignInPayload,
+	userReducer,
+	UserState,
+} from '~/context/reducer/userReducer';
+import { loadFromStorage, saveToStorage } from '~/Helpers/asyncStorage';
 import { User } from '~/types/models/User';
 
-type AppUser = User | null;
-type USER_STATE = {
-	user: AppUser;
-	setUser: null | ((u: AppUser) => void);
-	token: string;
-	setToken: null | ((t: string) => void);
-};
+type UserContextState = {
+	signIn: (data: SignInPayload) => Promise<void>;
+	signOut: () => Promise<void>;
+} & UserState;
 
 const useUserState = () => {
-	const [user, setUser] = useState<AppUser>(null);
-	const [token, setToken] = useState('');
+	// const [user, setUser] = useState<AppUser>(null);
+	const [state, dispatch] = useReducer(userReducer, initialValue);
+	// const [token, setToken] = useState('');
 
 	useEffect(() => {
-		if (token === '') return;
-		saveToStorage(token, TOKEN_KEY);
-	}, [token]);
+		const initAsync = async () => {
+			const userToken = await loadFromStorage<string>(TOKEN_KEY);
+			const user = await loadFromStorage<User>(USER_KEY);
 
-	return { user, setUser, token, setToken };
+			dispatch({ type: 'RESTORE_TOKEN', userToken, user });
+		};
+
+		initAsync();
+	}, []);
+
+	const userMethods = React.useMemo(
+		() => ({
+			signIn: async (data: SignInPayload) => {
+				saveToStorage(data.user, USER_KEY);
+				saveToStorage(data.userToken, TOKEN_KEY);
+
+				dispatch({
+					type: 'SIGN_IN',
+					user: data.user,
+					userToken: data.userToken,
+				});
+			},
+			signOut: async () => {
+				saveToStorage(null, USER_KEY);
+				saveToStorage(null, TOKEN_KEY);
+				dispatch({ type: 'SIGN_OUT' });
+			},
+		}),
+		[]
+	);
+	return { ...state, ...userMethods };
 };
 
-export const UserContext = createContext<USER_STATE>({
-	user: null,
-	setUser: null,
-	token: '',
-	setToken: null,
-});
+export const UserContext = createContext<UserContextState | null>(null);
 
 export const UserContextProvider: React.FC = ({ children }) => {
 	const userState = useUserState();

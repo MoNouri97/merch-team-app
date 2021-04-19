@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/core';
 import React, { useContext } from 'react';
 import { useLogin } from '~/api/login';
 import Form from '~/components/Forms/Form';
@@ -15,28 +14,29 @@ const validation = yup.object({
 	email: yup.string().required().email(),
 	password: yup.string().required().min(4),
 });
+
+const initial = {
+	email: 'merch@spring.co',
+	password: '0000',
+};
+type Values = typeof initial;
+
 const SignIn: React.FC = () => {
 	const login = useLogin();
-	const nav = useNavigation();
-	const { setToken, setUser } = useContext(UserContext);
+	const { signIn } = useContext(UserContext)!;
 	return (
 		<AppScreen navbar>
 			<Container>
 				<Form
 					validationSchema={validation}
-					initialValues={{
-						email: 'merch@spring.co',
-						password: '0000',
-					}}
-					onSubmit={async (values, { setSubmitting }) => {
+					initialValues={initial}
+					onSubmit={async (values: Values, { setSubmitting }) => {
 						try {
 							const { data } = await login.mutateAsync({
 								username: values.email,
 								password: values.password,
 							});
-							setToken!(data.token);
-							setUser!(data.user);
-							nav.navigate('Home');
+							signIn({ user: data.user, userToken: data.token });
 						} catch (error) {
 							console.log(error);
 						}
