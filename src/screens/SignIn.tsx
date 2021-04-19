@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
 								password: values.password,
 							});
 							setToken!(data.token);
-							setUser!({ email: data.userName });
+							setUser!(data.user);
 							nav.navigate('Home');
 						} catch (error) {
 							console.log(error);
