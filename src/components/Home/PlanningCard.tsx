@@ -2,7 +2,7 @@ import React from 'react';
 import AppText from '~/components/AppText';
 import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
-import { displayDate } from '~/Helpers/displayDate';
+import displayDate from '~/Helpers/displayDate';
 import { fakePlannings } from '~/Helpers/FakeData';
 import PlanningItem from './PlanningItem';
 

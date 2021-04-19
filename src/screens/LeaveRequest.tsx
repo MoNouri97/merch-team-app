@@ -10,7 +10,7 @@ import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
-import { yup } from '~/Helpers/yupFrLocal';
+import { yup } from '~/config/yupFrLocal';
 
 const initial = {
 	start: new Date(),

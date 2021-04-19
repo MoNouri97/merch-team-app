@@ -44,6 +44,10 @@ const Btn: React.FC<Props> = ({
 	primary = false,
 }) => {
 	const theme = useContext(ThemeContext);
+	const fgColor = React.useMemo(
+		() => (!primary ? theme.colors.primary : theme.colors.white),
+		[theme, primary]
+	);
 	return (
 		<Container disabled={disabled || loading} primary={primary}>
 			<Press
@@ -51,14 +55,16 @@ const Btn: React.FC<Props> = ({
 				onPress={onPress}
 				android_ripple={{
 					borderless: false,
-					color: !primary ? theme.colors.primary : theme.colors.white,
+					color: fgColor,
 				}}
 			>
 				<InnerBtn>
 					{typeof children === 'string' ? (
-						<BtnText primary={primary}>
-							{!loading ? children : <Feather size={20} name="loader" />}
-						</BtnText>
+						!loading ? (
+							<BtnText primary={primary}>{children}</BtnText>
+						) : (
+							<Feather color={fgColor} size={20} name="loader" />
+						)
 					) : (
 						children
 					)}
@@ -72,12 +78,13 @@ const InnerBtn = styled.View`
 	justify-content: center;
 	padding: 15px 20px;
 	overflow: hidden;
+	height: 50px;
 `;
 
 const Container = styled.View<{ primary?: boolean; disabled?: boolean }>`
 	overflow: hidden;
 	border-radius: 100px;
-	opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+	/* opacity: ${({ disabled }) => (disabled ? 0.5 : 1)}; */
 	margin: 5px;
 	background-color: ${({ theme, primary }) =>
 		primary ? theme.colors.primary : 'transparent'};

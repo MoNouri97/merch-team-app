@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/core';
-import React from 'react';
+import React, { useContext } from 'react';
+import { useLogin } from '~/api/login';
 import Form from '~/components/Forms/Form';
 import Input from '~/components/Forms/Input';
 import Password from '~/components/Forms/Password';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
-import { yup } from '~/Helpers/yupFrLocal';
+import { yup } from '~/config/yupFrLocal';
+import { UserContext } from '~/context/UserContext';
 
 // validation object
 const validation = yup.object({
@@ -14,21 +16,31 @@ const validation = yup.object({
 	password: yup.string().required().min(4),
 });
 const SignIn: React.FC = () => {
+	const login = useLogin();
 	const nav = useNavigation();
+	const { setToken, setUser } = useContext(UserContext);
 	return (
 		<AppScreen navbar>
 			<Container>
 				<Form
 					validationSchema={validation}
 					initialValues={{
-						email: 'Mohamed.nouri.1997@gmail.com',
-						password: '123456',
+						email: 'merch@spring.co',
+						password: '0000',
 					}}
-					onSubmit={(values, { setSubmitting }) => {
-						setTimeout(() => {
-							nav.navigate('Accueil');
-							setSubmitting(false);
-						}, 500);
+					onSubmit={async (values, { setSubmitting }) => {
+						try {
+							const { data } = await login.mutateAsync({
+								username: values.email,
+								password: values.password,
+							});
+							setToken!(data.token);
+							setUser!(data.user);
+							nav.navigate('Home');
+						} catch (error) {
+							console.log(error);
+						}
+						setSubmitting(false);
 					}}
 				>
 					<Input label="Email" name="email" icon="mail" />

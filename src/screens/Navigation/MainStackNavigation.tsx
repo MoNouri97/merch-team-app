@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
 const MainStackNavigation: React.FC = () => (
 	<NavigationContainer>
 		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="Home" component={DrawerNav} />
 			<Stack.Screen name="Connexion" component={SignIn} />
+			<Stack.Screen name="Home" component={DrawerNav} />
 		</Stack.Navigator>
 	</NavigationContainer>
 );
