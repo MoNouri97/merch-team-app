@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 	const { user } = useContext(UserContext);
 	return (
 		<Screen center navbar>
-			<AppText>{user?.email}</AppText>
+			<AppText type="title">{user?.name}</AppText>
 			<ProgressCard />
 			<PlanningCard />
 		</Screen>

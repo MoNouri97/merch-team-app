@@ -16,6 +16,7 @@ const useUserState = () => {
 	const [token, setToken] = useState('');
 
 	useEffect(() => {
+		if (token === '') return;
 		saveToStorage(token, TOKEN_KEY);
 	}, [token]);
 
