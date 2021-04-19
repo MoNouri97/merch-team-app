@@ -12,7 +12,7 @@ import PlanningItemDetails from '~/components/Shared/PlanningItemDetails';
 import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
-import { displayDate } from '~/Helpers/displayDate';
+import displayDate from '~/Helpers/displayDate';
 import { fakePlannings } from '~/Helpers/FakeData';
 import { PlanningStatus } from '~/types/data';
 
