@@ -1,7 +1,13 @@
 import dateFormat from 'dateformat';
 
-export const displayDate = (date: Date) => {
-	// Basic usage
-	return dateFormat(date, 'dd/mm/yyyy');
-	// Saturday, June 9th, 2007, 5:46:21 PM
-};
+const displayDate = (date: Date) => dateFormat(date, 'dd/mm/yyyy');
+
+export default displayDate;
+
+// const d = '09/02/1997';
+
+// const day = d.slice(0, 2);
+// const month = d.slice(3,5) - 1;
+// const year = d.slice(6);
+
+// let a = new Date(year,month,day);
