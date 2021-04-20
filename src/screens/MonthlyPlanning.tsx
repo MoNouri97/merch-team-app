@@ -9,28 +9,9 @@ import {
 import AppText from '~/components/AppText';
 import NavBar from '~/components/Shared/NavBar';
 import PlanningItemDetails from '~/components/Shared/PlanningItemDetails';
-import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
-import { myTheme } from '~/config/theme';
 import displayDate from '~/Helpers/displayDate';
 import { fakePlannings } from '~/Helpers/FakeData';
-import { PlanningStatus } from '~/types/data';
-
-const statusToColor = (
-	status: PlanningStatus,
-	colors: typeof myTheme.colors
-) => {
-	switch (status) {
-		case 'DONE':
-			return colors.green;
-		case 'DELAYED':
-			return colors.red;
-		case 'NO_REPORT':
-			return colors.yellow;
-		default:
-			return colors.gray[2];
-	}
-};
 
 const ListItem: ListRenderItem<{
 	day: Date;
@@ -38,18 +19,9 @@ const ListItem: ListRenderItem<{
 }> = ({ item }) => (
 	<View>
 		<AppText type="label">{displayDate(item.day)}</AppText>
-		{item.planning.map((d) => {
-			const { status, ...planning } = d;
-
-			return (
-				<Item key={planning.GMS} status={status}>
-					<PlanningItemDetails
-						lightColor={(status as PlanningStatus) !== 'TODO'}
-						{...planning}
-					/>
-				</Item>
-			);
-		})}
+		{item.planning.map((planning) => (
+			<PlanningItemDetails key={planning.GMS} {...planning} />
+		))}
 	</View>
 );
 const MonthlyPlanning: React.FC = () => (
@@ -74,12 +46,4 @@ const Screen = styled.SafeAreaView`
 		: '0px'};
 `;
 
-const Item = styled(Card)<{ status: PlanningStatus }>`
-	elevation: 0;
-	margin-bottom: 10px;
-	background: ${({ status, theme: { colors } }) =>
-		statusToColor(status, colors)};
-	padding: 10px;
-	/* border-radius: ${({ theme }) => '20px'}; */
-`;
 export default MonthlyPlanning;

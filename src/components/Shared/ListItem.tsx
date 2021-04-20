@@ -3,14 +3,14 @@ import AppText from '~/components/AppText';
 import CheckMark from '~/components/Shared/CheckMark';
 import styled from '~/config/styled-components';
 
-interface IPops {
+export interface ListItemProps {
 	header: string;
 	subHeader?: string;
 	withCheck?: boolean;
 	checked?: boolean;
 	lightColor?: boolean;
 }
-const ListItem: React.FC<IPops> = ({
+const ListItem: React.FC<ListItemProps> = ({
 	header,
 	subHeader,
 	withCheck = false,
