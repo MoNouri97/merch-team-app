@@ -12,7 +12,7 @@ const Notifications: React.FC = () => {
 	console.log('Hello From Notifications');
 	return (
 		<Screen>
-			<NavBar />
+			<NavBar backIcon />
 			<FlatList
 				// eslint-disable-next-line react-native/no-inline-styles
 				contentContainerStyle={{ padding: 15 }}

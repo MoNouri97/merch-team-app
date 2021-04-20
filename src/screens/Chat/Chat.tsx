@@ -16,7 +16,12 @@ const Chat: React.FC = () => {
 
 	return (
 		<>
-			<AppScreen autoScroll navbar title="Chat">
+			<AppScreen
+				autoScroll
+				navbar
+				title="Chat"
+				navBarProps={{ backIcon: true }}
+			>
 				<Messages>
 					{messages.map((msg) => (
 						<ChatMessage key={msg.id} {...msg} />
