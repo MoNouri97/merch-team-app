@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-	FlatList,
-	ListRenderItem,
-	Platform,
-	StatusBar,
-	View,
-} from 'react-native';
+import { FlatList, ListRenderItem, View } from 'react-native';
 import AppText from '~/components/AppText';
+import { SafeScreen } from '~/components/Shared/AppScreen';
 import NavBar from '~/components/Shared/NavBar';
 import PlanningItemDetails from '~/components/Shared/PlanningItemDetails';
-import styled from '~/config/styled-components';
 import displayDate from '~/Helpers/displayDate';
 import { fakePlannings } from '~/Helpers/FakeData';
 
@@ -25,7 +19,7 @@ const ListItem: ListRenderItem<{
 	</View>
 );
 const MonthlyPlanning: React.FC = () => (
-	<Screen>
+	<SafeScreen>
 		<NavBar />
 		<FlatList
 			initialNumToRender={3}
@@ -36,14 +30,7 @@ const MonthlyPlanning: React.FC = () => (
 			renderItem={ListItem}
 			keyExtractor={({ day }) => day.toString()}
 		/>
-	</Screen>
+	</SafeScreen>
 );
-const Screen = styled.SafeAreaView`
-	background-color: ${({ theme }) => theme.colors.white};
-	flex: 1;
-	padding-top: ${Platform.OS === 'android'
-		? `${StatusBar.currentHeight}px`
-		: '0px'};
-`;
 
 export default MonthlyPlanning;
