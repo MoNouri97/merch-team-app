@@ -24,7 +24,10 @@ const Home: React.FC = () => {
 				// eslint-disable-next-line react-native/no-inline-styles
 				contentContainerStyle={{ flexGrow: 1 }}
 			>
-				<UserInfo />
+				<Sticky>
+					<UserInfo />
+					{/* <ProgressCard color="light" /> */}
+				</Sticky>
 				<ContentBG>
 					<ProgressCard color="dark" />
 					<PlanningCard />
@@ -44,6 +47,7 @@ const Home: React.FC = () => {
 // const Screen = styled(AppScreen)(({ theme }) => ({
 // 	backgroundColor: theme.colors.gray[1],
 // }));
+const Sticky = styled.View``;
 
 const ContentBG = styled.View`
 	background-color: ${({ theme }) => theme.colors.white};
