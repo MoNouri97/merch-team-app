@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/core';
 import React, { useContext } from 'react';
 import AppText from '~/components/AppText';
 import { Press } from '~/components/Shared/Btn';
@@ -7,6 +8,7 @@ import { UserContext } from '~/context/UserContext';
 
 const UserInfo: React.FC = () => {
 	const { user, signOut } = useContext(UserContext)!;
+	const navigation = useNavigation();
 	return (
 		<Container>
 			<Info>
@@ -17,7 +19,7 @@ const UserInfo: React.FC = () => {
 				<IconBtn onPress={signOut}>
 					<Icon name="log-out" size={20} />
 				</IconBtn>
-				<IconBtn onPress={() => console.log('notif')}>
+				<IconBtn onPress={() => navigation.navigate('Notifications')}>
 					<Icon name="bell" size={20} />
 				</IconBtn>
 			</Icons>

@@ -12,6 +12,11 @@ export const fakeProducts = new Array(10).fill(null).map((_, i) => ({
 	id: i,
 	name: faker.commerce.product(),
 }));
+export const fakeNotifications = new Array(5).fill(null).map((_, i) => ({
+	id: i,
+	name: faker.lorem.sentence(4),
+	date: faker.date.past(),
+}));
 
 const day = new Date();
 export const fakePlannings: Array<{ day: Date; planning: any[] }> = [];
