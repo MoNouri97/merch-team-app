@@ -7,7 +7,7 @@ import {
 	ViewStyle,
 } from 'react-native';
 import styled from '~/config/styled-components';
-import NavBar from './NavBar';
+import NavBar, { NavBarProps } from './NavBar';
 
 interface Props {
 	style?: StyleProp<ViewStyle>;
@@ -15,6 +15,7 @@ interface Props {
 	title?: string;
 	center?: boolean;
 	autoScroll?: boolean;
+	navBarProps?: NavBarProps;
 }
 
 const AppScreen: React.FC<Props> = ({
@@ -24,11 +25,12 @@ const AppScreen: React.FC<Props> = ({
 	title,
 	center = false,
 	autoScroll = false,
+	navBarProps,
 }) => {
 	const ref = useRef<ScrollView>(null);
 	return (
 		<Safe style={style}>
-			{navbar && <NavBar title={title} />}
+			{navbar && <NavBar title={title} {...navBarProps} />}
 			<ScrollView
 				// eslint-disable-next-line react-native/no-inline-styles
 				contentContainerStyle={{ flexGrow: 1 }}

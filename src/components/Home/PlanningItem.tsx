@@ -34,6 +34,6 @@ const Location = styled.TouchableOpacity`
 	justify-content: center;
 	align-items: center;
 	border-radius: ${({ theme }) => theme.borderRadius};
-	background: ${({ theme }) => theme.colors.gray[1]};
+	/* background: ${({ theme }) => theme.colors.gray[1]}; */
 `;
 export default PlanningItem;

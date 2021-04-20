@@ -1,10 +1,11 @@
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+import {} from 'date-fns';
 import { useField } from 'formik';
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
-import { displayDate } from '~/Helpers/displayDate';
+import displayDate from '~/Helpers/displayDate';
 import InputBase from './InputBase';
 
 interface IProps {
@@ -23,13 +24,13 @@ const DatePicker: React.FC<IProps> = ({ name, label }) => {
 		setDate(currentDate);
 	};
 
-	const showDatepicker = () => {
+	const showDatePicker = () => {
 		setShow(true);
 	};
 
 	return (
 		<InputBase label={label ?? name} name={name} icon="calendar">
-			<Touchable onPress={showDatepicker}>
+			<Touchable onPress={showDatePicker}>
 				<AppText type="label">{displayDate(date)}</AppText>
 			</Touchable>
 			{/* TODO fix this on ios */}

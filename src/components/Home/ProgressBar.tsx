@@ -5,17 +5,15 @@ interface IProps {
 	percent: number;
 }
 
-const ProgressBar: React.FC<IProps> = ({ percent }) => {
-	return (
-		<Bar>
-			<Progress percent={percent} />
-		</Bar>
-	);
-};
+const ProgressBar: React.FC<IProps> = ({ percent }) => (
+	<Bar>
+		<Progress percent={percent} />
+	</Bar>
+);
 const Bar = styled.View`
 	background: ${({ theme }) => `${theme.colors.gray[2]}`};
 	height: 20px;
-	flex: 1;
+	flex-grow: 1;
 	border-radius: ${({ theme }) => `${theme.borderRadius}`};
 `;
 const Progress = styled.View<IProps>`

@@ -18,12 +18,21 @@ export const DrawerBtn: React.FC<{
 		<Icon size={20} name="menu" />
 	</TouchableOpacity>
 );
+export const BackBtn: React.FC<{
+	navigation: any;
+	style?: StyleProp<ViewStyle>;
+}> = ({ navigation, style }) => (
+	<TouchableOpacity style={style} onPress={() => navigation.goBack()}>
+		<Icon size={20} name="arrow-left" />
+	</TouchableOpacity>
+);
 
-interface Props {
+export interface NavBarProps {
 	title?: string;
+	backIcon?: boolean;
 }
 
-const NavBar: React.FC<Props> = ({ title }) => {
+const NavBar: React.FC<NavBarProps> = ({ title, backIcon = false }) => {
 	// used to show drawer btn if available
 	const navigation = useNavigation();
 	const route = useRoute();
@@ -32,8 +41,9 @@ const NavBar: React.FC<Props> = ({ title }) => {
 
 	return (
 		<Container>
-			{drawer && <DrawerBtn navigation={navigation} />}
-			<Title drawer={drawer} pointerEvents="none">
+			{backIcon && <BackBtn navigation={navigation} />}
+			{drawer && !backIcon && <DrawerBtn navigation={navigation} />}
+			<Title drawer={drawer || backIcon} pointerEvents="none">
 				<AppText type="title">{title ?? route.name}</AppText>
 			</Title>
 			<StatusBar style="auto" backgroundColor={theme.colors.gray[1]} />

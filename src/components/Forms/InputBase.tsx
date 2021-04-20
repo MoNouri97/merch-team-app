@@ -28,7 +28,7 @@ const InputBase: React.FC<Props> = ({
 
 	return (
 		<Container>
-			<AppText type="label">{capitalize(label)}</AppText>
+			{label !== '' && <AppText type="label">{capitalize(label)}</AppText>}
 			{container ? (
 				<InputContainer>
 					{children}

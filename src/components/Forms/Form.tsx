@@ -11,10 +11,10 @@ interface Props {
 	initialValues: FormikValues;
 	validationSchema?: any | (() => any);
 	onSubmit: (
-		values: FormikValues,
-		formikHelpers: FormikHelpers<FormikValues>
+		values: any,
+		formikHelpers: FormikHelpers<any>
 	) => void | Promise<any>;
-	validate?: (values: FormikValues) => any;
+	validate?: (values: any) => any;
 }
 const Form: React.FC<Props> = ({
 	children,
