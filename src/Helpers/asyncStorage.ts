@@ -15,6 +15,7 @@ export const loadFromStorage = async <T = string>(key: string) => {
 		console.log(error);
 	}
 	console.log(`Loaded ${key}`);
+	if (typeof loaded === 'string') return loaded;
 	return loaded ? (JSON.parse(loaded) as T) : null;
 };
 export const saveToStorage = (toSave: any | null, key: string) => {
