@@ -1,9 +1,13 @@
 import { Feather } from '@expo/vector-icons';
 import { DrawerActions, useNavigation, useRoute } from '@react-navigation/core';
-import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useMemo } from 'react';
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
-import { ThemeContext } from 'styled-components';
+import React, { useMemo } from 'react';
+import {
+	StatusBar,
+	StyleProp,
+	TouchableOpacity,
+	ViewStyle,
+} from 'react-native';
+import { useTheme } from 'styled-components';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 
@@ -36,7 +40,7 @@ const NavBar: React.FC<NavBarProps> = ({ title, backIcon = false }) => {
 	// used to show drawer btn if available
 	const navigation = useNavigation();
 	const route = useRoute();
-	const theme = useContext(ThemeContext);
+	const theme = useTheme();
 	const drawer = useMemo(() => (navigation as any).toggleDrawer, [navigation]);
 
 	return (
@@ -46,16 +50,22 @@ const NavBar: React.FC<NavBarProps> = ({ title, backIcon = false }) => {
 			<Title drawer={drawer || backIcon} pointerEvents="none">
 				<AppText type="title">{title ?? route.name}</AppText>
 			</Title>
-			<StatusBar style="auto" backgroundColor={theme.colors.gray[1]} />
+			{/* <StatusBar
+				translucent
+				style="auto"
+				// backgroundColor={theme.colors.gray[1]}
+			/> */}
 		</Container>
 	);
 };
 const Container = styled.View`
 	/* margin-bottom: 5px; */
+	margin-top: -${StatusBar.currentHeight}px;
+	padding-top: ${StatusBar.currentHeight}px;
 	background-color: ${({ theme }) => theme.colors.gray[1]};
 	elevation: 10;
 	box-shadow: 1px 1px 1px black;
-	height: 70px;
+	height: 100px;
 	flex-direction: row;
 	width: 100%;
 	align-items: center;

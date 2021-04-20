@@ -7,7 +7,9 @@ import PlanningItem from './PlanningItem';
 
 const PlanningCard: React.FC = () => (
 	<Container>
-		<AppText>Planning : {displayDate(new Date())}</AppText>
+		<AppText type="label" color="dark">
+			Planning : {displayDate(new Date())}
+		</AppText>
 		<Plannings>
 			{fakePlannings[0].planning.map((planning) => (
 				<PlanningItem key={planning.GMS} {...planning} />
