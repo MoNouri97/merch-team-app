@@ -10,7 +10,10 @@ import Report from './Report';
 
 const Stack = createStackNavigator();
 const HomeStack: React.FC = () => (
-	<Stack.Navigator headerMode="none">
+	<Stack.Navigator
+		headerMode="none"
+		screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}
+	>
 		<Stack.Screen name="Accueil" component={Home} />
 		<Stack.Screen name="Notifications" component={Notifications} />
 		<Stack.Screen name="MapGMS" component={MapGMS} />

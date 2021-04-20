@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+	createStackNavigator,
+	TransitionPresets,
+} from '@react-navigation/stack';
 import React from 'react';
 import Chat from '~/screens/Chat/Chat';
 import ChatList from './ChatList';
@@ -8,7 +11,7 @@ const ChatStack: React.FC = () => (
 	<>
 		<Stack.Navigator
 			headerMode="none"
-			screenOptions={{ animationEnabled: false }}
+			screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}
 		>
 			<Stack.Screen name="ChatMain" component={ChatList} />
 			<Stack.Screen name="ChatIndividual" component={Chat} />
