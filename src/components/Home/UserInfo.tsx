@@ -8,6 +8,8 @@ import { UserContext } from '~/context/UserContext';
 
 const UserInfo: React.FC = () => {
 	const { user, signOut } = useContext(UserContext)!;
+	console.log({ user });
+
 	const navigation = useNavigation();
 	return (
 		<Container>
