@@ -3,10 +3,12 @@ import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { InputContainer } from '~/components/Forms/styles';
 import styled from '~/config/styled-components';
-import { capitalize } from '~/Helpers/capitalize';
 import IconName from '~/types/icons';
 import AppText from '../AppText';
 import ErrorMessage from './ErrorMessage';
+
+const capitalize = (word: string) =>
+	word.charAt(0).toUpperCase() + word.slice(1);
 
 interface Props {
 	name: string;
