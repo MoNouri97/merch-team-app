@@ -8,12 +8,18 @@ import { UserContext } from '~/context/UserContext';
 
 const UserInfo: React.FC = () => {
 	const { user, signOut } = useContext(UserContext)!;
+	console.log({ user });
+
 	const navigation = useNavigation();
 	return (
 		<Container>
 			<Info>
-				<AppText type="subtitle">{user?.name}</AppText>
-				<AppText>{user?.email}</AppText>
+				<AppText color="light" type="subtitle">
+					{user?.name}
+				</AppText>
+				<AppText color="light" size={12}>
+					{user?.email}
+				</AppText>
 			</Info>
 			<Icons>
 				<IconBtn onPress={signOut}>
@@ -27,6 +33,7 @@ const UserInfo: React.FC = () => {
 	);
 };
 const Container = styled.View`
+	padding: 20px;
 	margin-vertical: 20px;
 	justify-content: space-between;
 	flex-direction: row;
@@ -40,13 +47,16 @@ const Icons = styled.View`
 	flex-shrink: 0;
 `;
 const Icon = styled(Feather)`
-	color: ${({ theme }) => theme.colors.primary};
+	color: ${({ theme }) => theme.colors.white};
 `;
 
-const IconBtn = styled(Press)`
-	background: ${({ theme }) => theme.colors.white};
-	border-radius: 10px;
+const IconBtn = styled(Press).attrs(() => ({
+	android_ripple: { borderless: true },
+}))`
+	background: ${({ theme }) => theme.colors.transparent};
+	border-radius: ${({ theme }) => theme.borderRadius};
 	padding: 15px;
+	overflow: hidden;
 	margin-left: 10px;
 `;
 export default UserInfo;

@@ -3,18 +3,18 @@ import * as SecureStore from 'expo-secure-store';
 import { TOKEN_KEY } from '~/config/constants';
 
 export const loadFromStorage = async <T = string>(key: string) => {
+	console.log(`Loaded ${key}`);
 	let loaded;
 	try {
 		const secureStoreIsAvailable = await SecureStore.isAvailableAsync();
 		if (key === TOKEN_KEY && secureStoreIsAvailable) {
 			loaded = await SecureStore.getItemAsync(key);
-		} else {
-			loaded = await AsyncStorage.getItem(key);
+			return loaded;
 		}
+		loaded = await AsyncStorage.getItem(key);
 	} catch (error) {
 		console.log(error);
 	}
-	console.log(`Loaded ${key}`);
 	return loaded ? (JSON.parse(loaded) as T) : null;
 };
 export const saveToStorage = (toSave: any | null, key: string) => {

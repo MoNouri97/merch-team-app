@@ -29,7 +29,7 @@ const AppScreen: React.FC<Props> = ({
 }) => {
 	const ref = useRef<ScrollView>(null);
 	return (
-		<Safe style={style}>
+		<SafeScreen style={style}>
 			{navbar && <NavBar title={title} {...navBarProps} />}
 			<ScrollView
 				// eslint-disable-next-line react-native/no-inline-styles
@@ -46,10 +46,10 @@ const AppScreen: React.FC<Props> = ({
 			>
 				<Container center={center}>{children}</Container>
 			</ScrollView>
-		</Safe>
+		</SafeScreen>
 	);
 };
-const Safe = styled.SafeAreaView`
+export const SafeScreen = styled.SafeAreaView`
 	background-color: ${({ theme }) => theme.colors.white};
 	flex: 1;
 	padding-top: ${Platform.OS === 'android'

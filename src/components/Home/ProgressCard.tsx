@@ -1,6 +1,5 @@
 import React from 'react';
 import AppText from '~/components/AppText';
-import { Card } from '~/components/Shared/sharedStyles';
 import styled from '~/config/styled-components';
 import displayDate from '~/Helpers/displayDate';
 import ProgressBar from './ProgressBar';
@@ -19,25 +18,38 @@ const Data = {
 		},
 	],
 };
-const ProgressCard: React.FC = () => (
+const ProgressCard: React.FC<{ color: 'light' | 'dark' }> = ({ color }) => (
 	<Container>
-		<AppText type="subtitle">Objectifs</AppText>
-		<AppText type="label" color="dimmed">
+		<AppText type="label" color={color}>
+			Objectifs
+		</AppText>
+		<AppText size={12} color={color}>
 			{displayDate(Data.date)}
 		</AppText>
-		<PercentText type="title">{Data.global}%</PercentText>
+		<PercentText size={40} color={color}>
+			{Data.global}%
+		</PercentText>
 		<ProgressBar percent={Data.global} />
-		{Data.categories.map(({ name, percent }) => (
-			<Row key={name}>
-				<CatText numberOfLines={1} type="label" color="dimmed">
-					{name}
-				</CatText>
-				<ProgressBar percent={percent} />
-			</Row>
-		))}
+		<Objectives>
+			{Data.categories.map(({ name, percent }) => (
+				<Row key={name}>
+					<CatText numberOfLines={1} type="label" color={color}>
+						{name}
+					</CatText>
+					<ProgressBar percent={percent} />
+				</Row>
+			))}
+		</Objectives>
 	</Container>
 );
-const Container = styled(Card)``;
+
+const Objectives = styled.View`
+	margin: 10px;
+`;
+const Container = styled.View`
+	padding-horizontal: 20px;
+	margin-vertical: 20px;
+`;
 const CatText = styled(AppText)`
 	width: 30%;
 `;
