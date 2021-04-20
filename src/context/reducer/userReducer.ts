@@ -23,7 +23,6 @@ export const userReducer = (
 	prevState: UserState,
 	action: Action
 ): UserState => {
-	console.log(action);
 	switch (action.type) {
 		case 'RESTORE_TOKEN':
 			return {

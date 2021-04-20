@@ -28,7 +28,7 @@ const myTheme: DefaultTheme = {
 	borderRadius: '5px',
 	colors: {
 		primary: '#9D3D8E',
-		secondary: '#8947CB',
+		secondary: '#7488D1',
 		black: '#111',
 		white: '#FFFFFF',
 		green: '#24CE85',
