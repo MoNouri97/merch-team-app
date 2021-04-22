@@ -2,13 +2,12 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
+import ProductsCheckList from '~/components/Forms/helpers/ProductsCheckList';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
-import { fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 import CheckBox from '../Forms/CheckBox';
-import CheckList from '../Forms/CheckList';
 import ImageInput from '../Forms/ImageInput';
 import EventContainer from './EventContainer';
 
@@ -43,12 +42,12 @@ const Rupture: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 				return (
 					<>
 						<CategoriesPicker />
-						<CheckList
-							name="products"
-							label="produits"
-							placeholder="choisir une catégorie . . ."
-							data={values.category ? fakeProducts : undefined}
+						<ProductsCheckList
+							placeholder="Choisir Une Catégorie"
+							// TODO:handle this
+							params={{ gms: '*', category: values.category }}
 						/>
+
 						<CheckBox
 							name="purchaseOrder"
 							label="bon de commande"

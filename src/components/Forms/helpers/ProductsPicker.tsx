@@ -15,8 +15,6 @@ const ProductsPicker: React.FC<ProductsPickerProps> = ({
 	params = { category: '', gms: '' },
 }) => {
 	const { data } = useGetProducts(params);
-	console.log(data);
-
 	return (
 		<Picker
 			{...{ name, label }}

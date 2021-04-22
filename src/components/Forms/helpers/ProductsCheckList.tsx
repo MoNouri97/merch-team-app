@@ -16,15 +16,23 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 	placeholder = 'Choisir une GMS et une Catégorie ...',
 	params = { gms: '', category: '' },
 }) => {
-	const { data } = useGetProducts(params, {
-		enabled: !!params.gms && !!params.category,
+	const enabled = !!params.gms && !!params.category;
+	const { data, isFetching } = useGetProducts(params, {
+		enabled,
 	});
+	const listData = React.useMemo(
+		() =>
+			enabled || isFetching
+				? createPickerData(data, { name: 'designation' })
+				: [],
+		[params, data]
+	);
 	return (
 		<CheckList
 			name={name}
 			label={label}
 			placeholder={placeholder}
-			data={createPickerData(data, { name: 'designation' })}
+			data={listData}
 		/>
 	);
 };

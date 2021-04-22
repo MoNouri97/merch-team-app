@@ -2,12 +2,11 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
+import ProductsPicker from '~/components/Forms/helpers/ProductsPicker';
 import { yup } from '~/config/yupFrLocal';
-import { fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 import Input from '../Forms/Input';
-import Picker from '../Forms/Picker';
 import EventContainer from './EventContainer';
 
 const validation = yup.object({
@@ -37,7 +36,7 @@ const PriceChange: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 				return (
 					<>
 						<CategoriesPicker />
-						<Picker name="product" label="produit" data={fakeProducts} />
+						<ProductsPicker />
 						<Input
 							name="oldPrice"
 							label="Ancien prix"
