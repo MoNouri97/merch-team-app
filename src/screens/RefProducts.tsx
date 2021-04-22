@@ -1,14 +1,13 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import CheckList from '~/components/Forms/CheckList';
 import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
 import GMSPicker from '~/components/Forms/helpers/GMSPicker';
+import ProductsCheckList from '~/components/Forms/helpers/ProductsCheckList';
 import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
-import { fakeProducts } from '~/Helpers/FakeData';
 
 const initial = {
 	GMS: '',
@@ -26,11 +25,10 @@ const RefProducts: React.FC = () => (
 	// code here ...
 	<AppScreen navbar>
 		<Formik
-			onSubmit={(values, { setSubmitting }) => {
+			onSubmit={(values, { resetForm }) => {
 				Alert.alert('ajouté', JSON.stringify(values, null, 2));
-				console.log(values);
 
-				setSubmitting(false);
+				resetForm();
 			}}
 			initialValues={initial}
 			validationSchema={validation}
@@ -40,12 +38,15 @@ const RefProducts: React.FC = () => (
 					<GMSPicker />
 					<Subtitle>Articles</Subtitle>
 					<CategoriesPicker />
-					<CheckList
+					<ProductsCheckList
+						params={{ gms: values.GMS, category: values.category }}
+					/>
+					{/* <CheckList
 						name="products"
 						label="produits"
 						placeholder="Choisir une GMS et une Catégorie ..."
 						data={values.GMS && values.category ? fakeProducts : undefined}
-					/>
+					/> */}
 					<SubmitBtn>Ajouter</SubmitBtn>
 				</>
 			)}

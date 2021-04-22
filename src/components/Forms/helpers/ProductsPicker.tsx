@@ -20,7 +20,7 @@ const ProductsPicker: React.FC<ProductsPickerProps> = ({
 	return (
 		<Picker
 			{...{ name, label }}
-			data={createPickerData(data, { name: 'designation' })}
+			data={createPickerData(data, { name: 'designation' })!}
 		/>
 	);
 };

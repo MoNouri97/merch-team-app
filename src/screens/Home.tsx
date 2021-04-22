@@ -72,6 +72,7 @@ const Drawer = styled(DrawerBtn)`
 const Header = styled.View`
 	background-color: ${({ theme }) => theme.colors.secondary};
 	margin-top: 20px;
+	padding-bottom: 10px;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;

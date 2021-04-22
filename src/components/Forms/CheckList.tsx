@@ -5,10 +5,10 @@ import { Placeholder } from '~/components/Forms/styles';
 import { Press } from '~/components/Shared/Btn';
 import ListItem from '~/components/Shared/ListItem';
 import styled from '~/config/styled-components';
-import { Fake } from '~/types/data';
+import { ListData } from '~/types/data';
 
 interface IProps {
-	data?: Fake[];
+	data?: ListData[];
 	name: string;
 	label?: string;
 	placeholder?: string;
@@ -33,7 +33,7 @@ const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
 	return (
 		<InputBase name={name} label={label ?? name} container={false}>
 			<Container>
-				{!data ? (
+				{!data?.length ? (
 					<Placeholder>{placeholder}</Placeholder>
 				) : (
 					data.map((item) => {
