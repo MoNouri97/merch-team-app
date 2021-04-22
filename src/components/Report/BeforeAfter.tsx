@@ -46,7 +46,6 @@ const BeforeAfter: React.FC<IProps> = ({ setValue, name }) => (
 				return (
 					<>
 						<CategoriesPicker />
-						<CategoriesPicker />
 						<ProductsPicker />
 						<ImageInput name="before" />
 						<ImageInput name="after" />
