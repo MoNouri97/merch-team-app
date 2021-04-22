@@ -6,9 +6,12 @@ import { Product } from '~/types/models/Product';
 
 export type getProductsParams = { gms: string; category: string };
 
-const getProducts: QueryFn<Product[], getProductsParams> = ({ queryKey }) => {
+const getProducts: QueryFn<Product[], getProductsParams> = async ({
+	queryKey,
+}) => {
 	const [_key, params] = queryKey;
-	return api.get('/products', { params });
+	const { data } = await api.get<Product[]>('/articles', { params });
+	return data;
 };
 
 const useGetProducts = (params: getProductsParams) => {

@@ -1,8 +1,9 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
+import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
+import { fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 import ImageInput from '../Forms/ImageInput';
@@ -33,7 +34,7 @@ const CompetitorEvent: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 			const COMPETITOR = values.competitor ? values.competitor : 'conçurent';
 			return (
 				<EventContainer title={`Événement ${COMPETITOR}`}>
-					<Picker name="category" label="catégorie" data={fakeCategories} />
+					<CategoriesPicker />
 					<Picker name="competitor" label="conçurent" data={fakeProducts} />
 					<ImageInput name="images" multiple />
 				</EventContainer>

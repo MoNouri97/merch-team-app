@@ -1,8 +1,9 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
+import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
+import { fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 import ImageInput from '../Forms/ImageInput';
@@ -33,7 +34,7 @@ const NewProduct: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 				useValues(name, values, setValue);
 				return (
 					<>
-						<Picker name="category" label="catégorie" data={fakeCategories} />
+						<CategoriesPicker />
 						<Picker name="product" label="produit" data={fakeProducts} />
 						<ImageInput name="image" />
 					</>

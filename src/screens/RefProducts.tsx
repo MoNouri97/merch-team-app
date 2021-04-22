@@ -2,12 +2,13 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import CheckList from '~/components/Forms/CheckList';
-import Picker from '~/components/Forms/Picker';
+import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
+import GMSPicker from '~/components/Forms/helpers/GMSPicker';
 import { Subtitle } from '~/components/Forms/styles';
 import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeGMSs, fakeProducts } from '~/Helpers/FakeData';
+import { fakeProducts } from '~/Helpers/FakeData';
 
 const initial = {
 	GMS: '',
@@ -36,9 +37,9 @@ const RefProducts: React.FC = () => (
 		>
 			{({ values }) => (
 				<>
-					<Picker name="GMS" data={fakeGMSs} />
+					<GMSPicker />
 					<Subtitle>Articles</Subtitle>
-					<Picker name="category" label="catégorie" data={fakeCategories} />
+					<CategoriesPicker />
 					<CheckList
 						name="products"
 						label="produits"

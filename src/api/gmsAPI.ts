@@ -3,8 +3,9 @@ import { useQuery } from 'react-query';
 import api from '~/config/api';
 import { GMS } from '~/types/models/GMS';
 
-const getGMS = () => {
-	return api.get<GMS[]>('/gms');
+const getGMS = async () => {
+	const { data } = await api.get<GMS[]>('/gms');
+	return data;
 };
 
 const useGetGMS = () => {
