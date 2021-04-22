@@ -1,12 +1,13 @@
 /* eslint-disable arrow-body-style */
+import axios from 'axios';
 import { useMutation } from 'react-query';
-import api from '~/config/api';
+import { URL } from '~/config/api';
 import { User } from '~/types/models/User';
 
 type LoginRequest = { username: string; password: string };
 type LoginResponse = { token: string; user: User };
 const login = (credentials: LoginRequest) => {
-	return api.post<LoginResponse>('/login', credentials);
+	return axios.post<LoginResponse>(`${URL}/login`, credentials);
 };
 
 const useLogin = () => {

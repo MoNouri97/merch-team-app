@@ -44,5 +44,6 @@ module.exports = {
 		'no-plusplus': 0,
 		'@typescript-eslint/no-non-null-assertion': 0,
 		'@typescript-eslint/explicit-module-boundary-types': 0,
+		'@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '_' }],
 	},
 };

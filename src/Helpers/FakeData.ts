@@ -22,7 +22,7 @@ const day = new Date();
 export const fakePlannings: Array<{ day: Date; planning: any[] }> = [];
 for (let i = 0; i < 10; i++) {
 	const p = [];
-	for (let j = 0; j < 3; j++) {
+	for (let j = 0; j < 5; j++) {
 		p.push({
 			GMS: faker.company.companyName(),
 			state: false,
