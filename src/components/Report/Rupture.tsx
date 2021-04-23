@@ -1,15 +1,17 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
-import ProductsCheckList from '~/components/Forms/helpers/ProductsCheckList';
+import {
+	CategoriesPicker,
+	CheckBox,
+	ImageInput,
+	ProductsCheckList,
+} from '~/components/Forms';
+import EventContainer from '~/components/Report/EventContainer';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
-import CheckBox from '../Forms/CheckBox';
-import ImageInput from '../Forms/ImageInput';
-import EventContainer from './EventContainer';
 
 const validation = yup.object({
 	category: yup.string().required(),

@@ -1,11 +1,13 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import CategoriesPicker from '~/components/Forms/helpers/CategoriesPicker';
-import GMSPicker from '~/components/Forms/helpers/GMSPicker';
-import ProductsCheckList from '~/components/Forms/helpers/ProductsCheckList';
+import {
+	CategoriesPicker,
+	GMSPicker,
+	ProductsCheckList,
+	SubmitBtn,
+} from '~/components/Forms';
 import { Subtitle } from '~/components/Forms/styles';
-import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
 
