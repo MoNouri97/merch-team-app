@@ -5,11 +5,17 @@ import styled from '~/config/styled-components';
 import AppText from '../AppText';
 import InputBase from './InputBase';
 
+const EmptyListItem = () => (
+	<ListContainer>
+		<AppText type="title">Chargement ...</AppText>
+	</ListContainer>
+);
+
 interface Props {
 	placeholder?: string;
 	label?: string;
 	name: string;
-	data: { id: string | number; name: string }[];
+	data?: { id: string | number; name: string }[];
 }
 
 const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
@@ -37,8 +43,9 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 					<ListContainer>
 						<FlatList
 							data={data}
+							ListEmptyComponent={EmptyListItem}
 							keyExtractor={(item) => item.id.toString()}
-							ItemSeparatorComponent={() => <Separator />}
+							ItemSeparatorComponent={Separator}
 							renderItem={({ item }) => (
 								<PickerItem
 									onPress={() => {
@@ -82,5 +89,6 @@ const ListContainer = styled.SafeAreaView`
 	padding-vertical: 20px;
 	flex-grow: 1;
 	justify-content: center;
+	align-items: center;
 `;
 export default React.memo(Picker);
