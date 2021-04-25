@@ -36,10 +36,7 @@ const Testing: React.FC = () => {
 	const [modal, setModal] = useState(false);
 	return (
 		<AppScreen navbar>
-			<TestApi />
-			{/* <ReportEvent id={1} type="Rupture" /> */}
-			{/* <ReportEvent id={1} type="ProductVsCompetitor" /> */}
-			{/* <ReportEvent id={1} type="Promotion" /> */}
+			{/* <TestApi /> */}
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
 				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}

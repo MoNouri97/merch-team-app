@@ -8,7 +8,7 @@ export const fakeCategories = new Array(10).fill(null).map((_, i) => ({
 	id: i,
 	name: faker.commerce.department(),
 }));
-export const fakeProducts = new Array(10).fill(null).map((_, i) => ({
+export const fakeProducts = new Array(20).fill(null).map((_, i) => ({
 	id: i,
 	name: faker.commerce.product(),
 }));

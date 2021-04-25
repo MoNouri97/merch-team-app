@@ -4,12 +4,11 @@ import { Alert } from 'react-native';
 import {
 	CategoriesPicker,
 	ImageInput,
-	Picker,
 	ProductsPicker,
 } from '~/components/Forms';
+import CompetitorsPicker from '~/components/Forms/helpers/CompetitorsPicker';
 import { PRODUCT } from '~/config/constants';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
@@ -45,7 +44,7 @@ const ProductVsCompetitor: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 				<EventContainer title={`${PRODUCT} Vs ${COMPETITOR}`}>
 					<CategoriesPicker />
 					<ProductsPicker />
-					<Picker name="competitor" label="conçurent" data={fakeCategories} />
+					<CompetitorsPicker />
 					<ImageInput name="productImage" label={PRODUCT} />
 					<ImageInput name="competitorImage" label={COMPETITOR} />
 				</EventContainer>
