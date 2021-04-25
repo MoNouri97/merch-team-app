@@ -1,5 +1,5 @@
 import React from 'react';
-import useGetGMS from '~/api/gmsAPI';
+import useGetAllGMS from '~/api/gmsAPI';
 import Picker from '~/components/Forms/Picker';
 import createPickerData from '~/Helpers/createPickerData';
 
@@ -12,7 +12,7 @@ const GMSPicker: React.FC<GMSPickerProps> = ({
 	name = 'GMS',
 	label = 'GMS',
 }) => {
-	const { data } = useGetGMS();
+	const { data } = useGetAllGMS();
 	return <Picker name={name} label={label} data={createPickerData(data)} />;
 };
 export default GMSPicker;
