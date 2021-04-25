@@ -38,7 +38,10 @@ module.exports = {
 		'import/extensions': 0,
 		'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
 		'react/prop-types': 0,
-		'react-native/no-raw-text': 0,
+		'react-native/no-raw-text': [
+			'error',
+			{ skip: ['AppText', 'Subtitle', 'SubmitBtn', 'Btn'] },
+		],
 		'no-nested-ternary': 0,
 		'react/style-prop-object': 0,
 		'no-plusplus': 0,
