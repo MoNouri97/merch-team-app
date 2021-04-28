@@ -39,7 +39,13 @@ const ReportEvent: React.FC<WrapperProps & InnerProps> = ({
 }) => (
 	<Wrapper>
 		{actions?.map((action) => (
-			<ActionBtn key={action.icon} onPress={() => action.onPress(id)}>
+			<ActionBtn
+				key={action.icon}
+				onPress={() => {
+					action.onPress(id);
+					other.setFieldValue(other.name, null);
+				}}
+			>
 				<Feather size={20} name={action.icon} />
 			</ActionBtn>
 		))}
