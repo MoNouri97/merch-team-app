@@ -1,7 +1,7 @@
 /* eslint-disable arrow-body-style */
 import { useMutation } from 'react-query';
 import api from '~/config/api';
-import { Claim } from '~/types/models/Claim';
+import { Claim } from '~/types/models/formData/Claim';
 
 type ClaimResponse = { message: string };
 const postClaim = async (formData: Claim) => {
