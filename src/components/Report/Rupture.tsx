@@ -1,16 +1,17 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
+import {
+	CategoriesPicker,
+	CheckBox,
+	ImageInput,
+	ProductsCheckList,
+} from '~/components/Forms';
+import EventContainer from '~/components/Report/EventContainer';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
-import CheckBox from '../Forms/CheckBox';
-import CheckList from '../Forms/CheckList';
-import ImageInput from '../Forms/ImageInput';
-import Picker from '../Forms/Picker';
-import EventContainer from './EventContainer';
 
 const validation = yup.object({
 	category: yup.string().required(),
@@ -42,14 +43,13 @@ const Rupture: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 				useValues(name, values, setValue);
 				return (
 					<>
-						<Picker name="category" label="catégorie" data={fakeCategories} />
-						{/* <Picker name="product" label="produit" data={fakeProducts} /> */}
-						<CheckList
-							name="products"
-							label="produits"
-							placeholder="choisir une catégorie . . ."
-							data={values.category ? fakeProducts : undefined}
+						<CategoriesPicker />
+						<ProductsCheckList
+							placeholder="Choisir Une Catégorie"
+							// TODO:handle this
+							params={{ gms: '*', category: values.category }}
 						/>
+
 						<CheckBox
 							name="purchaseOrder"
 							label="bon de commande"

@@ -8,11 +8,15 @@ import {
 } from '@expo-google-fonts/dm-sans';
 import AppLoading from 'expo-app-loading';
 import React from 'react';
+import { LogBox } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import { UserContextProvider } from '~/context/UserContext';
 import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
+
+// react-native warning
+LogBox.ignoreLogs(['Setting a timer']);
 
 const queryClient = new QueryClient();
 export default function App() {

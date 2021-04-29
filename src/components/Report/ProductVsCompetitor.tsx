@@ -1,13 +1,16 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
+import {
+	CategoriesPicker,
+	ImageInput,
+	ProductsPicker,
+} from '~/components/Forms';
+import CompetitorsPicker from '~/components/Forms/helpers/CompetitorsPicker';
 import { PRODUCT } from '~/config/constants';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
-import ImageInput from '../Forms/ImageInput';
-import Picker from '../Forms/Picker';
 import EventContainer from './EventContainer';
 
 const validation = yup.object({
@@ -39,9 +42,9 @@ const ProductVsCompetitor: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 			const COMPETITOR = values.competitor ? values.competitor : 'conçurent';
 			return (
 				<EventContainer title={`${PRODUCT} Vs ${COMPETITOR}`}>
-					<Picker name="category" label="catégorie" data={fakeCategories} />
-					<Picker name="product" label="produit" data={fakeProducts} />
-					<Picker name="competitor" label="conçurent" data={fakeCategories} />
+					<CategoriesPicker />
+					<ProductsPicker />
+					<CompetitorsPicker />
 					<ImageInput name="productImage" label={PRODUCT} />
 					<ImageInput name="competitorImage" label={COMPETITOR} />
 				</EventContainer>

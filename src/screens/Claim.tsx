@@ -1,14 +1,17 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import Form from '~/components/Forms/Form';
-import ImageInput from '~/components/Forms/ImageInput';
-import Input from '~/components/Forms/Input';
-import Picker from '~/components/Forms/Picker';
+import {
+	Form,
+	GMSPicker,
+	ImageInput,
+	Input,
+	Picker,
+	SubmitBtn,
+} from '~/components/Forms';
 import { Subtitle } from '~/components/Forms/styles';
-import SubmitBtn from '~/components/Forms/SubmitBtn';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
-import { fakeGMSs, fakeProducts } from '~/Helpers/FakeData';
+import { fakeProducts } from '~/Helpers/FakeData';
 
 const initial = {
 	GMS: '',
@@ -34,7 +37,7 @@ const Claim: React.FC = () => (
 			initialValues={initial}
 			validationSchema={validation}
 		>
-			<Picker name="GMS" data={fakeGMSs} />
+			<GMSPicker />
 			<Picker name="type" data={fakeProducts} />
 			<Input
 				name="content"

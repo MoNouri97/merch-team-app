@@ -1,11 +1,13 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
+import {
+	CategoriesPicker,
+	ImageInput,
+	ProductsPicker,
+} from '~/components/Forms';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
-import ImageInput from '../Forms/ImageInput';
-import Picker from '../Forms/Picker';
 import EventContainer from './EventContainer';
 
 const validation = yup.object({
@@ -45,8 +47,8 @@ const BeforeAfter: React.FC<IProps> = ({ setValue, name }) => (
 				useValues(name, values, setValue);
 				return (
 					<>
-						<Picker name="category" label="catégorie" data={fakeCategories} />
-						<Picker name="product" label="produit" data={fakeProducts} />
+						<CategoriesPicker />
+						<ProductsPicker />
 						<ImageInput name="before" />
 						<ImageInput name="after" />
 					</>

@@ -1,6 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
 import ChatStack from '~/screens/Chat/ChatStack';
+import Report from '~/screens/Report';
 import Testing from '~/screens/Testing';
 import Claim from '../Claim';
 import HomeStack from '../HomeStack';
@@ -23,6 +24,7 @@ const DrawerNav: React.FC = () => (
 		<Drawer.Screen name="Demande Congé" component={LeaveRequest} />
 		<Drawer.Screen name="Planning" component={MonthlyPlanning} />
 		<Drawer.Screen name="Test" component={Testing} />
+		<Drawer.Screen name="Report" component={Report} />
 	</Drawer.Navigator>
 );
 export default DrawerNav;

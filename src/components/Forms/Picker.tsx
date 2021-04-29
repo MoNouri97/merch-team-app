@@ -1,15 +1,23 @@
 import { useField } from 'formik';
 import React, { useState } from 'react';
-import { FlatList, Modal } from 'react-native';
+import { FlatList, Modal, StyleSheet, View } from 'react-native';
 import styled from '~/config/styled-components';
 import AppText from '../AppText';
 import InputBase from './InputBase';
+
+const EmptyListItem = () => (
+	<View style={styles.listContent}>
+		<AppText style={styles.center} type="title">
+			Chargement ...
+		</AppText>
+	</View>
+);
 
 interface Props {
 	placeholder?: string;
 	label?: string;
 	name: string;
-	data: { id: string | number; name: string }[];
+	data?: { id: string | number; name: string }[];
 }
 
 const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
@@ -36,9 +44,11 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 				>
 					<ListContainer>
 						<FlatList
+							contentContainerStyle={styles.listContent}
 							data={data}
+							ListEmptyComponent={EmptyListItem}
 							keyExtractor={(item) => item.id.toString()}
-							ItemSeparatorComponent={() => <Separator />}
+							ItemSeparatorComponent={Separator}
 							renderItem={({ item }) => (
 								<PickerItem
 									onPress={() => {
@@ -64,6 +74,10 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 		</InputBase>
 	);
 };
+const styles = StyleSheet.create({
+	listContent: { justifyContent: 'center', flexGrow: 1 },
+	center: { textAlign: 'center' },
+});
 const Touchable = styled.TouchableOpacity`
 	flex: 1;
 	padding: 15px;
@@ -72,15 +86,15 @@ const Touchable = styled.TouchableOpacity`
 `;
 const PickerItem = styled.TouchableOpacity`
 	padding: 20px 15px;
+	align-items: center;
 `;
-const Separator = styled.View(({ theme }) => ({
-	background: theme.colors.gray[2],
-	height: 1,
-	margin: 5,
-}));
+const Separator = styled.View`
+	background: ${({ theme }) => theme.colors.gray[2]};
+	height: 1;
+	margin-horizontal: 50;
+`;
 const ListContainer = styled.SafeAreaView`
 	padding-vertical: 20px;
 	flex-grow: 1;
-	justify-content: center;
 `;
 export default React.memo(Picker);

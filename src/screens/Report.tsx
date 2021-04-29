@@ -3,9 +3,7 @@ import { Formik } from 'formik';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, ModalProps } from 'react-native';
 import AppText from '~/components/AppText';
-import CheckList from '~/components/Forms/CheckList';
-import Form from '~/components/Forms/Form';
-import SubmitBtn from '~/components/Forms/SubmitBtn';
+import { CheckList, Form, SubmitBtn } from '~/components/Forms';
 import ReportEvent from '~/components/Report/ReportEvent';
 import ReportHeader from '~/components/Report/ReportHeader';
 import Timer from '~/components/Report/Timer';
@@ -14,16 +12,17 @@ import BottomSheet from '~/components/Shared/BottomSheet';
 import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
+import createSectionsArray from '~/Helpers/createSectionsArray';
 import { EventType } from '~/types/events';
 
-type event = { type: EventType; id: number };
+type EventList = { type: EventType; id: number }[];
 const validation = yup.object({});
 const initial = {};
 
 const Report: React.FC = () => {
 	const { goBack } = useNavigation();
 	const eventId = useRef(0);
-	const [events, setEvents] = useState<event[]>([
+	const [events, setEvents] = useState<EventList>([
 		{ id: eventId.current++, type: 'BeforeAfter' },
 	]);
 	const [modal, setModal] = useState(false);
@@ -70,11 +69,16 @@ const Report: React.FC = () => {
 				initialValues={initial}
 				validationSchema={validation}
 				onSubmit={(values, { setSubmitting }) => {
-					console.log(values);
-					setSubmitting(false);
+					setSubmitting(true);
+					setTimeout(() => {
+						
+						console.log(createSectionsArray(values));
+						setSubmitting(false);
+					}, 900);
+					
 				}}
 			>
-				{({ values, setFieldValue }) => (
+				{({ setFieldValue }) => (
 					<>
 						{events.map((e, i) => (
 							<React.Fragment key={e.id}>
@@ -82,7 +86,7 @@ const Report: React.FC = () => {
 									type={e.type}
 									id={e.id}
 									actions={i !== 0 ? actions : undefined}
-									name={`${e.type}${e.id}`}
+									name={`${e.type} ${e.id}`}
 									setFieldValue={setFieldValue}
 								/>
 							</React.Fragment>
@@ -119,7 +123,7 @@ const AddEventModal: React.FC<
 	<BottomSheet modalProps={props}>
 		<Form
 			initialValues={{ toAdd: [] }}
-			onSubmit={(v, { setSubmitting }) => {
+			onSubmit={(v) => {
 				setTimeout(() => {
 					handleValues(v.toAdd);
 				}, 0);

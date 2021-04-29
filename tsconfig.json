@@ -8,10 +8,7 @@
 		"target": "es5",
 		"module": "commonjs",
 		"jsx": "react-native",
-		"lib": [
-			"es6",
-			"esnext.asynciterable"
-		],
+		"lib": ["es6", "esnext.asynciterable"],
 		"strict": true,
 		"esModuleInterop": true,
 		"rootDir": "src",
@@ -24,7 +21,7 @@
 		"skipLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["src/*"],
+			"~/*": ["src/*"]
 		}
 	}
 }
@@ -45,7 +42,7 @@
 // 		"resolveJsonModule": true,
 // 		"strict": true,
 // 		"baseUrl": "./",
-		
+
 // 		"paths": {
 // 			"~/*": ["src/*"],
 // 		}

@@ -1,12 +1,11 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
+import { CategoriesPicker, ImageInput } from '~/components/Forms';
+import CompetitorsPicker from '~/components/Forms/helpers/CompetitorsPicker';
 import { yup } from '~/config/yupFrLocal';
-import { fakeCategories, fakeProducts } from '~/Helpers/FakeData';
 import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
-import ImageInput from '../Forms/ImageInput';
-import Picker from '../Forms/Picker';
 import EventContainer from './EventContainer';
 
 const validation = yup.object({
@@ -33,8 +32,8 @@ const CompetitorEvent: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 			const COMPETITOR = values.competitor ? values.competitor : 'conçurent';
 			return (
 				<EventContainer title={`Événement ${COMPETITOR}`}>
-					<Picker name="category" label="catégorie" data={fakeCategories} />
-					<Picker name="competitor" label="conçurent" data={fakeProducts} />
+					<CategoriesPicker />
+					<CompetitorsPicker />
 					<ImageInput name="images" multiple />
 				</EventContainer>
 			);

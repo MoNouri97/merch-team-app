@@ -54,6 +54,7 @@ const useUserState = () => {
 };
 
 export const UserContext = createContext<UserContextState | null>(null);
+export default UserContext;
 
 export const UserContextProvider: React.FC = ({ children }) => {
 	const userState = useUserState();

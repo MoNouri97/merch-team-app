@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
 import { useLogin } from '~/api/login';
-import Form from '~/components/Forms/Form';
-import Input from '~/components/Forms/Input';
-import Password from '~/components/Forms/Password';
-import SubmitBtn from '~/components/Forms/SubmitBtn';
+import { Form, Input, Password, SubmitBtn } from '~/components/Forms';
 import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
@@ -31,15 +28,12 @@ const SignIn: React.FC = () => {
 					validationSchema={validation}
 					initialValues={initial}
 					onSubmit={async (values: Values, { setSubmitting }) => {
-						try {
-							const { data } = await login.mutateAsync({
-								username: values.email,
-								password: values.password,
-							});
-							signIn({ user: data.user, userToken: data.token });
-						} catch (error) {
-							console.log(error);
-						}
+						const { data } = await login.mutateAsync({
+							username: values.email,
+							password: values.password,
+						});
+						signIn({ user: data.user, userToken: data.token });
+
 						setSubmitting(false);
 					}}
 				>

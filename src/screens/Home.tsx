@@ -61,7 +61,7 @@ const ContentBG = styled.View`
 	border-bottom-left-radius: 0;
 `;
 const Screen = styled(SafeScreen)(({ theme }) => ({
-	backgroundColor: theme.colors.secondary,
+	backgroundColor: theme.colors.primary,
 }));
 
 const Drawer = styled(DrawerBtn)`
@@ -70,8 +70,9 @@ const Drawer = styled(DrawerBtn)`
 `;
 
 const Header = styled.View`
-	background-color: ${({ theme }) => theme.colors.secondary};
+	background-color: ${({ theme }) => theme.colors.primary};
 	margin-top: 20px;
+	padding-bottom: 10px;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;

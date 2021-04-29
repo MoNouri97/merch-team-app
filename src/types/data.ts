@@ -6,7 +6,7 @@ export interface Planning {
 	time: number;
 	status: PlanningStatus;
 }
-export interface Fake {
+export interface ListData {
 	name: string;
 	id: number | string;
 }

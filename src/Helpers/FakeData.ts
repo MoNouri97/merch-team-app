@@ -8,7 +8,7 @@ export const fakeCategories = new Array(10).fill(null).map((_, i) => ({
 	id: i,
 	name: faker.commerce.department(),
 }));
-export const fakeProducts = new Array(10).fill(null).map((_, i) => ({
+export const fakeProducts = new Array(20).fill(null).map((_, i) => ({
 	id: i,
 	name: faker.commerce.product(),
 }));
@@ -22,7 +22,7 @@ const day = new Date();
 export const fakePlannings: Array<{ day: Date; planning: any[] }> = [];
 for (let i = 0; i < 10; i++) {
 	const p = [];
-	for (let j = 0; j < 3; j++) {
+	for (let j = 0; j < 5; j++) {
 		p.push({
 			GMS: faker.company.companyName(),
 			state: false,
