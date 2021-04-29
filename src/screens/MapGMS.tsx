@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -7,11 +7,15 @@ import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
+import { GMS } from '~/types/models/GMS';
+import { HomeStackParams } from '~/types/navigation';
+
+type MapGMSProps = {
+	navigation: StackNavigationProp<HomeStackParams, 'MapGMS'>;
+};
 
 const { width, height } = Dimensions.get('screen');
-const MapGMS: React.FC = () => {
-	// code here ...
-	const navigation = useNavigation();
+const MapGMS: React.FC<MapGMSProps> = ({ navigation }) => {
 	return (
 		<>
 			<MapView
@@ -48,7 +52,8 @@ const MapGMS: React.FC = () => {
 					<Btn
 						primary
 						onPress={() => {
-							navigation.navigate('Report');
+							// FIXME
+							navigation.navigate('Report', { GMS: {} as GMS });
 						}}
 					>
 						Commencer
