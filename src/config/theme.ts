@@ -7,6 +7,7 @@ import { DefaultTheme } from 'styled-components';
 declare module 'styled-components' {
 	export interface DefaultTheme {
 		borderRadius: string;
+		borderRadiusLarge: string;
 		colors: {
 			transparent: string;
 			primary: string;
@@ -27,6 +28,7 @@ declare module 'styled-components' {
 }
 const myTheme: DefaultTheme = {
 	borderRadius: '10px',
+	borderRadiusLarge: '20px',
 	colors: {
 		transparent: 'rgba(255, 255, 255, 0.2)',
 		primary: '#9D3D8E',

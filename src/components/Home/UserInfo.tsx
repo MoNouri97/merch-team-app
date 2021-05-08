@@ -34,7 +34,7 @@ const UserInfo: React.FC = () => {
 };
 const Container = styled.View`
 	padding: 20px;
-	margin-vertical: 20px;
+	margin: 0 20px;
 	justify-content: space-between;
 	flex-direction: row;
 	align-items: center;

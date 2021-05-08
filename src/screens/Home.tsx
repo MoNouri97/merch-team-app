@@ -14,7 +14,7 @@ const Home: React.FC = () => {
 	return (
 		<Screen>
 			<Header>
-				<Drawer navigation={nav} />
+				<Drawer navigation={nav} light />
 				<AppText color="light" type="title">
 					Accueil
 				</AppText>
@@ -27,9 +27,9 @@ const Home: React.FC = () => {
 				<Sticky>
 					<UserInfo />
 					{/* <ProgressCard color="light" /> */}
+					<ProgressCard color="light" />
 				</Sticky>
 				<ContentBG>
-					<ProgressCard color="dark" />
 					<PlanningCard />
 				</ContentBG>
 			</ScrollView>
