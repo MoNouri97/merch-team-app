@@ -90,8 +90,8 @@ const PickerItem = styled.TouchableOpacity`
 `;
 const Separator = styled.View`
 	background: ${({ theme }) => theme.colors.gray[2]};
-	height: 1;
-	margin-horizontal: 50;
+	height: 1px;
+	margin-horizontal: 50px;
 `;
 const ListContainer = styled.SafeAreaView`
 	padding-vertical: 20px;

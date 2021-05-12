@@ -22,6 +22,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ content, mine }) => {
 					color={mine ? 'light' : 'dark'}
 					mine={mine}
 					document={document}
+					size={18}
 				>
 					{content}
 				</MSGText>
@@ -44,7 +45,7 @@ const MSG = styled.View<{ mine: boolean; document: boolean }>`
 	flex-direction: row;
 	align-items: center;
 	text-decoration: ${({ document }) => (document ? 'underline' : 'none')};
-	border-radius: 15px;
+	border-radius: 20px;
 	background: ${({ theme, mine }) =>
 		mine ? theme.colors.primary : theme.colors.gray[2]};
 `;

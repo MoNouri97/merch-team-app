@@ -18,6 +18,7 @@ import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
 
 // react-native warning
 LogBox.ignoreLogs(['Setting a timer']);
+// necessary for Stomjs
 console.log(!!encoding);
 
 const queryClient = new QueryClient();

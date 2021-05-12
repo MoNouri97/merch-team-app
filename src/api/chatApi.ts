@@ -17,8 +17,9 @@ export const useChatAPI = (
 	handleMessage: MessageCallback
 ) => {
 	useEffect(() => {
-		loadFromStorage(TOKEN_KEY).then((jwt) => {
+		loadFromStorage(TOKEN_KEY).then(async (jwt) => {
 			const headers = { Authorization: `${jwt}` };
+
 			stompClient.connectHeaders = headers;
 			stompClient.reconnectDelay = 5000;
 			stompClient.onStompError = () => {
@@ -35,16 +36,12 @@ export const useChatAPI = (
 					headers
 				);
 			};
-
-			if (!stompClient.active) {
-				stompClient.activate();
-			}
+			stompClient.activate();
 		});
 
-		// TODO:this
-		// return () => {
-		// 	if (stompClient.active) stompClient.deactivate();
-		// };
+		return () => {
+			if (stompClient.active) stompClient.deactivate();
+		};
 	}, []);
 	return { stompClient };
 };
@@ -62,10 +59,14 @@ const getChatMsg: QueryFn<MessagesResponse, ChatMsgParams> = async ({
 	return data;
 };
 
-export const useGetChatMsg = (params: ChatMsgParams) => {
+export const useGetChatMsg = (
+	params: ChatMsgParams,
+	onSuccess: (data: MessagesResponse) => void
+) => {
 	return useQuery<any, any, MessagesResponse, [string, ChatMsgParams]>(
 		['chat_msg', params],
-		getChatMsg
+		getChatMsg,
+		{ refetchOnMount: 'always', onSuccess }
 	);
 };
 
