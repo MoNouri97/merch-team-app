@@ -1,22 +1,28 @@
 import { Feather } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
-import { Message } from '~/types/data';
+import { ChatMessageModel } from '~/types/models/ChatMessage';
 
-const ChatMessage: React.FC<Message> = ({ content, document, name }) => {
-	const [mine, setMine] = useState(name === 'me');
+type ChatMessageProps = ChatMessageModel & {
+	mine: boolean;
+};
+
+const ChatMessage: React.FC<ChatMessageProps> = ({ content, mine }) => {
+	// FIXME add document check
+	const document = useMemo(() => false, []);
 
 	return (
 		<Container mine={mine}>
 			{document && mine && <Icon mine={mine} size={20} name="arrow-down" />}
-			<MSG mine={mine} document={document}>
+			<MSG {...{ document, mine }}>
 				{document && <InlineIcon mine={mine} size={20} name="file" />}
 				<MSGText
 					numberOfLines={50}
 					color={mine ? 'light' : 'dark'}
 					mine={mine}
 					document={document}
+					size={18}
 				>
 					{content}
 				</MSGText>
@@ -29,13 +35,13 @@ const ChatMessage: React.FC<Message> = ({ content, document, name }) => {
 const Container = styled.View<{ mine: boolean }>`
 	flex-direction: row;
 	align-self: ${({ mine }) => (mine ? 'flex-end' : 'flex-start')};
-	margin-bottom: 5px;
+	margin-bottom: 2px;
 	align-items: center;
 `;
 const MSG = styled.View<{ mine: boolean; document: boolean }>`
 	max-width: 80%;
 	overflow: hidden;
-	padding: 20px;
+	padding: 15px 20px;
 	flex-direction: row;
 	align-items: center;
 	text-decoration: ${({ document }) => (document ? 'underline' : 'none')};

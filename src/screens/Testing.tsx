@@ -1,5 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
+import { Stomp } from '@stomp/stompjs';
 import React, { useState } from 'react';
+import SockJS from 'sockjs-client';
 import useGetCategories from '~/api/categoryAPI';
 import AppText from '~/components/AppText';
 import DatePicker from '~/components/Forms/DatePicker';
@@ -37,6 +39,7 @@ const Testing: React.FC = () => {
 	return (
 		<AppScreen navbar>
 			{/* <TestApi /> */}
+			<TestChat />
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
 				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
@@ -127,3 +130,45 @@ const Res = styled.View`
 	padding: 10px;
 	border-radius: 10px;
 `;
+
+
+const TestChat = () => {
+	const [refresh, setRefresh] = useState(false);
+	React.useEffect(() => {
+		const socket = new SockJS('http://192.168.1.108:8080/chat');
+		socket.onopen = () => {
+			console.log('connected');
+		};
+		socket.onerror = () => {
+			console.log('error');
+		};
+
+		const stompClient = Stomp.over(socket);
+		const headers = { Authorization: `Bearer jwt` };
+
+		stompClient.connect(headers, () => {
+			stompClient.subscribe(
+				`/topic/public`,
+				// `/user/${user.username}/queue/messages`,
+				console.log,
+				headers
+			);
+		});
+
+		// return () => stompClient && stompClient.disconnect(console.log);
+	}, [refresh]);
+
+	return (
+		<>
+			<AppText> Input </AppText>
+			{/* <Res>
+				<AppText color="light" numberOfLines={99}>
+					loading : {`${isFetching}\n`}
+					{error && `error:${JSON.stringify(error, null, 2)}`}
+					Result: {JSON.stringify(data, null, 2)}
+				</AppText>
+			</Res>*/}
+			<Btn onPress={() => setRefresh(!refresh)}>Refresh</Btn>
+		</>
+	);
+};

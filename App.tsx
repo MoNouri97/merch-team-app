@@ -10,6 +10,7 @@ import AppLoading from 'expo-app-loading';
 import React from 'react';
 import { LogBox } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import * as encoding from 'text-encoding';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import { UserContextProvider } from '~/context/UserContext';
@@ -17,6 +18,8 @@ import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
 
 // react-native warning
 LogBox.ignoreLogs(['Setting a timer']);
+// necessary for Stomjs
+console.log(!!encoding);
 
 const queryClient = new QueryClient();
 export default function App() {

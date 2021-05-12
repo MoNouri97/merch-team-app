@@ -13,13 +13,14 @@ import styled from '~/config/styled-components';
 
 export const DrawerBtn: React.FC<{
 	navigation: any;
+	light?: boolean;
 	style?: StyleProp<ViewStyle>;
-}> = ({ navigation, style }) => (
+}> = ({ navigation, style, light = false }) => (
 	<TouchableOpacity
 		style={style}
 		onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
 	>
-		<Icon size={20} name="menu" />
+		<Icon size={20} name="menu" light={light} />
 	</TouchableOpacity>
 );
 export const BackBtn: React.FC<{
@@ -77,8 +78,10 @@ const Title = styled.View<{ drawer: boolean }>`
 	justify-content: center;
 	align-items: center;
 `;
-const Icon = styled(Feather)`
+const Icon = styled(Feather)<{ light: boolean }>`
 	padding: 10px;
+	color: ${({ theme: { colors }, light }) =>
+		light ? colors.white : colors.black};
 	/* background: red; */
 `;
 export default NavBar;

@@ -49,6 +49,7 @@ const AppScreen: React.FC<Props> = ({
 		</SafeScreen>
 	);
 };
+
 export const SafeScreen = styled.SafeAreaView`
 	background-color: ${({ theme }) => theme.colors.white};
 	flex: 1;

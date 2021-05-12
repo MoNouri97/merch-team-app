@@ -47,8 +47,10 @@ const Objectives = styled.View`
 	margin: 10px;
 `;
 const Container = styled.View`
-	padding-horizontal: 20px;
-	margin-vertical: 20px;
+	padding: 20px;
+	margin: 0 20px 20px;
+	border-radius: ${({ theme }) => theme.borderRadiusLarge};
+	background: ${({ theme: { colors } }) => colors.transparent};
 `;
 const CatText = styled(AppText)`
 	width: 30%;
