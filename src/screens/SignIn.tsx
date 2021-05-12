@@ -27,14 +27,23 @@ const SignIn: React.FC = () => {
 				<Form
 					validationSchema={validation}
 					initialValues={initial}
-					onSubmit={async (values: Values, { setSubmitting }) => {
-						const { data } = await login.mutateAsync({
-							username: values.email,
-							password: values.password,
-						});
-						signIn({ user: data.user, userToken: data.token });
+					onSubmit={async (
+						values: Values,
+						{ setSubmitting, setFieldError }
+					) => {
+						try {
+							const { data } = await login.mutateAsync({
+								username: values.email,
+								password: values.password,
+							});
+							signIn({ user: data.user, userToken: data.token });
 
-						setSubmitting(false);
+							setSubmitting(false);
+						} catch (error) {
+							console.log(error.response.status);
+							if (error.response.status == 403)
+								setFieldError('password', 'email ou mot de passe invalide');
+						}
 					}}
 				>
 					<Input label="Email" name="email" icon="mail" />

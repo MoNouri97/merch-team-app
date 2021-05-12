@@ -7,7 +7,16 @@ import { User } from '~/types/models/User';
 type LoginRequest = { username: string; password: string };
 type LoginResponse = { token: string; user: User };
 const login = (credentials: LoginRequest) => {
-	return axios.post<LoginResponse>(`${URL}/login`, credentials);
+	const c = axios.create();
+	c.interceptors.request.use(async (request) => {
+		console.log(
+			`\n-------------\nAPI CALL >>> ${request.baseURL ?? ''}${
+				request.url
+			}\nMethod: ${request.method}\n-------------\n`
+		);
+		return request;
+	});
+	return c.post<LoginResponse>(`${URL}/login`, credentials);
 };
 
 const useLogin = () => {
