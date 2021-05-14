@@ -22,7 +22,7 @@ const useUserState = () => {
 	useEffect(() => {
 		const initAsync = async () => {
 			const userToken = await loadFromStorage<string>(TOKEN_KEY);
-			const user = await loadFromStorage<User>(USER_KEY);
+			const user = (await loadFromStorage<User>(USER_KEY)) as User | null;
 
 			dispatch({ type: 'RESTORE_TOKEN', userToken, user });
 		};
