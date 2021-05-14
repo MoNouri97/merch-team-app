@@ -1,21 +1,24 @@
 import { Feather } from '@expo/vector-icons';
+import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { useGetGMS } from '~/api/gmsAPI';
 import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
-import { GMS } from '~/types/models/GMS';
 import { HomeStackParams } from '~/types/navigation';
 
 type MapGMSProps = {
 	navigation: StackNavigationProp<HomeStackParams, 'MapGMS'>;
+	route: RouteProp<HomeStackParams, 'MapGMS'>;
 };
 
 const { width, height } = Dimensions.get('screen');
-const MapGMS: React.FC<MapGMSProps> = ({ navigation }) => {
+const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
+	const { data } = useGetGMS(route.params.id);
 	return (
 		<>
 			<MapView
@@ -52,8 +55,8 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation }) => {
 					<Btn
 						primary
 						onPress={() => {
-							// FIXME
-							navigation.navigate('Report', { GMS: {} as GMS });
+							if (!data) return;
+							navigation.navigate('Report', { GMS: data });
 						}}
 					>
 						Commencer
