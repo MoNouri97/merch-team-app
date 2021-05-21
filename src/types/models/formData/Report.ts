@@ -2,7 +2,7 @@ import { EventType } from '~/types/events';
 
 export type EventSection = {
 	type: EventType;
-	data: any;
+	[key: string]: any;
 };
 export type ReportData = {
 	GMS: number;
