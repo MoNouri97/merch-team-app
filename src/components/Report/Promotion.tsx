@@ -18,8 +18,8 @@ const validation = yup.object({
 	product: yup.string().required(),
 	oldPrice: yup.number().positive().required(),
 	newPrice: yup.number().positive().required(),
-	start: yup.date(),
-	end: yup.date(),
+	startdate: yup.date(),
+	enddate: yup.date(),
 	images: yup.array().required().min(1),
 });
 const initial = {
@@ -27,8 +27,8 @@ const initial = {
 	product: '',
 	oldPrice: null,
 	newPrice: null,
-	start: new Date(),
-	end: new Date(),
+	startdate: new Date(),
+	enddate: new Date(),
 	images: [],
 };
 const Promotion: React.FC<ReportEventFrom> = ({ name, setValue }) => (
@@ -61,8 +61,8 @@ const Promotion: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 							placeholder="6.99"
 							icon="dollar-sign"
 						/>
-						<DatePicker name="start" label="debut" />
-						<DatePicker name="end" label="fin" />
+						<DatePicker name="startdate" label="debut" />
+						<DatePicker name="enddate" label="fin" />
 						<ImageInput name="images" label="Images" multiple />
 					</>
 				);

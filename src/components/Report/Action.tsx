@@ -16,13 +16,13 @@ const validation = yup.object({
 	title: yup.string().required(),
 	category: yup.string().required(),
 	product: yup.string().required(),
-	image: yup.array().required().min(1),
+	images: yup.array().required().min(1),
 });
 const initial = {
 	title: '',
 	category: '',
 	product: '',
-	image: undefined,
+	images: undefined,
 };
 const Action: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<EventContainer title="Action">
@@ -41,7 +41,7 @@ const Action: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 						<Input name="title" label="titre" placeholder="titre ici ..." />
 						<CategoriesPicker />
 						<ProductsPicker />
-						<ImageInput name="image" multiple />
+						<ImageInput name="images" multiple />
 					</>
 				);
 			}}

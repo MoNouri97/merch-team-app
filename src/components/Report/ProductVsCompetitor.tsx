@@ -17,16 +17,16 @@ const validation = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
 	purchaseOrder: yup.boolean().required(),
-	competitorImage: yup.array().required().min(1),
-	productImage: yup.array().required().min(1),
+	imageCompetitor: yup.array().required().min(1),
+	imageProduct: yup.array().required().min(1),
 });
 const initial = {
 	category: '',
 	product: '',
 	competitor: '',
 	purchaseOrder: false,
-	competitorImage: undefined,
-	productImage: undefined,
+	imageCompetitor: undefined,
+	imageProduct: undefined,
 };
 const ProductVsCompetitor: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<Formik
@@ -45,8 +45,8 @@ const ProductVsCompetitor: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 					<CategoriesPicker />
 					<ProductsPicker />
 					<CompetitorsPicker />
-					<ImageInput name="productImage" label={PRODUCT} />
-					<ImageInput name="competitorImage" label={COMPETITOR} />
+					<ImageInput name="imageProduct" label={PRODUCT} />
+					<ImageInput name="imageCompetitor" label={COMPETITOR} />
 				</EventContainer>
 			);
 		}}

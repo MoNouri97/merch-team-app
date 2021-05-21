@@ -14,12 +14,12 @@ import EventContainer from './EventContainer';
 const validation = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
-	image: yup.array().required().min(1),
+	imageProduct: yup.array().required().min(1),
 });
 const initial = {
 	category: '',
 	product: '',
-	image: undefined,
+	imageProduct: undefined,
 };
 const NewProduct: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 	<EventContainer title="Nouveau produit">
@@ -37,7 +37,7 @@ const NewProduct: React.FC<ReportEventFrom> = ({ name, setValue }) => (
 					<>
 						<CategoriesPicker />
 						<ProductsPicker />
-						<ImageInput name="image" />
+						<ImageInput name="imageProduct" />
 					</>
 				);
 			}}

@@ -13,14 +13,14 @@ import EventContainer from './EventContainer';
 const validation = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
-	before: yup.array().required().min(1),
-	after: yup.array().required().min(1),
+	imageBefore: yup.array().required().min(1),
+	imageAfter: yup.array().required().min(1),
 });
 const initial = {
 	category: '',
 	product: '',
-	before: undefined,
-	after: undefined,
+	imageBefore: undefined,
+	imageAfter: undefined,
 };
 
 interface IProps {
@@ -49,8 +49,8 @@ const BeforeAfter: React.FC<IProps> = ({ setValue, name }) => (
 					<>
 						<CategoriesPicker />
 						<ProductsPicker />
-						<ImageInput name="before" />
-						<ImageInput name="after" />
+						<ImageInput name="imageBefore" />
+						<ImageInput name="imageAfter" />
 					</>
 				);
 			}}
