@@ -15,9 +15,11 @@ interface IProps {
 }
 
 const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
-	const [{ value: selected }, { touched }, { setValue, setTouched }] = useField<
+	let [{ value: selected }, { touched }, { setValue, setTouched }] = useField<
 		Array<string | number>
 	>(name);
+	if (selected == undefined) selected = [];
+
 	const handlePress = (id: string | number, toRemove: boolean) => {
 		const validate = selected.length === 0 || selected.length === 1;
 		if (!touched) setTouched(true);
@@ -26,8 +28,10 @@ const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
 				selected.filter((s) => s !== id),
 				validate
 			);
+
 			return;
 		}
+
 		setValue([...selected, id], validate);
 	};
 	return (

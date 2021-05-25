@@ -13,10 +13,13 @@ const mergeMessages = (
 	existing: ChatMessageModel[],
 	incoming: ChatMessageModel[]
 ) => {
+	let res = existing;
 	for (const msg of incoming) {
-		if (existing.findIndex((val) => val.id == msg.id) == -1) existing.push(msg);
+		if (existing.findIndex((val) => val.id == msg.id) == -1) {
+			res = [msg, ...res];
+		}
 	}
-	return existing;
+	return res;
 };
 
 const Chat: React.FC = () => {
@@ -24,9 +27,10 @@ const Chat: React.FC = () => {
 	const [messages, setMessages] = useState<ChatMessageModel[]>([]);
 	const [hasMore, setHasMore] = useState(false);
 	const [offset, setOffset] = useState(0);
+	const [autoScroll, setAutoScroll] = useState(true);
 
 	useGetChatMsg({ count: 5, offset }, (data) => {
-		setMessages(mergeMessages(messages, data.messages.reverse()));
+		setMessages(mergeMessages(messages, data.messages));
 		setHasMore(data.more);
 	});
 
@@ -37,6 +41,7 @@ const Chat: React.FC = () => {
 	const { stompClient } = useChatAPI(user!.id, onMsg);
 
 	const addMsg = (msg: string) => {
+		setAutoScroll(true);
 		try {
 			if (!stompClient.connected) {
 				console.log('not active ');
@@ -66,7 +71,7 @@ const Chat: React.FC = () => {
 	return (
 		<>
 			<AppScreen
-				autoScroll
+				autoScroll={autoScroll}
 				navbar
 				title="Chat"
 				navBarProps={{ backIcon: true }}
@@ -74,7 +79,14 @@ const Chat: React.FC = () => {
 				<Messages>
 					<Center>
 						{hasMore && (
-							<Btn onPress={() => setOffset((off) => off + 1)}>charger</Btn>
+							<Btn
+								onPress={() => {
+									setOffset((off) => off + 1);
+									setAutoScroll(false);
+								}}
+							>
+								charger
+							</Btn>
 						)}
 					</Center>
 					{messages.length <= 0 ? (

@@ -1,7 +1,8 @@
-import { useFormikContext } from 'formik';
+import { useField } from 'formik';
 import React from 'react';
 import { TextInputProps } from 'react-native';
 import styled from '~/config/styled-components';
+import { yup } from '~/config/yupFrLocal';
 import IconName from '~/types/icons';
 import InputBase from './InputBase';
 
@@ -12,6 +13,16 @@ interface Props {
 	onIconPress?: () => void;
 }
 
+const s = yup.number().positive().required();
+const v = async (val: any) => {
+	try {
+		const r = await s.validate(val);
+		return;
+	} catch (error) {
+		return error.message;
+	}
+};
+
 const Input: React.FC<Props & TextInputProps> = ({
 	name,
 	icon,
@@ -19,7 +30,8 @@ const Input: React.FC<Props & TextInputProps> = ({
 	onIconPress,
 	...props
 }) => {
-	const { handleChange, handleBlur, values } = useFormikContext();
+	// const { handleChange, handleBlur, values } = useFormikContext();
+	const [{ value, onBlur, onChange }, {}] = useField(name);
 
 	return (
 		<InputBase
@@ -29,9 +41,9 @@ const Input: React.FC<Props & TextInputProps> = ({
 			onIconPress={onIconPress}
 		>
 			<InputInner
-				value={(values as any)[name]}
-				onChangeText={handleChange(name)}
-				onBlur={handleBlur(name)}
+				value={value}
+				onChangeText={onChange(name)}
+				onBlur={onBlur(name)}
 				{...props}
 			/>
 		</InputBase>

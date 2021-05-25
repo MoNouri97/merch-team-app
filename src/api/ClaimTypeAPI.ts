@@ -4,7 +4,7 @@ import api from '~/config/api';
 import { ClaimType } from '~/types/models/ClaimType';
 
 const getClaimTypes = async () => {
-	const { data } = await api.get<ClaimType[]>('/claimTypes');
+	const { data } = await api.get<ClaimType[]>('/claimtype');
 	return data;
 };
 

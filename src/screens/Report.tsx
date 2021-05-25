@@ -1,35 +1,88 @@
 import { useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
+import { FieldArray, Formik } from 'formik';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, ModalProps } from 'react-native';
+import { ValidationError } from 'yup';
+import usePostReport from '~/api/reportAPI';
 import AppText from '~/components/AppText';
 import { CheckList, Form, SubmitBtn } from '~/components/Forms';
+import { schemaAction } from '~/components/Report/Action';
+import { schemaBeforeAfter } from '~/components/Report/BeforeAfter';
+import { schemaCompetitorEvent } from '~/components/Report/CompetitorEvent';
+import { schemaNewProduct } from '~/components/Report/NewProduct';
+import { schemaPriceChange } from '~/components/Report/PriceChange';
+import { schemaPvC } from '~/components/Report/ProductVsCompetitor';
+import { schemaPromotion } from '~/components/Report/Promotion';
 import ReportEvent from '~/components/Report/ReportEvent';
 import ReportHeader from '~/components/Report/ReportHeader';
+import { schemaRupture } from '~/components/Report/Rupture';
 import Timer from '~/components/Report/Timer';
 import AppScreen from '~/components/Shared/AppScreen';
 import BottomSheet from '~/components/Shared/BottomSheet';
 import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
-import { yup } from '~/config/yupFrLocal';
-import createSectionsArray from '~/Helpers/createSectionsArray';
 import { EventType } from '~/types/events';
 
 type EventList = { type: EventType; id: number }[];
-const validation = yup.object({});
-const initial = {};
+
+const initial = {
+	events: [{ id: 0, type: 'BeforeAfter' }] as EventList,
+};
+
+const validate = async (values: { events: any[] }) => {
+	console.log('start');
+
+	let errors = { events: [{}] };
+	errors.events = await Promise.all(
+		values.events.map(async (e: any, i: number) => {
+			if (!e?.type) {
+				return {};
+			}
+			let schema: any;
+			if (e.type === 'BeforeAfter') schema = schemaBeforeAfter;
+			if (e.type === 'Promotion') schema = schemaPromotion;
+			if (e.type === 'Action') schema = schemaAction;
+			if (e.type === 'CompetitorEvent') schema = schemaCompetitorEvent;
+			if (e.type === 'NewProduct') schema = schemaNewProduct;
+			if (e.type === 'PriceChange') schema = schemaPriceChange;
+			if (e.type === 'ProductVsCompetitor') schema = schemaPvC;
+			if (e.type === 'Rupture') schema = schemaRupture;
+			try {
+				await schema.validate(e, {
+					abortEarly: false,
+					stripUnknown: true,
+				});
+			} catch (error) {
+				let errObject = {};
+				error.inner.forEach((innerError: ValidationError) => {
+					errObject = {
+						...errObject,
+						[innerError.path!]: innerError.message,
+					};
+				});
+				return errObject;
+			}
+			return {};
+		})
+	);
+	console.log('end');
+	return errors;
+};
 
 const Report: React.FC = () => {
 	const { goBack } = useNavigation();
+	const { mutateAsync } = usePostReport();
 	const eventId = useRef(0);
 	const [events, setEvents] = useState<EventList>([
 		{ id: eventId.current++, type: 'BeforeAfter' },
+		// { id: eventId.current++, type: 'PriceChange' },
 	]);
 	const [modal, setModal] = useState(false);
 
 	const addEvents = (types: EventType[]) => {
 		const toAdd = types.map((type) => {
 			const id = eventId.current++;
+			console.log(id);
 			return { id, type };
 		});
 		setEvents([...events, ...toAdd]);
@@ -67,30 +120,54 @@ const Report: React.FC = () => {
 			</Time>
 			<Formik
 				initialValues={initial}
-				validationSchema={validation}
+				validateOnChange={false}
+				validateOnBlur={false}
+				validate={validate}
+				// validationSchema={validation}
 				onSubmit={(values, { setSubmitting }) => {
-					setSubmitting(true);
-					setTimeout(() => {
-						
-						console.log(createSectionsArray(values));
-						setSubmitting(false);
-					}, 900);
-					
+					console.log(values);
+					mutateAsync(values).then(() => {
+						console.log('done');
+					});
+					// setSubmitting(true);
+					// console.log(createSectionsArray(values));
+					// setTimeout(() => {
+					// 	setSubmitting(false);
+					// }, 900);
 				}}
 			>
-				{({ setFieldValue }) => (
+				{({ setFieldValue, values, errors, touched }) => (
 					<>
-						{events.map((e, i) => (
-							<React.Fragment key={e.id}>
-								<ReportEvent
-									type={e.type}
-									id={e.id}
-									actions={i !== 0 ? actions : undefined}
-									name={`${e.type} ${e.id}`}
-									setFieldValue={setFieldValue}
-								/>
-							</React.Fragment>
-						))}
+						{/* <AppText numberOfLines={100}>
+							{JSON.stringify(errors, null, 2)}
+							{JSON.stringify(values, null, 2)}
+							{JSON.stringify(touched, null, 2)}
+						</AppText> */}
+						{/* <Btn
+							onPress={() => {
+								setEvents(e);
+								setFieldValue('events', []);
+							}}
+						>
+							Reset
+						</Btn> */}
+						<FieldArray name="events">
+							{() => (
+								<React.Fragment>
+									{events.map((e, i) => (
+										<ReportEvent
+											key={e.id}
+											type={e.type}
+											id={e.id}
+											actions={i !== 0 ? actions : undefined}
+											// name={`${e.type} ${e.id}`}
+											name={`events.${i}`}
+											setFieldValue={setFieldValue}
+										/>
+									))}
+								</React.Fragment>
+							)}
+						</FieldArray>
 						<AddEventModal
 							visible={modal}
 							onRequestClose={() => setModal(false)}

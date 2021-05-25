@@ -1,6 +1,5 @@
-import { Formik } from 'formik';
+import { useField } from 'formik';
 import React from 'react';
-import { Alert } from 'react-native';
 import {
 	CategoriesPicker,
 	CheckBox,
@@ -10,10 +9,9 @@ import {
 import EventContainer from '~/components/Report/EventContainer';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
-import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 
-const validation = yup.object({
+export const schemaRupture = yup.object({
 	category: yup.string().required(),
 	products: yup.array().required().min(1),
 	purchaseOrder: yup.boolean().required(),
@@ -22,53 +20,40 @@ const validation = yup.object({
 		then: yup.array().required().min(1),
 	}),
 });
-const initial = {
+export const initialRupture = {
 	category: '',
 	products: [],
 	purchaseOrder: false,
 	image: undefined,
 };
 
-const Rupture: React.FC<ReportEventFrom> = ({ name, setValue }) => (
-	<EventContainer title="Rupture">
-		<Formik
-			initialValues={initial}
-			validationSchema={validation}
-			onSubmit={(values, { setSubmitting }) => {
-				Alert.alert(JSON.stringify(values, null, 2));
-				setSubmitting(false);
-			}}
-		>
-			{({ values }) => {
-				useValues(name, values, setValue);
-				return (
-					<>
-						<CategoriesPicker />
-						<ProductsCheckList
-							placeholder="Choisir Une Catégorie"
-							// TODO:handle this
-							params={{ gms: '*', category: values.category }}
-						/>
+const Rupture: React.FC<ReportEventFrom> = ({ name }) => {
+	const [{ value: purchaseOrderValue }] = useField(`${name}.purchaseOrder`);
 
-						<CheckBox
-							name="purchaseOrder"
-							label="bon de commande"
-							text="passeé"
-						/>
-						<Disabled
-							disabled={!values.purchaseOrder}
-							pointerEvents={!values.purchaseOrder ? 'none' : undefined}
-						>
-							<ImageInput name="image" label="Image" />
-						</Disabled>
+	return (
+		<EventContainer title="Rupture">
+			<CategoriesPicker name={`${name}.category`} />
+			<ProductsCheckList
+				name={`${name}.products`}
+				placeholder="Choisir Une Catégorie"
+				// TODO:handle this
+				params={{ gms: '1', category: 'cat1' }}
+			/>
 
-						{/* {values.purchaseOrder && <ImageInput name="image" label="Image" />} */}
-					</>
-				);
-			}}
-		</Formik>
-	</EventContainer>
-);
+			<CheckBox
+				name={`${name}.purchaseOrder`}
+				label="bon de commande"
+				text="passeé"
+			/>
+			<Disabled
+				disabled={!purchaseOrderValue}
+				pointerEvents={!purchaseOrderValue ? 'none' : undefined}
+			>
+				<ImageInput name={`${name}.image`} label="Image" />
+			</Disabled>
+		</EventContainer>
+	);
+};
 const Disabled = styled.Pressable<{ disabled: boolean }>`
 	opacity: ${({ disabled }) => (disabled ? 0.4 : 1)}; ;
 `;
