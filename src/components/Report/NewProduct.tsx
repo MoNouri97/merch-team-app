@@ -1,47 +1,28 @@
-import { Formik } from 'formik';
 import React from 'react';
-import { Alert } from 'react-native';
 import {
 	CategoriesPicker,
 	ImageInput,
 	ProductsPicker,
 } from '~/components/Forms';
 import { yup } from '~/config/yupFrLocal';
-import { useValues } from '~/Helpers/useValues';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
 
-const validation = yup.object({
+export const schemaNewProduct = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
-	image: yup.array().required().min(1),
+	imageProduct: yup.array().required().min(1),
 });
-const initial = {
+export const initialNewProduct = {
 	category: '',
 	product: '',
-	image: undefined,
+	imageProduct: undefined,
 };
-const NewProduct: React.FC<ReportEventFrom> = ({ name, setValue }) => (
+const NewProduct: React.FC<ReportEventFrom> = ({ name }) => (
 	<EventContainer title="Nouveau produit">
-		<Formik
-			initialValues={initial}
-			validationSchema={validation}
-			onSubmit={(values, { setSubmitting }) => {
-				Alert.alert(JSON.stringify(values, null, 2));
-				setSubmitting(false);
-			}}
-		>
-			{({ values }) => {
-				useValues(name, values, setValue);
-				return (
-					<>
-						<CategoriesPicker />
-						<ProductsPicker />
-						<ImageInput name="image" />
-					</>
-				);
-			}}
-		</Formik>
+		<CategoriesPicker name={`${name}.category`} />
+		<ProductsPicker name={`${name}.product`} />
+		<ImageInput name={`${name}.imageProduct`} />
 	</EventContainer>
 );
 export default NewProduct;

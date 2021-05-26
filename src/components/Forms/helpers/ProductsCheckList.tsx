@@ -22,7 +22,7 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 	});
 	const listData = React.useMemo(
 		() =>
-			enabled || isFetching
+			enabled && !isFetching
 				? createPickerData(data, { name: 'designation' })
 				: [],
 		[params, data]

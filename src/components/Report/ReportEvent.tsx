@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import styled from '~/config/styled-components';
+import { useEventValues } from '~/Helpers/useValues';
 import { EventType } from '~/types/events';
 import IconName from '~/types/icons';
 import { Press } from '../Shared/Btn';
@@ -69,9 +70,10 @@ const ReportEventInner: React.FC<InnerProps> = ({
 	if (type === 'Rupture') Component = Rupture;
 
 	if (!Component) return null;
-	return <Component setValue={setFieldValue} name={name} />;
+	useEventValues(name, type, setFieldValue);
+	return <Component name={name} />;
 };
-export default React.memo(ReportEvent);
+export default ReportEvent;
 
 const ActionBtn = styled(Press)`
 	position: absolute;

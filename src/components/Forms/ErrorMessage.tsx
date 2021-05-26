@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import React from 'react';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
@@ -9,18 +9,20 @@ interface IProps {
 }
 
 const ErrorMessage: React.FC<IProps> = ({ name }) => {
-	const { errors, touched } = useFormikContext();
-	if (!(touched[name] && errors[name])) {
+	const [{}, { error, touched }, {}] = useField(name);
+	const { submitCount } = useFormikContext();
+
+	if (!(error && (touched || submitCount > 0))) {
 		return null;
 	}
 	return (
 		<Message numberOfLines={2}>
 			<Feather size={15} name="alert-circle" />
-			{` ${errors[name]}`}
+			{` ${error}`}
 		</Message>
 	);
 };
 const Message = styled(AppText)`
 	color: ${({ theme }) => theme.colors.red};
 `;
-export default ErrorMessage;
+export default React.memo(ErrorMessage, (p, n) => p.name === n.name);

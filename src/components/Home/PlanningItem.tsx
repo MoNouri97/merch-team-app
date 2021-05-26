@@ -13,7 +13,7 @@ const PlanningItem: React.FC<Planning> = (planning) => {
 		<Container>
 			<Location
 				onPress={() => {
-					navigate('MapGMS');
+					navigate('Report');
 				}}
 			>
 				<Feather size={30} name="map-pin" color={theme.colors.primary} />

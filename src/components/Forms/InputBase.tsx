@@ -7,8 +7,12 @@ import IconName from '~/types/icons';
 import AppText from '../AppText';
 import ErrorMessage from './ErrorMessage';
 
-const capitalize = (word: string) =>
-	word.charAt(0).toUpperCase() + word.slice(1);
+const createLabel = (word: string) => {
+	const wordArr = word.split('.');
+	const l = wordArr.length;
+	word = wordArr[l - 1];
+	return word.charAt(0).toUpperCase() + word.slice(1);
+};
 
 interface Props {
 	name: string;
@@ -30,7 +34,7 @@ const InputBase: React.FC<Props> = ({
 
 	return (
 		<Container>
-			{label !== '' && <AppText type="label">{capitalize(label)}</AppText>}
+			{label !== '' && <AppText type="label">{createLabel(label)}</AppText>}
 			{container ? (
 				<InputContainer>
 					{children}

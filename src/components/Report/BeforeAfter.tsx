@@ -1,60 +1,32 @@
-import { Formik } from 'formik';
 import React from 'react';
-import { Alert } from 'react-native';
 import {
 	CategoriesPicker,
 	ImageInput,
 	ProductsPicker,
 } from '~/components/Forms';
 import { yup } from '~/config/yupFrLocal';
-import { useValues } from '~/Helpers/useValues';
+import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
 
-const validation = yup.object({
+export const schemaBeforeAfter = yup.object({
 	category: yup.string().required(),
 	product: yup.string().required(),
-	before: yup.array().required().min(1),
-	after: yup.array().required().min(1),
+	imageBefore: yup.array().required().min(1),
+	imageAfter: yup.array().required().min(1),
 });
-const initial = {
+export const initialBeforeAfter = {
 	category: '',
 	product: '',
-	before: undefined,
-	after: undefined,
+	imageBefore: undefined,
+	imageAfter: undefined,
 };
 
-interface IProps {
-	setValue: (
-		field: string,
-		value: any,
-		shouldValidate?: boolean | undefined
-	) => void;
-	name: string;
-}
-
-const BeforeAfter: React.FC<IProps> = ({ setValue, name }) => (
+const BeforeAfter: React.FC<ReportEventFrom> = ({ name }) => (
 	<EventContainer title="Before/After">
-		<Formik
-			initialValues={initial}
-			validationSchema={validation}
-			onSubmit={(values, { setSubmitting }) => {
-				Alert.alert(JSON.stringify(values, null, 2));
-				setSubmitting(false);
-			}}
-			validateOnChange={false}
-		>
-			{({ values }) => {
-				useValues(name, values, setValue);
-				return (
-					<>
-						<CategoriesPicker />
-						<ProductsPicker />
-						<ImageInput name="before" />
-						<ImageInput name="after" />
-					</>
-				);
-			}}
-		</Formik>
+		<CategoriesPicker name={`${name}.category`} />
+		<ProductsPicker name={`${name}.product`} />
+		<ImageInput name={`${name}.imageBefore`} />
+		<ImageInput name={`${name}.imageAfter`} />
 	</EventContainer>
 );
 export default BeforeAfter;

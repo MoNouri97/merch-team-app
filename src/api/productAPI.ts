@@ -10,6 +10,7 @@ const getProducts: QueryFn<Product[], getProductsParams> = async ({
 	queryKey,
 }) => {
 	const [_key, params] = queryKey;
+
 	const { data } = await api.get<Product[]>('/articles', { params });
 	return data;
 };

@@ -1,4 +1,4 @@
-import { differenceInDays, isAfter, isFuture } from 'date-fns';
+import { addDays, differenceInDays, isAfter, isFuture } from 'date-fns';
 import { FormikHelpers, FormikValues, useFormikContext } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
@@ -10,9 +10,9 @@ import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
 
 const initial = {
-	start: new Date(),
-	end: new Date(),
-	reason: 'cuz i am lazy',
+	start: addDays(new Date(), 1),
+	end: addDays(new Date(), 30),
+	reason: '',
 };
 // validation object
 const validation = yup.object({
@@ -40,7 +40,7 @@ const handleSubmit = (
 	}
 	if (!valid) return;
 
-	Alert.alert('ok');
+	Alert.alert('ok', JSON.stringify(values, null, 2));
 	setSubmitting(false);
 };
 

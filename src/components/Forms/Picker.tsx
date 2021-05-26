@@ -53,7 +53,9 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 								<PickerItem
 									onPress={() => {
 										setModalShown(false);
-										setValue(item.name, true);
+										setTimeout(() => {
+											setValue(item.id);
+										}, 0);
 									}}
 								>
 									<AppText>{item.name}</AppText>
@@ -63,7 +65,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 					</ListContainer>
 				</Modal>
 
-				{value === '' ? (
+				{!value ? (
 					<AppText type="label">{placeholder ?? 'Choisir ...'}</AppText>
 				) : (
 					<AppText type="label" color="dark">
@@ -97,4 +99,4 @@ const ListContainer = styled.SafeAreaView`
 	padding-vertical: 20px;
 	flex-grow: 1;
 `;
-export default React.memo(Picker);
+export default Picker;
