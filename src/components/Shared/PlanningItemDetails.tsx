@@ -32,6 +32,7 @@ const PlanningItemDetails: React.FC<Planning> = ({
 			color={statusToColor(status, colors)}
 			header={GMS}
 			subHeader={`${time}min`}
+			// subHeader={` `}
 			checked={done}
 			lightColor={(status as PlanningStatus) !== 'TODO'}
 		/>

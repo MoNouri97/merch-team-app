@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-native';
+import usePostClaim from '~/api/ClaimAPI';
 import useGetClaimTypes from '~/api/ClaimTypeAPI';
 import {
 	Form,
@@ -27,6 +28,7 @@ const validation = yup.object({
 });
 const Claim: React.FC = () => {
 	let { data: claimTypes, refetch } = useGetClaimTypes();
+	const { mutateAsync } = usePostClaim();
 
 	// useEffect(() => {
 	// 	refetch().then((result) => {
@@ -41,7 +43,7 @@ const Claim: React.FC = () => {
 			<Form
 				onSubmit={(values, { setSubmitting }) => {
 					Alert.alert('ok', JSON.stringify(values, null, 2));
-
+					mutateAsync(values);
 					setSubmitting(false);
 				}}
 				initialValues={initial}

@@ -54,7 +54,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 									onPress={() => {
 										setModalShown(false);
 										setTimeout(() => {
-											setValue(item.name);
+											setValue(item.id);
 										}, 0);
 									}}
 								>

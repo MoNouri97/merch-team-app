@@ -30,8 +30,6 @@ const initial = {
 };
 
 const validate = async (values: { events: any[] }) => {
-	console.log('start');
-
 	let errors = { events: [{}] };
 	errors.events = await Promise.all(
 		values.events.map(async (e: any, i: number) => {
@@ -65,7 +63,6 @@ const validate = async (values: { events: any[] }) => {
 			return {};
 		})
 	);
-	console.log('end');
 	return errors;
 };
 
