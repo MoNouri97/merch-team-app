@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import SockJS from 'sockjs-client';
 import useGetCategories from '~/api/categoryAPI';
 import AppText from '~/components/AppText';
+import { ProductsCheckList } from '~/components/Forms';
 import DatePicker from '~/components/Forms/DatePicker';
 import Form from '~/components/Forms/Form';
 import ImageInput from '~/components/Forms/ImageInput';
@@ -39,7 +40,7 @@ const Testing: React.FC = () => {
 	return (
 		<AppScreen navbar>
 			{/* <TestApi /> */}
-			<TestChat />
+			{/* <TestChat /> */}
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
 				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
@@ -78,13 +79,14 @@ const Testing: React.FC = () => {
 			</Btn>
 			<AppText type="subtitle">inputs</AppText>
 			<Form
-				validationSchema={validation}
+				// validationSchema={validation}
 				initialValues={initial}
-				onSubmit={(_, { setSubmitting }) => {
-					console.log('sub');
+				onSubmit={(values, { setSubmitting }) => {
+					console.log({ values });
 					setSubmitting(false);
 				}}
 			>
+				<ProductsCheckList params={{ gms: '1', category: '*' }} />
 				<Password name="password" placeholder="shhhh" />
 				<Input name="email" icon="search" />
 				<Picker
@@ -130,7 +132,6 @@ const Res = styled.View`
 	padding: 10px;
 	border-radius: 10px;
 `;
-
 
 const TestChat = () => {
 	const [refresh, setRefresh] = useState(false);

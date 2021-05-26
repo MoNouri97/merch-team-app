@@ -2,7 +2,6 @@ import { useField } from 'formik';
 import React from 'react';
 import { TextInputProps } from 'react-native';
 import styled from '~/config/styled-components';
-import { yup } from '~/config/yupFrLocal';
 import IconName from '~/types/icons';
 import InputBase from './InputBase';
 
@@ -12,16 +11,6 @@ interface Props {
 	icon?: IconName;
 	onIconPress?: () => void;
 }
-
-const s = yup.number().positive().required();
-const v = async (val: any) => {
-	try {
-		const r = await s.validate(val);
-		return;
-	} catch (error) {
-		return error.message;
-	}
-};
 
 const Input: React.FC<Props & TextInputProps> = ({
 	name,
@@ -49,7 +38,7 @@ const Input: React.FC<Props & TextInputProps> = ({
 		</InputBase>
 	);
 };
-const InputInner = styled.TextInput(({ theme }) => ({
+export const InputInner = styled.TextInput(({ theme }) => ({
 	fontSize: 16,
 	flex: 1,
 	padding: 15,

@@ -14,7 +14,13 @@ interface IProps {
 	placeholder?: string;
 }
 
-const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
+const CheckList: React.FC<IProps> = ({
+	data,
+	name,
+	label,
+	placeholder,
+	children,
+}) => {
 	let [{ value: selected }, { touched }, { setValue, setTouched }] = useField<
 		Array<string | number>
 	>(name);
@@ -36,6 +42,7 @@ const CheckList: React.FC<IProps> = ({ data, name, label, placeholder }) => {
 	};
 	return (
 		<InputBase name={name} label={label ?? name} container={false}>
+			{children}
 			<Container>
 				{!data?.length ? (
 					<Placeholder>{placeholder}</Placeholder>
