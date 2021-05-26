@@ -5,7 +5,7 @@ import { Claim } from '~/types/models/formData/Claim';
 
 type ClaimResponse = { message: string };
 const postClaim = async (formData: Claim) => {
-	const { data } = await api.post<ClaimResponse>('/claim', formData);
+	const { data } = await api.post<ClaimResponse>('/reclamation', formData);
 	return data;
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert } from 'react-native';
 import usePostClaim from '~/api/ClaimAPI';
 import useGetClaimTypes from '~/api/ClaimTypeAPI';
@@ -13,11 +13,12 @@ import {
 import { Subtitle } from '~/components/Forms/styles';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
+import UserContext from '~/context/UserContext';
 
 const initial = {
-	GMS: '',
-	type: '',
-	content: '',
+	GMS: '1',
+	type: '1',
+	content: '111',
 	image: undefined,
 };
 // validation object
@@ -29,21 +30,22 @@ const validation = yup.object({
 const Claim: React.FC = () => {
 	let { data: claimTypes, refetch } = useGetClaimTypes();
 	const { mutateAsync } = usePostClaim();
+	const { user } = useContext(UserContext)!;
 
-	// useEffect(() => {
-	// 	refetch().then((result) => {
-	// 		const { data } = result;
-	// 		claimTypes = data;
-	// 		console.log('refetching');
-	// 	});
-	// });
 	return (
 		<AppScreen navbar>
 			<Subtitle>Détails</Subtitle>
 			<Form
-				onSubmit={(values, { setSubmitting }) => {
-					Alert.alert('ok', JSON.stringify(values, null, 2));
-					mutateAsync(values);
+				onSubmit={async (values, { setSubmitting, resetForm }) => {
+					await mutateAsync({
+						gms: { id: values.GMS },
+						type: { id: values.type },
+						merchandiser: { id: user!.id },
+						image: values.image,
+						content: values.content,
+					});
+					resetForm();
+					Alert.alert('Reclamation', 'Enregistrée');
 					setSubmitting(false);
 				}}
 				initialValues={initial}
