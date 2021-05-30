@@ -11,7 +11,8 @@ const GMSPicker: React.FC<GMSPickerProps> = ({
 	name = 'GMS',
 	label = 'GMS',
 }) => {
-	const { data } = useGetAllGMS();
-	return <Picker name={name} label={label} data={data} />;
+	const { data, refetch } = useGetAllGMS();
+
+	return <Picker name={name} label={label} data={data} onOpen={refetch} />;
 };
 export default GMSPicker;

@@ -18,15 +18,29 @@ interface Props {
 	label?: string;
 	name: string;
 	data?: { id: string | number; name: string }[];
+	onOpen?: () => void;
 }
 
-const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
+const Picker: React.FC<Props> = ({
+	placeholder,
+	label,
+	name,
+	data,
+	onOpen,
+}) => {
 	const [modalShown, setModalShown] = useState(false);
+	const [selected, setSelected] = useState('');
 	const [{ value }, , { setValue, setTouched }] = useField(name);
 
 	const closeModal = () => {
 		setModalShown(false);
 		setTouched(true);
+	};
+	const openModal = async () => {
+		setModalShown(true);
+		if (onOpen) {
+			onOpen();
+		}
 	};
 
 	return (
@@ -34,9 +48,9 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 			label={label ?? name ?? ''}
 			name={name ?? 'picker'}
 			icon="chevron-down"
-			onIconPress={() => setModalShown(true)}
+			onIconPress={openModal}
 		>
-			<Touchable onPress={() => setModalShown(true)}>
+			<Touchable onPress={openModal}>
 				<Modal
 					onRequestClose={closeModal}
 					visible={modalShown}
@@ -55,6 +69,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 										setModalShown(false);
 										setTimeout(() => {
 											setValue(item.id);
+											setSelected(item.name);
 										}, 0);
 									}}
 								>
@@ -69,7 +84,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 					<AppText type="label">{placeholder ?? 'Choisir ...'}</AppText>
 				) : (
 					<AppText type="label" color="dark">
-						{value}
+						{selected}
 					</AppText>
 				)}
 			</Touchable>
