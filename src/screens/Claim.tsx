@@ -16,9 +16,9 @@ import { yup } from '~/config/yupFrLocal';
 import UserContext from '~/context/UserContext';
 
 const initial = {
-	GMS: '1',
-	type: '1',
-	content: '111',
+	GMS: '',
+	type: '',
+	content: '',
 	image: undefined,
 };
 // validation object
@@ -52,7 +52,7 @@ const Claim: React.FC = () => {
 				validationSchema={validation}
 			>
 				<GMSPicker />
-				<Picker name="type" data={claimTypes} />
+				<Picker name="type" data={claimTypes} onOpen={refetch} />
 				<Input
 					name="content"
 					label="contenu"

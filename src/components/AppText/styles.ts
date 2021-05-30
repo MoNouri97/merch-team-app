@@ -1,12 +1,12 @@
 interface TextType {
 	size?: 30 | 20 | 16;
 	font?: 'DMSans_400Regular' | 'DMSans_500Medium' | 'DMSans_700Bold';
-	color?: 'light' | 'dark' | 'dimmed';
+	color?: 'light' | 'dark' | 'dimmed' | 'primary';
 }
 
 export const TITLE: TextType = {
 	size: 30,
-	color: 'dark',
+	color: 'primary',
 	font: 'DMSans_700Bold',
 };
 export const SUBTITLE: TextType = {

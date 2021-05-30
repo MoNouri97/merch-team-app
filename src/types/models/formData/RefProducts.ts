@@ -1,4 +1,6 @@
+import { Entity } from '~/types/models/Entity';
+
 export type RefProductsData = {
-	GMS: number;
-	products: number[];
+	GMS: Entity;
+	products: Entity[];
 };

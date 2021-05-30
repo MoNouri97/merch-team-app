@@ -4,8 +4,10 @@ import api from '~/config/api';
 import { RefProductsData } from '~/types/models/formData/RefProducts';
 
 type Response = { message: string };
-const postRefProducts = async (formData: RefProductsData) => {
-	const { data } = await api.post<Response>('/ref_products', formData);
+const postRefProducts = async ({ GMS: { id }, products }: RefProductsData) => {
+	const { data } = await api.post<Response>(`/gms/${id}/products`, {
+		articles: products,
+	});
 	return data;
 };
 

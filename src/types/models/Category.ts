@@ -1,4 +1,5 @@
 export type Category = {
 	id: number;
-	name: string;
+	// FIXME change back to 'name'
+	nom: string;
 };
