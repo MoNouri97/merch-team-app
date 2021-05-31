@@ -1,8 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { FieldArray, Formik } from 'formik';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Alert, ModalProps } from 'react-native';
 import { ValidationError } from 'yup';
+import { useGetGMS } from '~/api/gmsAPI';
 import usePostReport from '~/api/reportAPI';
 import AppText from '~/components/AppText';
 import { CheckList, Form, SubmitBtn } from '~/components/Forms';
@@ -22,6 +23,7 @@ import BottomSheet from '~/components/Shared/BottomSheet';
 import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
 import { EventType } from '~/types/events';
+import { HomeStackParams } from '~/types/navigation';
 
 type EventList = { type: EventType; id: number }[];
 
@@ -30,11 +32,11 @@ const initial = {
 };
 
 const validate = async (values: { events: any[] }) => {
-	let errors = { events: [{}] };
+	let errors = { events: [] as ({} | null)[] };
 	errors.events = await Promise.all(
 		values.events.map(async (e: any, i: number) => {
 			if (!e?.type) {
-				return {};
+				return null;
 			}
 			let schema: any;
 			if (e.type === 'BeforeAfter') schema = schemaBeforeAfter;
@@ -60,14 +62,22 @@ const validate = async (values: { events: any[] }) => {
 				});
 				return errObject;
 			}
-			return {};
+			return null;
 		})
 	);
+	if (errors.events.filter((e) => !!e).length == 0) {
+		return null;
+	}
+	console.log({ errors });
+
 	return errors;
 };
 
 const Report: React.FC = () => {
 	const { goBack } = useNavigation();
+	const { params } = useRoute<RouteProp<HomeStackParams, 'Report'>>();
+	const { data: GMS } = useGetGMS(params?.id ?? 100);
+
 	const { mutateAsync } = usePostReport();
 	const eventId = useRef(0);
 	const [events, setEvents] = useState<EventList>([
@@ -110,9 +120,9 @@ const Report: React.FC = () => {
 				onActionPress={() => setModal(true)}
 				onClosePress={() => goBack()}
 			/>
-			<AppText type="subtitle">Aziza - Ibn Khaldoun</AppText>
+			<AppText type="subtitle">{GMS?.name}</AppText>
 			<Time>
-				<AppText type="label">Temps estimée 30:00</AppText>
+				<AppText type="label">Temps estimée {GMS?.estimatedTime}</AppText>
 				<Timer />
 			</Time>
 			<Formik
@@ -120,17 +130,11 @@ const Report: React.FC = () => {
 				validateOnChange={false}
 				validateOnBlur={false}
 				validate={validate}
-				// validationSchema={validation}
 				onSubmit={(values, { setSubmitting }) => {
-					console.log(values);
-					mutateAsync(values).then(() => {
+					console.log({ values, GMS });
+					mutateAsync({ events: values.events, GMS }).then(() => {
 						console.log('done');
 					});
-					// setSubmitting(true);
-					// console.log(createSectionsArray(values));
-					// setTimeout(() => {
-					// 	setSubmitting(false);
-					// }, 900);
 				}}
 			>
 				{({ setFieldValue, values, errors, touched }) => (

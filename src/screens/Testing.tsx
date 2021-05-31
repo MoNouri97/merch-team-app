@@ -16,9 +16,11 @@ import ActionList from '~/components/Shared/ActionList';
 import AppScreen from '~/components/Shared/AppScreen';
 import BottomSheet from '~/components/Shared/BottomSheet';
 import Btn from '~/components/Shared/Btn';
+import api from '~/config/api';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
 import { fakeCategories } from '~/Helpers/FakeData';
+import { jsonToForm } from '~/Helpers/jsonToForm';
 
 const initial = {
 	email: 'nouri@gmail.co',
@@ -83,10 +85,16 @@ const Testing: React.FC = () => {
 				initialValues={initial}
 				onSubmit={(values, { setSubmitting }) => {
 					console.log({ values });
+					const formData = jsonToForm(values.image1);
+					const f = new FormData();
+					// f.append('image', jsonData.image);
+
+					console.log({ f });
+					api.post('/gms/image', f);
 					setSubmitting(false);
 				}}
 			>
-				<ProductsCheckList params={{ gms: '1', category: '*' }} />
+				<ProductsCheckList />
 				<Password name="password" placeholder="shhhh" />
 				<Input name="email" icon="search" />
 				<Picker

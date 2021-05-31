@@ -9,7 +9,7 @@ import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
 
 export const schemaNewProduct = yup.object({
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	product: yup.string().required(),
 	imageProduct: yup.array().required().min(1),
 });

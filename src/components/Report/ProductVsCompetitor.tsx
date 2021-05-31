@@ -12,7 +12,7 @@ import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
 
 export const schemaPvC = yup.object({
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	product: yup.string().required(),
 	purchaseOrder: yup.boolean().required(),
 	imageCompetitor: yup.array().required().min(1),

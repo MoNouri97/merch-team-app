@@ -11,6 +11,7 @@ import ActionList from '../Shared/ActionList';
 import BottomSheet from '../Shared/BottomSheet';
 import InputBase from './InputBase';
 
+type FileType = { uri: string; type: 'image/png'; name: string };
 interface Props {
 	name: string;
 	label?: string;
@@ -20,9 +21,9 @@ interface Props {
 const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	const theme = useContext(ThemeContext);
 	const [modal, setModal] = useState(false);
-	const [{ value }, , { setValue, setTouched }] = useField(name);
+	const [{ value }, , { setValue, setTouched }] = useField<FileType[]>(name);
 	const scrollRef = useRef<ScrollView>(null);
-	const images: string[] = value ?? [];
+	const images: FileType[] = value ?? [];
 
 	const displayedLabel = useMemo(() => {
 		if (multiple) {
@@ -33,7 +34,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 
 	const deleteImage = (idx: number) => {
 		if (images.length <= 1) {
-			setValue(undefined, true);
+			setValue([], true);
 			return;
 		}
 		setValue(
@@ -43,7 +44,10 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	};
 
 	const addImage = (uri: string) => {
-		setValue([...images, uri], true);
+		setValue(
+			[...images, { uri, type: 'image/png', name: name + images.length }],
+			true
+		);
 	};
 
 	const pickImage = async (idx?: number) => {
@@ -133,8 +137,8 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 				}}
 			>
 				{images?.map((img, i) => (
-					<Touchable key={img} onPress={() => pickImage(i)}>
-						<Image source={{ uri: img }} />
+					<Touchable key={img.uri} onPress={() => pickImage(i)}>
+						<Image source={{ uri: img.uri }} />
 					</Touchable>
 				))}
 				{(multiple || images.length < 1) && (

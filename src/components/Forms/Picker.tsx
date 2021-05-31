@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import { useField } from 'formik';
 import React, { useState } from 'react';
 import { FlatList, Modal, StyleSheet, View } from 'react-native';
@@ -12,7 +13,11 @@ const EmptyListItem = () => (
 		</AppText>
 	</View>
 );
-
+const ClearSelectionBtn: React.FC<{ onPress: () => void }> = ({ onPress }) => (
+	<PickerItem onPress={onPress}>
+		<Feather name="x" size={24} />
+	</PickerItem>
+);
 interface Props {
 	placeholder?: string;
 	label?: string;
@@ -42,6 +47,13 @@ const Picker: React.FC<Props> = ({
 			onOpen();
 		}
 	};
+	const clear = () => {
+		setModalShown(false);
+		setTimeout(() => {
+			setValue(undefined);
+			setSelected('');
+		}, 0);
+	};
 
 	return (
 		<InputBase
@@ -57,6 +69,7 @@ const Picker: React.FC<Props> = ({
 					animationType="slide"
 				>
 					<ListContainer>
+						<ClearSelectionBtn onPress={clear} />
 						<FlatList
 							contentContainerStyle={styles.listContent}
 							data={data}

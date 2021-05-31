@@ -12,7 +12,7 @@ import { yup } from '~/config/yupFrLocal';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 
 export const schemaRupture = yup.object({
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	products: yup.array().required().min(1),
 	purchaseOrder: yup.boolean().required(),
 	image: yup.mixed().when('purchaseOrder', {

@@ -5,7 +5,7 @@ import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
 
 export const schemaPriceChange = yup.object({
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	product: yup.string().required(),
 	oldPrice: yup.number().positive().required(),
 	newPrice: yup.number().positive().required(),

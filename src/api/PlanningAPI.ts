@@ -13,9 +13,9 @@ const getPlannings: QueryFn<PlanningDetails[], GetPlanningsParams> = async ({
 }) => {
 	const [_key, id] = queryKey;
 
-	const { data } = await api.get<PlanningDetails[]>('/planning', {
-		params: { id },
-	});
+	const { data } = await api.get<PlanningDetails[]>(
+		`/taskPlanning/merchandiser/${id}`
+	);
 	return data;
 };
 
