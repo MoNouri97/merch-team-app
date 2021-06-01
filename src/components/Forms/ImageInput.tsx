@@ -6,12 +6,12 @@ import { Alert, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import styled from '~/config/styled-components';
 import { Action } from '~/types/data';
+import { FileType } from '~/types/models/formData/FileType';
 import AppText from '../AppText';
 import ActionList from '../Shared/ActionList';
 import BottomSheet from '../Shared/BottomSheet';
 import InputBase from './InputBase';
 
-type FileType = { uri: string; type: 'image/png'; name: string };
 interface Props {
 	name: string;
 	label?: string;
@@ -44,10 +44,14 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	};
 
 	const addImage = (uri: string) => {
-		setValue(
-			[...images, { uri, type: 'image/png', name: name + images.length }],
-			true
-		);
+		const fileNameSuffix = multiple ? `.${images.length}` : '';
+		const image: FileType = {
+			uri: uri,
+			type: 'image/png',
+			name: `${name}${fileNameSuffix}`,
+		};
+		// const
+		setValue([...images, image], true);
 	};
 
 	const pickImage = async (idx?: number) => {
@@ -64,16 +68,14 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 			return;
 		}
 		if (Platform.OS !== 'web') {
-			const {
-				status,
-			} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+			const { status } =
+				await ImagePicker.requestMediaLibraryPermissionsAsync();
 			if (status !== 'granted') {
 				Alert.alert('Permission requise');
 				return;
 			}
-			const {
-				status: camStatus,
-			} = await ImagePicker.requestCameraPermissionsAsync();
+			const { status: camStatus } =
+				await ImagePicker.requestCameraPermissionsAsync();
 			if (camStatus !== 'granted') {
 				Alert.alert('Permission requise');
 				return;

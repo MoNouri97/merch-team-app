@@ -3,6 +3,7 @@ import { Stomp } from '@stomp/stompjs';
 import React, { useState } from 'react';
 import SockJS from 'sockjs-client';
 import useGetCategories from '~/api/categoryAPI';
+import { uploadApi } from '~/api/uploadApi';
 import AppText from '~/components/AppText';
 import { ProductsCheckList } from '~/components/Forms';
 import DatePicker from '~/components/Forms/DatePicker';
@@ -43,9 +44,15 @@ const Testing: React.FC = () => {
 		<AppScreen navbar>
 			{/* <TestApi /> */}
 			{/* <TestChat /> */}
+			<TestUpload />
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
-				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
+				center
+				modalProps={{
+					visible: modal,
+					onRequestClose: () => setModal(false),
+					animationType: 'fade',
+				}}
 			>
 				<ActionList
 					actions={[
@@ -179,5 +186,41 @@ const TestChat = () => {
 			</Res>*/}
 			<Btn onPress={() => setRefresh(!refresh)}>Refresh</Btn>
 		</>
+	);
+};
+
+const TestUpload = () => {
+	const [visible, setVisible] = useState(false);
+	const [progress, setProgress] = useState(0);
+	return (
+		<Form
+			initialValues={{ image: undefined }}
+			onSubmit={async (values, { setSubmitting }) => {
+				setVisible(true);
+
+				const res = await uploadApi(values.file, (p) => {
+					setProgress(p);
+				});
+				console.log({ res });
+
+				setSubmitting(false);
+			}}
+		>
+			<ImageInput name="file" label="Une image" />
+			<SubmitBtn>Upload</SubmitBtn>
+			<BottomSheet
+				center
+				modalProps={{
+					visible,
+					animationType: 'fade',
+					onRequestClose: () => {
+						setVisible(false);
+					},
+				}}
+			>
+				<AppText type="title">Upload Progress</AppText>
+				<AppText type="subtitle">{progress}</AppText>
+			</BottomSheet>
+		</Form>
 	);
 };

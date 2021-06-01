@@ -5,6 +5,7 @@ import { Alert, ModalProps } from 'react-native';
 import { ValidationError } from 'yup';
 import { useGetGMS } from '~/api/gmsAPI';
 import usePostReport from '~/api/reportAPI';
+import { uploadApi } from '~/api/uploadApi';
 import AppText from '~/components/AppText';
 import { CheckList, Form, SubmitBtn } from '~/components/Forms';
 import { schemaAction } from '~/components/Report/Action';
@@ -22,6 +23,7 @@ import AppScreen from '~/components/Shared/AppScreen';
 import BottomSheet from '~/components/Shared/BottomSheet';
 import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
+import { extractFiles } from '~/Helpers/extractFiles';
 import { EventType } from '~/types/events';
 import { HomeStackParams } from '~/types/navigation';
 
@@ -130,28 +132,17 @@ const Report: React.FC = () => {
 				validateOnChange={false}
 				validateOnBlur={false}
 				validate={validate}
-				onSubmit={(values, { setSubmitting }) => {
-					console.log({ values, GMS });
-					mutateAsync({ events: values.events, GMS }).then(() => {
-						console.log('done');
-					});
+				onSubmit={async (values, helpers) => {
+					const { setSubmitting } = helpers;
+
+					const files = extractFiles(values.events);
+					const filePaths = await uploadApi(files, console.log);
+					// TODO
+					setSubmitting(false);
 				}}
 			>
-				{({ setFieldValue, values, errors, touched }) => (
+				{({ setFieldValue }) => (
 					<>
-						{/* <AppText numberOfLines={100}>
-							{JSON.stringify(errors, null, 2)}
-							{JSON.stringify(values, null, 2)}
-							{JSON.stringify(touched, null, 2)}
-						</AppText> */}
-						{/* <Btn
-							onPress={() => {
-								setEvents(e);
-								setFieldValue('events', []);
-							}}
-						>
-							Reset
-						</Btn> */}
 						<FieldArray name="events">
 							{() => (
 								<React.Fragment>
