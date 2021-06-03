@@ -37,13 +37,19 @@ export interface NavBarProps {
 	backIcon?: boolean;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ title, backIcon = false }) => {
+const NavBar: React.FC<NavBarProps> = ({
+	title,
+	backIcon = false,
+	children,
+}) => {
 	// used to show drawer btn if available
 	const navigation = useNavigation();
 	const route = useRoute();
 	const theme = useTheme();
 	const drawer = useMemo(() => (navigation as any).toggleDrawer, [navigation]);
-
+	if (children) {
+		return <Container>{children}</Container>;
+	}
 	return (
 		<Container>
 			{backIcon && <BackBtn navigation={navigation} />}

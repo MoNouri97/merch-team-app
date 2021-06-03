@@ -15,6 +15,7 @@ const DrawerNav: React.FC = () => (
 	<Drawer.Navigator
 		screenOptions={{
 			headerShown: false,
+			unmountOnBlur: true,
 		}}
 	>
 		<Drawer.Screen name="Accueil" component={HomeStack} />

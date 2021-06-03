@@ -1,6 +1,6 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useCallback, useRef, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import { ValidationError } from 'yup';
 import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
@@ -15,7 +15,7 @@ import ReportForm from '~/components/Report/ReportForm';
 import ReportHeader from '~/components/Report/ReportHeader';
 import { schemaRupture } from '~/components/Report/Rupture';
 import Timer from '~/components/Report/Timer';
-import AppScreen from '~/components/Shared/AppScreen';
+import { SafeScreen } from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { EventType } from '~/types/events';
 import { HomeStackParams } from '~/types/navigation';
@@ -105,34 +105,49 @@ const Report: React.FC = () => {
 	);
 
 	return (
-		<AppScreen>
-			<ReportHeader
-				onActionPress={() => setModal(true)}
-				onClosePress={() => goBack()}
-			/>
-			<AppText type="subtitle">{gms?.name}</AppText>
-			<Time>
-				<AppText type="label">Temps estimée {gms?.estimatedTime}:00</AppText>
-				<Timer />
-			</Time>
-			<ReportForm
-				{...{
-					addEvents,
-					deleteEvent,
-					events,
-					initial,
-					validate,
-					setModal,
-					modal,
-					task: task!,
-				}}
-			/>
-		</AppScreen>
+		<>
+			<SafeScreen>
+				<ReportHeader
+					onActionPress={() => setModal(true)}
+					onClosePress={() => goBack()}
+				/>
+				<ScrollView
+					// eslint-disable-next-line react-native/no-inline-styles
+					contentContainerStyle={{ flexGrow: 1 }}
+					bounces={false}
+				>
+					<Container>
+						<AppText type="subtitle"> GMS : {gms?.name}</AppText>
+						<Time>
+							<AppText type="label">
+								Temps estimée {gms?.estimatedTime}:00
+							</AppText>
+							<Timer />
+						</Time>
+						<ReportForm
+							{...{
+								addEvents,
+								deleteEvent,
+								events,
+								initial,
+								validate,
+								setModal,
+								modal,
+								task: task!,
+							}}
+						/>
+					</Container>
+				</ScrollView>
+			</SafeScreen>
+		</>
 	);
 };
 
 const Time = styled.View`
 	align-items: center;
 	margin-vertical: 30px;
+`;
+const Container = styled.View`
+	padding: 20px;
 `;
 export default Report;

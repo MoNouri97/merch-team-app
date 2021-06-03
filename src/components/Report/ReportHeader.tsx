@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import AppText from '~/components/AppText';
+import NavBar from '~/components/Shared/NavBar';
 import styled from '~/config/styled-components';
 
 interface IProps {
@@ -10,23 +10,29 @@ interface IProps {
 }
 
 const ReportHeader: React.FC<IProps> = ({ onActionPress, onClosePress }) => (
-	<Container>
-		<Close onPress={onClosePress}>
-			<Feather size={25} name="x" />
-		</Close>
-		<AppText type="title">Rapport</AppText>
-		<TouchableOpacity onPress={onActionPress}>
-			<AppText color="primary">Ajouter</AppText>
-		</TouchableOpacity>
-	</Container>
+	<NavBar>
+		<Container>
+			<HeaderBtn onPress={onClosePress}>
+				<Feather size={20} name="x" />
+			</HeaderBtn>
+			<AppText type="title">Rapport</AppText>
+			<HeaderBtn onPress={onActionPress}>
+				<AppText color="primary">Ajouter</AppText>
+			</HeaderBtn>
+		</Container>
+	</NavBar>
 );
 const Container = styled.View`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 25px;
+	padding: 0 20px 20px;
+	flex: 1;
 `;
-const Close = styled.TouchableOpacity`
+
+const HeaderBtn = styled.TouchableOpacity`
 	padding: 10px;
+	background-color: ${({ theme }) => theme.colors.gray[2]};
+	border-radius: ${({ theme }) => theme.borderRadius};
 `;
 export default ReportHeader;
