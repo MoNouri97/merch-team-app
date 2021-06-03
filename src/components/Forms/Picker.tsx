@@ -1,5 +1,6 @@
+import { Feather } from '@expo/vector-icons';
 import { useField } from 'formik';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FlatList, Modal, StyleSheet, View } from 'react-native';
 import styled from '~/config/styled-components';
 import AppText from '../AppText';
@@ -12,21 +13,54 @@ const EmptyListItem = () => (
 		</AppText>
 	</View>
 );
-
+const ClearSelectionBtn: React.FC<{ onPress: () => void }> = ({ onPress }) => (
+	<PickerItem onPress={onPress}>
+		<Feather name="x" size={24} />
+	</PickerItem>
+);
 interface Props {
 	placeholder?: string;
 	label?: string;
 	name: string;
 	data?: { id: string | number; name: string }[];
+	onOpen?: () => void;
 }
 
-const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
+const Picker: React.FC<Props> = ({
+	placeholder,
+	label,
+	name,
+	data,
+	onOpen,
+}) => {
 	const [modalShown, setModalShown] = useState(false);
+	// const [selected, setSelected] = useState('');
 	const [{ value }, , { setValue, setTouched }] = useField(name);
+
+	const selected = useMemo(() => {
+		if (!value) return '';
+		if (!data) return '';
+		for (const item of data) {
+			if (item.id == value) return item.name;
+		}
+		return '';
+	}, [value]);
 
 	const closeModal = () => {
 		setModalShown(false);
 		setTouched(true);
+	};
+	const openModal = async () => {
+		setModalShown(true);
+		if (onOpen) {
+			onOpen();
+		}
+	};
+	const clear = () => {
+		setModalShown(false);
+		setTimeout(() => {
+			setValue(undefined);
+		}, 0);
 	};
 
 	return (
@@ -34,15 +68,16 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 			label={label ?? name ?? ''}
 			name={name ?? 'picker'}
 			icon="chevron-down"
-			onIconPress={() => setModalShown(true)}
+			onIconPress={openModal}
 		>
-			<Touchable onPress={() => setModalShown(true)}>
+			<Touchable onPress={openModal}>
 				<Modal
 					onRequestClose={closeModal}
 					visible={modalShown}
 					animationType="slide"
 				>
 					<ListContainer>
+						<ClearSelectionBtn onPress={clear} />
 						<FlatList
 							contentContainerStyle={styles.listContent}
 							data={data}
@@ -69,7 +104,7 @@ const Picker: React.FC<Props> = ({ placeholder, label, name, data }) => {
 					<AppText type="label">{placeholder ?? 'Choisir ...'}</AppText>
 				) : (
 					<AppText type="label" color="dark">
-						{value}
+						{selected}
 					</AppText>
 				)}
 			</Touchable>

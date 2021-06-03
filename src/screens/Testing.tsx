@@ -3,7 +3,9 @@ import { Stomp } from '@stomp/stompjs';
 import React, { useState } from 'react';
 import SockJS from 'sockjs-client';
 import useGetCategories from '~/api/categoryAPI';
+import { uploadApi } from '~/api/uploadApi';
 import AppText from '~/components/AppText';
+import { ProductsCheckList } from '~/components/Forms';
 import DatePicker from '~/components/Forms/DatePicker';
 import Form from '~/components/Forms/Form';
 import ImageInput from '~/components/Forms/ImageInput';
@@ -15,9 +17,11 @@ import ActionList from '~/components/Shared/ActionList';
 import AppScreen from '~/components/Shared/AppScreen';
 import BottomSheet from '~/components/Shared/BottomSheet';
 import Btn from '~/components/Shared/Btn';
+import api from '~/config/api';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
 import { fakeCategories } from '~/Helpers/FakeData';
+import { jsonToForm } from '~/Helpers/jsonToForm';
 
 const initial = {
 	email: 'nouri@gmail.co',
@@ -39,10 +43,16 @@ const Testing: React.FC = () => {
 	return (
 		<AppScreen navbar>
 			{/* <TestApi /> */}
-			<TestChat />
+			{/* <TestChat /> */}
+			<TestUpload />
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
-				modalProps={{ visible: modal, onRequestClose: () => setModal(false) }}
+				center
+				modalProps={{
+					visible: modal,
+					onRequestClose: () => setModal(false),
+					animationType: 'fade',
+				}}
 			>
 				<ActionList
 					actions={[
@@ -78,13 +88,20 @@ const Testing: React.FC = () => {
 			</Btn>
 			<AppText type="subtitle">inputs</AppText>
 			<Form
-				validationSchema={validation}
+				// validationSchema={validation}
 				initialValues={initial}
-				onSubmit={(_, { setSubmitting }) => {
-					console.log('sub');
+				onSubmit={(values, { setSubmitting }) => {
+					console.log({ values });
+					const formData = jsonToForm(values.image1);
+					const f = new FormData();
+					// f.append('image', jsonData.image);
+
+					console.log({ f });
+					api.post('/gms/image', f);
 					setSubmitting(false);
 				}}
 			>
+				<ProductsCheckList />
 				<Password name="password" placeholder="shhhh" />
 				<Input name="email" icon="search" />
 				<Picker
@@ -109,7 +126,7 @@ export default Testing;
 
 const TestApi = () => {
 	const input = { url: '/categories' };
-	const { error, isFetching, data, refetch } = useGetCategories();
+	const { error, isFetching, data: data, refetch } = useGetCategories();
 
 	return (
 		<>
@@ -130,7 +147,6 @@ const Res = styled.View`
 	padding: 10px;
 	border-radius: 10px;
 `;
-
 
 const TestChat = () => {
 	const [refresh, setRefresh] = useState(false);
@@ -170,5 +186,41 @@ const TestChat = () => {
 			</Res>*/}
 			<Btn onPress={() => setRefresh(!refresh)}>Refresh</Btn>
 		</>
+	);
+};
+
+const TestUpload = () => {
+	const [visible, setVisible] = useState(false);
+	const [progress, setProgress] = useState(0);
+	return (
+		<Form
+			initialValues={{ image: undefined }}
+			onSubmit={async (values, { setSubmitting }) => {
+				setVisible(true);
+
+				const res = await uploadApi(values.file, (p) => {
+					setProgress(p);
+				});
+				console.log({ res });
+
+				setSubmitting(false);
+			}}
+		>
+			<ImageInput name="file" label="Une image" />
+			<SubmitBtn>Upload</SubmitBtn>
+			<BottomSheet
+				center
+				modalProps={{
+					visible,
+					animationType: 'fade',
+					onRequestClose: () => {
+						setVisible(false);
+					},
+				}}
+			>
+				<AppText type="title">Upload Progress</AppText>
+				<AppText type="subtitle">{progress}</AppText>
+			</BottomSheet>
+		</Form>
 	);
 };

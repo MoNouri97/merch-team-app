@@ -13,14 +13,14 @@ const CategoriesPicker: React.FC<CategoriesPickerProps> = ({
 	name = 'category',
 	label = 'catégorie',
 }) => {
-	const { data } = useGetCategories();
+	const { data, refetch } = useGetCategories();
 	return (
 		<Picker
 			{...{
 				name,
 				label,
 			}}
-			// FIXME change back to 'name'
+			onOpen={refetch}
 			data={createPickerData<Category>(data, { name: 'nom' })}
 		/>
 	);

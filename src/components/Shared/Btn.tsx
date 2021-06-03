@@ -83,7 +83,7 @@ const InnerBtn = styled.View`
 
 const Container = styled.View<{ primary?: boolean; disabled?: boolean }>`
 	overflow: hidden;
-	border-radius: 100px;
+	border-radius: ${({ theme }) => theme.borderRadiusLarge};
 	/* opacity: ${({ disabled }) => (disabled ? 0.5 : 1)}; */
 	margin: 5px;
 	background-color: ${({ theme, primary }) =>

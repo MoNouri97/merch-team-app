@@ -1,7 +1,8 @@
-// FIXME: fixe types
+import { Entity } from '~/types/models/Entity';
 export type Claim = {
-	GMS: string;
-	type: string;
+	gms: Entity;
+	type: Entity;
+	merchandiser: Entity;
 	content: string;
 	image: string;
 };

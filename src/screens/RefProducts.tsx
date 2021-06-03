@@ -1,59 +1,53 @@
 import { Formik } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
-import {
-	CategoriesPicker,
-	GMSPicker,
-	ProductsCheckList,
-	SubmitBtn,
-} from '~/components/Forms';
-import { Subtitle } from '~/components/Forms/styles';
+import { useQueryClient } from 'react-query';
+import usePostRefProducts from '~/api/refProductsAPI';
+import { GMSPicker, ProductsCheckList, SubmitBtn } from '~/components/Forms';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
 
 const initial = {
 	GMS: '',
-	category: '',
-	products: [],
+	products: [] as string[],
 };
 // validation object
 const validation = yup.object({
 	GMS: yup.string().required(),
-	category: yup.string().required(),
-	products: yup.array().required().min(1),
+	products: yup.array().required(),
 });
 
-const RefProducts: React.FC = () => (
-	// code here ...
-	<AppScreen navbar>
-		<Formik
-			onSubmit={(values, { resetForm }) => {
-				Alert.alert('ajouté', JSON.stringify(values, null, 2));
+const RefProducts: React.FC = () => {
+	const { mutateAsync } = usePostRefProducts();
+	const queryClient = useQueryClient();
 
-				resetForm();
-			}}
-			initialValues={initial}
-			validationSchema={validation}
-		>
-			{({ values }) => (
-				<>
-					<GMSPicker />
-					<Subtitle>Articles</Subtitle>
-					<CategoriesPicker />
-					<ProductsCheckList
-						params={{ gms: values.GMS, category: values.category }}
-					/>
-					{/* <CheckList
-						name="products"
-						label="produits"
-						placeholder="Choisir une GMS et une Catégorie ..."
-						data={values.GMS && values.category ? fakeProducts : undefined}
-					/> */}
-					<SubmitBtn>Ajouter</SubmitBtn>
-				</>
-			)}
-		</Formik>
-	</AppScreen>
-);
+	return (
+		<AppScreen navbar>
+			<Formik
+				onSubmit={async (values, { resetForm }) => {
+					Alert.alert('ajouté', JSON.stringify(values, null, 2));
+					// invalidate;
+					await mutateAsync({
+						GMS: { id: values.GMS },
+						products: values.products.map((p) => ({ id: p })),
+					});
+					await queryClient.invalidateQueries('get_products');
+					resetForm();
+				}}
+				initialValues={initial}
+				validationSchema={validation}
+			>
+				{() => (
+					<>
+						{/* <FormDebug /> */}
+						<GMSPicker />
+						<ProductsCheckList />
+						<SubmitBtn>Ajouter</SubmitBtn>
+					</>
+				)}
+			</Formik>
+		</AppScreen>
+	);
+};
 
 export default RefProducts;

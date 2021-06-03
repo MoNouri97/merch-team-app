@@ -6,6 +6,7 @@ import { Alert, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import styled from '~/config/styled-components';
 import { Action } from '~/types/data';
+import { FileType } from '~/types/models/formData/FileType';
 import AppText from '../AppText';
 import ActionList from '../Shared/ActionList';
 import BottomSheet from '../Shared/BottomSheet';
@@ -20,9 +21,9 @@ interface Props {
 const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	const theme = useContext(ThemeContext);
 	const [modal, setModal] = useState(false);
-	const [{ value }, , { setValue, setTouched }] = useField(name);
+	const [{ value }, , { setValue, setTouched }] = useField<FileType[]>(name);
 	const scrollRef = useRef<ScrollView>(null);
-	const images: string[] = value ?? [];
+	const images: FileType[] = value ?? [];
 
 	const displayedLabel = useMemo(() => {
 		if (multiple) {
@@ -33,7 +34,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 
 	const deleteImage = (idx: number) => {
 		if (images.length <= 1) {
-			setValue(undefined, true);
+			setValue([], true);
 			return;
 		}
 		setValue(
@@ -43,7 +44,14 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	};
 
 	const addImage = (uri: string) => {
-		setValue([...images, uri], true);
+		const fileNameSuffix = multiple ? `.${images.length}` : '';
+		const image: FileType = {
+			uri: uri,
+			type: 'image/png',
+			name: `${name}${fileNameSuffix}`,
+		};
+		// const
+		setValue([...images, image], true);
 	};
 
 	const pickImage = async (idx?: number) => {
@@ -60,16 +68,14 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 			return;
 		}
 		if (Platform.OS !== 'web') {
-			const {
-				status,
-			} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+			const { status } =
+				await ImagePicker.requestMediaLibraryPermissionsAsync();
 			if (status !== 'granted') {
 				Alert.alert('Permission requise');
 				return;
 			}
-			const {
-				status: camStatus,
-			} = await ImagePicker.requestCameraPermissionsAsync();
+			const { status: camStatus } =
+				await ImagePicker.requestCameraPermissionsAsync();
 			if (camStatus !== 'granted') {
 				Alert.alert('Permission requise');
 				return;
@@ -133,8 +139,8 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 				}}
 			>
 				{images?.map((img, i) => (
-					<Touchable key={img} onPress={() => pickImage(i)}>
-						<Image source={{ uri: img }} />
+					<Touchable key={img.uri} onPress={() => pickImage(i)}>
+						<Image source={{ uri: img.uri }} />
 					</Touchable>
 				))}
 				{(multiple || images.length < 1) && (

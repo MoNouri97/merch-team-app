@@ -3,7 +3,13 @@ import { FormikHelpers, FormikValues, useFormikContext } from 'formik';
 import React from 'react';
 import { Alert } from 'react-native';
 import AppText from '~/components/AppText';
-import { DatePicker, Form, Input, SubmitBtn } from '~/components/Forms';
+import {
+	DatePicker,
+	Form,
+	ImageInput,
+	Input,
+	SubmitBtn,
+} from '~/components/Forms';
 import { Subtitle } from '~/components/Forms/styles';
 import AppScreen from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
@@ -13,6 +19,7 @@ const initial = {
 	start: addDays(new Date(), 1),
 	end: addDays(new Date(), 30),
 	reason: '',
+	file: undefined,
 };
 // validation object
 const validation = yup.object({
@@ -26,7 +33,7 @@ const handleSubmit = (
 	formikHelpers: FormikHelpers<FormikValues>
 ) => {
 	const { start, end } = values;
-	const { setFieldError, setSubmitting } = formikHelpers;
+	const { setFieldError, setSubmitting, resetForm } = formikHelpers;
 	let valid = true;
 	if (!isFuture(start)) {
 		setFieldError('start', 'la date doit être valide');
@@ -41,6 +48,7 @@ const handleSubmit = (
 	if (!valid) return;
 
 	Alert.alert('ok', JSON.stringify(values, null, 2));
+	resetForm();
 	setSubmitting(false);
 };
 
@@ -62,12 +70,13 @@ const LeaveRequest: React.FC = () => (
 				// eslint-disable-next-line react-native/no-inline-styles
 				style={{ minHeight: 200, textAlignVertical: 'top' }}
 			/>
+			<ImageInput name="file" label="Piece Jointe" />
 			<SubmitBtn>Soumettre</SubmitBtn>
 		</Form>
 	</AppScreen>
 );
 
-const Duration = () => {
+const Duration = React.memo(() => {
 	const {
 		values: { end, start },
 	} = useFormikContext();
@@ -77,7 +86,7 @@ const Duration = () => {
 			{dur >= 0 ? `Durée : ${dur} jours` : 'Durée invalide'}
 		</DurationText>
 	);
-};
+});
 
 const DurationText = styled(AppText)`
 	margin-bottom: 20px;

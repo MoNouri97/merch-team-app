@@ -1,4 +1,5 @@
-import React from 'react';
+import { useField } from 'formik';
+import React, { useEffect, useMemo, useState } from 'react';
 import useGetProducts, { getProductsParams } from '~/api/productAPI';
 import Picker from '~/components/Forms/Picker';
 import createPickerData from '~/Helpers/createPickerData';
@@ -6,18 +7,28 @@ import createPickerData from '~/Helpers/createPickerData';
 interface ProductsPickerProps {
 	name?: string;
 	label?: string;
-	params?: getProductsParams;
 }
 
 const ProductsPicker: React.FC<ProductsPickerProps> = ({
 	name = 'product',
 	label = 'Article',
-	params = { category: '', gms: '' },
 }) => {
-	const { data } = useGetProducts(params);
+	const [params, setParams] = useState<getProductsParams>();
+	const categoryName = useMemo(
+		() => name.replace('product', 'category'),
+		[name]
+	);
+	const [{ value }] = useField(categoryName);
+
+	useEffect(() => {
+		setParams({ category: value });
+	}, [value]);
+	const { data, refetch } = useGetProducts(params);
+
 	return (
 		<Picker
 			{...{ name, label }}
+			onOpen={refetch}
 			data={createPickerData(data, { name: 'designation' })!}
 		/>
 	);

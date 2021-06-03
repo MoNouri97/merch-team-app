@@ -21,7 +21,9 @@ LogBox.ignoreLogs(['Setting a timer']);
 // necessary for Stomjs
 console.log(!!encoding);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { retry: false, staleTime: 5000 } },
+});
 export default function App() {
 	// fonts
 	const [fontsLoaded] = useFonts({

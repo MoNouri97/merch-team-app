@@ -20,6 +20,7 @@ interface Props {
 	container?: boolean;
 	icon?: IconName;
 	onIconPress?: () => void;
+	hideError?: boolean;
 }
 
 const InputBase: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const InputBase: React.FC<Props> = ({
 	label,
 	onIconPress,
 	container = true,
+	hideError = false,
 	children,
 }) => {
 	const theme = useContext(ThemeContext);
@@ -50,7 +52,7 @@ const InputBase: React.FC<Props> = ({
 			) : (
 				children
 			)}
-			<ErrorMessage name={name} />
+			{!hideError && <ErrorMessage name={name} />}
 		</Container>
 	);
 };

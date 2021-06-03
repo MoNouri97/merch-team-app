@@ -12,7 +12,7 @@ import { yup } from '~/config/yupFrLocal';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 
 export const schemaRupture = yup.object({
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	products: yup.array().required().min(1),
 	purchaseOrder: yup.boolean().required(),
 	image: yup.mixed().when('purchaseOrder', {
@@ -36,8 +36,6 @@ const Rupture: React.FC<ReportEventFrom> = ({ name }) => {
 			<ProductsCheckList
 				name={`${name}.products`}
 				placeholder="Choisir Une Catégorie"
-				// TODO:handle this
-				params={{ gms: '1', category: 'cat1' }}
 			/>
 
 			<CheckBox

@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Modal,
 	ModalProps,
-	ScrollView,
+	Pressable,
 	StyleProp,
 	StyleSheet,
 	ViewStyle,
@@ -13,33 +13,40 @@ import styled from '~/config/styled-components';
 export type BottomSheetProps = {
 	containerStyle?: StyleProp<ViewStyle>;
 	modalProps?: ModalProps;
+	center?: boolean;
 };
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
 	containerStyle,
 	modalProps,
 	children,
+	center = false,
 	...props
-}) => (
-	<Modal animationType="slide" transparent {...modalProps}>
-		<SafeContainer
-			style={StyleSheet.flatten([containerStyle && containerStyle])}
-			{...props}
-		>
-			<Content>
-				<ScrollView>{children}</ScrollView>
-			</Content>
+}) => {
+	const ContentContainer = center ? CloseSpaceCenter : CloseSpace;
+	return (
+		<Modal animationType="slide" transparent {...modalProps}>
+			<SafeContainer
+				style={StyleSheet.flatten([containerStyle && containerStyle])}
+				{...props}
+			>
+				<ContentContainer onPress={modalProps?.onRequestClose}>
+					<Content>{children}</Content>
+				</ContentContainer>
+			</SafeContainer>
+		</Modal>
+	);
+};
 
-			<CloseSpace onPress={modalProps?.onRequestClose}>
-				{/* <AppText>hi</AppText> */}
-			</CloseSpace>
-		</SafeContainer>
-	</Modal>
-);
-
-const CloseSpace = styled.TouchableOpacity`
+const CloseSpace = styled(Pressable)`
 	flex-grow: 1;
-	align-items: center;
+	flex-direction: column-reverse;
+	display: flex;
+`;
+const CloseSpaceCenter = styled(Pressable)`
+	flex-grow: 1;
+	flex-direction: column-reverse;
+	padding: 10px;
 	justify-content: center;
 `;
 const SafeContainer = styled(SafeAreaView)`
@@ -47,8 +54,14 @@ const SafeContainer = styled(SafeAreaView)`
 	background-color: rgba(0, 0, 0, 0.1);
 	flex-direction: column-reverse;
 `;
-const Content = styled.View`
+const Content = styled.Pressable`
+	min-height: 200px;
+	flex-shrink: 1;
+	flex-grow: 0;
+	/* align-items: center; */
+	justify-content: center;
 	background: ${({ theme }) => theme.colors.white};
 	padding: 10px;
+	border-radius: ${({ theme }) => theme.borderRadiusLarge};
 `;
 export default BottomSheet;

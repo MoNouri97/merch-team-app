@@ -7,7 +7,7 @@ import { ReportEventFrom } from '~/types/ReportEventForm';
 import EventContainer from './EventContainer';
 
 export const schemaCompetitorEvent = yup.object({
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	competitor: yup.string().required(),
 	images: yup.array().required().min(1),
 });

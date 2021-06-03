@@ -11,7 +11,7 @@ import EventContainer from './EventContainer';
 
 export const schemaAction = yup.object({
 	title: yup.string().required(),
-	category: yup.string().required(),
+	category: yup.string().optional(),
 	product: yup.string().required(),
 	images: yup.array().required().min(1),
 });

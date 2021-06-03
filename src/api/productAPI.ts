@@ -4,7 +4,7 @@ import api from '~/config/api';
 import { QueryFn, QueryOptions } from '~/types/ApiHelpers';
 import { Product } from '~/types/models/Product';
 
-export type getProductsParams = { gms: string; category: string };
+export type getProductsParams = { category?: string; gms?: string } | undefined;
 
 const getProducts: QueryFn<Product[], getProductsParams> = async ({
 	queryKey,
@@ -15,7 +15,7 @@ const getProducts: QueryFn<Product[], getProductsParams> = async ({
 	return data;
 };
 
-const useGetProducts = (params: getProductsParams, options?: QueryOptions) => {
+const useGetProducts = (params?: getProductsParams, options?: QueryOptions) => {
 	return useQuery<unknown, unknown, Product[], [string, getProductsParams]>(
 		['get_products', params],
 		getProducts,

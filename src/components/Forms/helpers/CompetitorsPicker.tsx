@@ -1,5 +1,5 @@
 import React from 'react';
-import useGetCompetitors from '~/api/competitorAPI';
+import { useGetAllCompetitors } from '~/api/competitorAPI';
 import Picker from '~/components/Forms/Picker';
 
 interface CategoriesPickerProps {
@@ -11,13 +11,14 @@ const CategoriesPicker: React.FC<CategoriesPickerProps> = ({
 	name = 'competitor',
 	label = 'conçurent',
 }) => {
-	const { data } = useGetCompetitors();
+	const { data, refetch } = useGetAllCompetitors();
 	return (
 		<Picker
 			{...{
 				name,
 				label,
 			}}
+			onOpen={refetch}
 			data={data}
 		/>
 	);

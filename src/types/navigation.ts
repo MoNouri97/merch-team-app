@@ -1,5 +1,3 @@
-import { GMS } from '~/types/models/GMS';
-
 export type ParamList = {
 	'Demande Congé': undefined;
 	'Ref Products': undefined;
@@ -11,7 +9,7 @@ export type ParamList = {
 export type HomeStackParams = {
 	Accueil: undefined;
 	MapGMS: { id: number };
-	Report: { GMS: GMS };
+	Report: { id: number };
 };
 export type ChatStackParams = {
 	ChatIndividual: undefined;
