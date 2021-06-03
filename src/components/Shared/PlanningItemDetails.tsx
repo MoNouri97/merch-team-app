@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import FancyListItem from '~/components/Shared/FancyListItem';
 import { myTheme } from '~/config/theme';
-import { Planning, PlanningStatus } from '~/types/data';
+import { PlanningStatus } from '~/types/data';
+import { PlanningDetails } from '~/types/models/PlanningDetails';
+// import { Planning, PlanningStatus } from '~/types/data';
 
 const statusToColor = (
 	status: PlanningStatus,
@@ -20,20 +22,19 @@ const statusToColor = (
 	}
 };
 
-const PlanningItemDetails: React.FC<Planning> = ({
-	GMS,
-	done,
-	time,
-	status,
+const PlanningItemDetails: React.FC<PlanningDetails> = ({
+	gms,
+	state: status,
+	day,
 }) => {
 	const { colors } = useContext(ThemeContext);
 	return (
 		<FancyListItem
 			color={statusToColor(status, colors)}
-			header={GMS}
-			subHeader={`${time}min`}
-			// subHeader={` `}
-			checked={done}
+			header={gms.name}
+			// subHeader={`day:${day}`}
+			subHeader={` `}
+			checked={status == 'DONE'}
 			lightColor={(status as PlanningStatus) !== 'TODO'}
 		/>
 	);

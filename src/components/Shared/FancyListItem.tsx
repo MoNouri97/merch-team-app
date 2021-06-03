@@ -16,6 +16,6 @@ const Item = styled(Card)<{ color?: string }>`
 	background: ${({ theme: { colors }, color }) => color ?? colors.gray[2]};
 	padding: 10px;
 	/* min-width: 300px; */
-	flex: 1;
+	/* flex: 1; */
 `;
 export default FancyListItem;

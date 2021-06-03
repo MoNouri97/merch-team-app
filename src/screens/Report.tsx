@@ -1,13 +1,9 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { FieldArray, Formik } from 'formik';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Alert, ModalProps } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import { Alert } from 'react-native';
 import { ValidationError } from 'yup';
-import { useGetGMS } from '~/api/gmsAPI';
-import usePostReport from '~/api/reportAPI';
-import { uploadApi } from '~/api/uploadApi';
+import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
-import { CheckList, Form, SubmitBtn } from '~/components/Forms';
 import { schemaAction } from '~/components/Report/Action';
 import { schemaBeforeAfter } from '~/components/Report/BeforeAfter';
 import { schemaCompetitorEvent } from '~/components/Report/CompetitorEvent';
@@ -15,20 +11,16 @@ import { schemaNewProduct } from '~/components/Report/NewProduct';
 import { schemaPriceChange } from '~/components/Report/PriceChange';
 import { schemaPvC } from '~/components/Report/ProductVsCompetitor';
 import { schemaPromotion } from '~/components/Report/Promotion';
-import ReportEvent from '~/components/Report/ReportEvent';
+import ReportForm from '~/components/Report/ReportForm';
 import ReportHeader from '~/components/Report/ReportHeader';
 import { schemaRupture } from '~/components/Report/Rupture';
 import Timer from '~/components/Report/Timer';
 import AppScreen from '~/components/Shared/AppScreen';
-import BottomSheet from '~/components/Shared/BottomSheet';
-import { PRODUCT } from '~/config/constants';
 import styled from '~/config/styled-components';
-import { extractFiles } from '~/Helpers/extractFiles';
 import { EventType } from '~/types/events';
 import { HomeStackParams } from '~/types/navigation';
 
 type EventList = { type: EventType; id: number }[];
-
 const initial = {
 	events: [{ id: 0, type: 'BeforeAfter' }] as EventList,
 };
@@ -78,13 +70,14 @@ const validate = async (values: { events: any[] }) => {
 const Report: React.FC = () => {
 	const { goBack } = useNavigation();
 	const { params } = useRoute<RouteProp<HomeStackParams, 'Report'>>();
-	const { data: GMS } = useGetGMS(params?.id ?? 100);
+	const { data: task } = useGetTask(params?.id ?? 100);
+	const gms = React.useMemo(() => task?.gms, [task]);
+	// TODO previous report
+	// const { data: initReport } = useGetReport(GMS?.id ?? 100, { enabled: !!GMS });
 
-	const { mutateAsync } = usePostReport();
 	const eventId = useRef(0);
 	const [events, setEvents] = useState<EventList>([
 		{ id: eventId.current++, type: 'BeforeAfter' },
-		// { id: eventId.current++, type: 'PriceChange' },
 	]);
 	const [modal, setModal] = useState(false);
 
@@ -111,98 +104,32 @@ const Report: React.FC = () => {
 		[setEvents, events]
 	);
 
-	const actions = useMemo(
-		() => [{ icon: 'trash-2' as const, onPress: deleteEvent }],
-		[deleteEvent]
-	);
-
 	return (
 		<AppScreen>
 			<ReportHeader
 				onActionPress={() => setModal(true)}
 				onClosePress={() => goBack()}
 			/>
-			<AppText type="subtitle">{GMS?.name}</AppText>
+			<AppText type="subtitle">{gms?.name}</AppText>
 			<Time>
-				<AppText type="label">Temps estimée {GMS?.estimatedTime}</AppText>
+				<AppText type="label">Temps estimée {gms?.estimatedTime}:00</AppText>
 				<Timer />
 			</Time>
-			<Formik
-				initialValues={initial}
-				validateOnChange={false}
-				validateOnBlur={false}
-				validate={validate}
-				onSubmit={async (values, helpers) => {
-					const { setSubmitting } = helpers;
-
-					const files = extractFiles(values.events);
-					const filePaths = await uploadApi(files, console.log);
-					// TODO
-					setSubmitting(false);
+			<ReportForm
+				{...{
+					addEvents,
+					deleteEvent,
+					events,
+					initial,
+					validate,
+					setModal,
+					modal,
+					task: task!,
 				}}
-			>
-				{({ setFieldValue }) => (
-					<>
-						<FieldArray name="events">
-							{() => (
-								<React.Fragment>
-									{events.map((e, i) => (
-										<ReportEvent
-											key={e.id}
-											type={e.type}
-											id={e.id}
-											actions={i !== 0 ? actions : undefined}
-											// name={`${e.type} ${e.id}`}
-											name={`events.${i}`}
-											setFieldValue={setFieldValue}
-										/>
-									))}
-								</React.Fragment>
-							)}
-						</FieldArray>
-						<AddEventModal
-							visible={modal}
-							onRequestClose={() => setModal(false)}
-							handleValues={(v) => {
-								addEvents(v as any);
-								setModal(false);
-							}}
-						/>
-						<SubmitBtn>Soumettre</SubmitBtn>
-					</>
-				)}
-			</Formik>
+			/>
 		</AppScreen>
 	);
 };
-
-const events = [
-	{ name: 'Before/After', id: 'BeforeAfter' },
-	{ name: 'Action', id: 'Action' },
-	{ name: 'Événement Conçurent', id: 'CompetitorEvent' },
-	{ name: 'Nouveau produit', id: 'NewProduct' },
-	{ name: 'Changement de prix', id: 'PriceChange' },
-	{ name: `${PRODUCT} Vs Conçurent`, id: 'ProductVsCompetitor' },
-	{ name: 'Promotion', id: 'Promotion' },
-	{ name: 'Rupture', id: 'Rupture' },
-];
-const AddEventModal: React.FC<
-	ModalProps & { handleValues: (v: string[]) => void }
-> = ({ handleValues, ...props }) => (
-	<BottomSheet modalProps={props}>
-		<Form
-			initialValues={{ toAdd: [] }}
-			onSubmit={(v) => {
-				setTimeout(() => {
-					handleValues(v.toAdd);
-				}, 0);
-			}}
-		>
-			<CheckList name="toAdd" label="" data={events} />
-			<SubmitBtn>Ajouter</SubmitBtn>
-		</Form>
-	</BottomSheet>
-);
 
 const Time = styled.View`
 	align-items: center;

@@ -1,11 +1,12 @@
 import React from 'react';
-import { FlatList, ListRenderItem, View } from 'react-native';
+import { ListRenderItem, View } from 'react-native';
+import { useGetPlannings } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import { SafeScreen } from '~/components/Shared/AppScreen';
 import NavBar from '~/components/Shared/NavBar';
 import PlanningItemDetails from '~/components/Shared/PlanningItemDetails';
 import displayDate from '~/Helpers/displayDate';
-import { fakePlannings } from '~/Helpers/FakeData';
+import { PlanningDetails } from '~/types/models/PlanningDetails';
 
 const ListItem: ListRenderItem<{
 	day: Date;
@@ -18,19 +19,46 @@ const ListItem: ListRenderItem<{
 		))}
 	</View>
 );
-const MonthlyPlanning: React.FC = () => (
-	<SafeScreen>
-		<NavBar />
-		<FlatList
-			initialNumToRender={3}
-			maxToRenderPerBatch={3}
-			// eslint-disable-next-line react-native/no-inline-styles
-			contentContainerStyle={{ padding: 15 }}
-			data={fakePlannings}
-			renderItem={ListItem}
-			keyExtractor={({ day }) => day.toString()}
-		/>
-	</SafeScreen>
+const Item: React.FC<{
+	planning: PlanningDetails[];
+}> = ({ planning }) => (
+	<View style={{ padding: 15 }}>
+		{planning.map((p) => (
+			<PlanningItemDetails
+				{...p}
+				key={p.id}
+				// {...{
+				// key: p.id,
+				// 	GMS: p.gms.name,
+				// 	done: p.state == 'DONE',
+				// 	status: p.state,
+				// 	time: 10,
+				// }}
+			/>
+		))}
+	</View>
 );
+const MonthlyPlanning: React.FC = () => {
+	const { data } = useGetPlannings();
+	console.log(data);
+
+	return (
+		<SafeScreen>
+			<NavBar />
+			{data ? <Item planning={data.tasks} /> : null}
+		</SafeScreen>
+	);
+};
 
 export default MonthlyPlanning;
+
+{
+	/* <FlatList
+	initialNumToRender={3}
+	maxToRenderPerBatch={3}
+	// eslint-disable-next-line react-native/no-inline-styles
+	contentContainerStyle={{ padding: 15 }}
+	data={fakePlannings}
+	renderItem={ListItem}
+	keyExtractor={({ day }) => day.toString()} /> */
+}

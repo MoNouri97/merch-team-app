@@ -126,7 +126,7 @@ export default Testing;
 
 const TestApi = () => {
 	const input = { url: '/categories' };
-	const { error, isFetching, data, refetch } = useGetCategories();
+	const { error, isFetching, data: data, refetch } = useGetCategories();
 
 	return (
 		<>

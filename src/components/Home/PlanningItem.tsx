@@ -3,21 +3,20 @@ import { NavigationProp, useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
 import styled from '~/config/styled-components';
-import { Planning } from '~/types/data';
+import { PlanningDetails } from '~/types/models/PlanningDetails';
 import { HomeStackParams } from '~/types/navigation';
 import PlanningItemDetails from '../Shared/PlanningItemDetails';
 
-const PlanningItem: React.FC<Planning> = (planning) => {
+const PlanningItem: React.FC<PlanningDetails> = (planning) => {
 	const theme = useTheme();
-	const { navigate } = useNavigation<
-		NavigationProp<HomeStackParams, 'Accueil'>
-	>();
+	const { navigate } =
+		useNavigation<NavigationProp<HomeStackParams, 'Accueil'>>();
 	return (
 		<Container>
 			<Location
 				onPress={() => {
 					// FIXME
-					navigate('Report', { id: 100 });
+					navigate('Report', { id: planning.id });
 				}}
 			>
 				<Feather size={30} name="map-pin" color={theme.colors.primary} />
@@ -25,7 +24,7 @@ const PlanningItem: React.FC<Planning> = (planning) => {
 			<ListItem
 				onPress={() => {
 					// FIXME
-					navigate('Report', { id: 100 });
+					navigate('Report', { id: planning.id });
 				}}
 			>
 				<PlanningItemDetails {...planning} />

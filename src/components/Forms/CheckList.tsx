@@ -21,9 +21,8 @@ const CheckList: React.FC<IProps> = ({
 	placeholder,
 	children,
 }) => {
-	let [{ value: selected }, { touched }, { setValue, setTouched }] = useField<
-		Array<string | number>
-	>(name);
+	let [{ value: selected }, { touched }, { setValue, setTouched }] =
+		useField<Array<string | number>>(name);
 	if (selected == undefined) selected = [];
 
 	const handlePress = (id: string | number, toRemove: boolean) => {

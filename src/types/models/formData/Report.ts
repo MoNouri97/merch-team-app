@@ -6,7 +6,7 @@ export type EventSection = {
 	[key: string]: any;
 };
 export type ReportData = {
-	GMS?: Entity;
+	gms?: Entity;
 	longitude?: number;
 	latitude?: number;
 	valid?: boolean;

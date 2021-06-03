@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { useField } from 'formik';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FlatList, Modal, StyleSheet, View } from 'react-native';
 import styled from '~/config/styled-components';
 import AppText from '../AppText';
@@ -34,8 +34,17 @@ const Picker: React.FC<Props> = ({
 	onOpen,
 }) => {
 	const [modalShown, setModalShown] = useState(false);
-	const [selected, setSelected] = useState('');
+	// const [selected, setSelected] = useState('');
 	const [{ value }, , { setValue, setTouched }] = useField(name);
+
+	const selected = useMemo(() => {
+		if (!value) return '';
+		if (!data) return '';
+		for (const item of data) {
+			if (item.id == value) return item.name;
+		}
+		return '';
+	}, [value]);
 
 	const closeModal = () => {
 		setModalShown(false);
@@ -51,7 +60,6 @@ const Picker: React.FC<Props> = ({
 		setModalShown(false);
 		setTimeout(() => {
 			setValue(undefined);
-			setSelected('');
 		}, 0);
 	};
 
@@ -82,7 +90,6 @@ const Picker: React.FC<Props> = ({
 										setModalShown(false);
 										setTimeout(() => {
 											setValue(item.id);
-											setSelected(item.name);
 										}, 0);
 									}}
 								>

@@ -37,12 +37,11 @@ const RefProducts: React.FC = () => {
 				initialValues={initial}
 				validationSchema={validation}
 			>
-				{({ values }) => (
+				{() => (
 					<>
+						{/* <FormDebug /> */}
 						<GMSPicker />
-
 						<ProductsCheckList />
-
 						<SubmitBtn>Ajouter</SubmitBtn>
 					</>
 				)}

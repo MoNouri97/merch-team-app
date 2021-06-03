@@ -36,8 +36,6 @@ const Rupture: React.FC<ReportEventFrom> = ({ name }) => {
 			<ProductsCheckList
 				name={`${name}.products`}
 				placeholder="Choisir Une Catégorie"
-				// TODO:handle this
-				params={{ gms: '1', category: 'cat1' }}
 			/>
 
 			<CheckBox

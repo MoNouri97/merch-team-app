@@ -14,9 +14,10 @@ const ProductsPicker: React.FC<ProductsPickerProps> = ({
 	label = 'Article',
 }) => {
 	const [params, setParams] = useState<getProductsParams>();
-	const categoryName = useMemo(() => name.replace('product', 'category'), [
-		name,
-	]);
+	const categoryName = useMemo(
+		() => name.replace('product', 'category'),
+		[name]
+	);
 	const [{ value }] = useField(categoryName);
 
 	useEffect(() => {

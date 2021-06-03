@@ -1,22 +1,41 @@
 import React from 'react';
+import { useGetPlannings } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 import displayDate from '~/Helpers/displayDate';
-import { fakePlannings } from '~/Helpers/FakeData';
 import PlanningItem from './PlanningItem';
 
-const PlanningCard: React.FC = () => (
-	<Container>
-		<AppText type="label" color="dark">
-			Planning : {displayDate(new Date())}
-		</AppText>
-		<Plannings>
-			{fakePlannings[0].planning.map((planning) => (
-				<PlanningItem key={planning.GMS} {...planning} />
-			))}
-		</Plannings>
-	</Container>
-);
+const PlanningCard: React.FC = () => {
+	const { data } = useGetPlannings();
+
+	return (
+		<Container>
+			<AppText type="label" color="dark">
+				Planning: {displayDate(new Date())}
+			</AppText>
+			<Plannings>
+				{data && data?.tasks.length > 0 ? (
+					data?.tasks
+						.filter((task) => task.day == new Date().getDay())
+						.map((planning) => (
+							<PlanningItem
+								key={planning.id}
+								{...planning}
+								// {...{
+								// 	GMS: planning.gms.name,
+								// 	done: planning.state == 'DONE',
+								// 	status: planning.state,
+								// 	time: 10,
+								// }}
+							/>
+						))
+				) : (
+					<AppText>Pas de taches</AppText>
+				)}
+			</Plannings>
+		</Container>
+	);
+};
 
 const Plannings = styled.View`
 	margin-top: 20px;

@@ -1,6 +1,7 @@
 import { useField } from 'formik';
-import React, { useEffect, useMemo, useState } from 'react';
-import useGetProducts, { getProductsParams } from '~/api/productAPI';
+import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
+import useGetProducts from '~/api/productAPI';
 import CheckList from '~/components/Forms/CheckList';
 import { InputInner } from '~/components/Forms/Input';
 import InputBase from '~/components/Forms/InputBase';
@@ -19,35 +20,56 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 	label = 'Produits',
 	placeholder = 'Choisir une GMS ...',
 }) => {
-	const gmsName = useMemo(() => name.replace('products', 'GMS'), [name]);
-	const [, , { setValue: setProducts }] = useField(name);
-	const [{ value: gmsId }] = useField(gmsName);
-	const [params, setParams] = useState<getProductsParams>();
+	const [, { touched }, { setValue: setProducts, setTouched }] = useField(name);
+	const [{ value: GMS }, , { setValue: setGMS }] = useField('GMS');
+	const [prevGMS, setPrevGMS] = useState(GMS);
+
 	const { data, isFetching } = useGetProducts();
 
-	const { refetch } = useGetProducts(params, {
-		enabled: !!params,
-		cacheTime: Infinity,
-		onSuccess: (res: Product[]) => {
-			setProducts(res?.map((product) => product.id.toString()));
-		},
-	});
-
+	useGetProducts(
+		{ gms: prevGMS },
+		{
+			enabled: !!prevGMS,
+			onSuccess: (res: Product[]) => {
+				setProducts(res?.map((product) => product.id.toString()));
+			},
+		}
+	);
 	useEffect(() => {
-		if (!gmsId) return;
-		setParams({ gms: gmsId });
-		refetch();
-	}, [setParams, refetch, gmsId]);
+		if (GMS === prevGMS) return;
+		if (!touched) {
+			setPrevGMS(GMS);
+			return;
+		}
+		Alert.alert('Confirmation', 'Vos modifications seront perdues', [
+			{
+				text: 'Oui',
+				onPress: () => {
+					setTouched(false);
+					setPrevGMS(GMS);
+				},
+			},
+			{
+				text: 'Non',
+				onPress: () => {
+					setGMS(prevGMS);
+				},
+			},
+		]);
+	}, [GMS]);
 
 	const [search, setSearch] = useState('');
 
 	const listData = React.useMemo(() => {
-		if (!gmsId) return [];
+		if (!prevGMS) return [];
 		if (isFetching) return [];
-		return createPickerData(data, { name: 'designation' }).filter((item) =>
-			item.name.toLowerCase().includes(search.toLowerCase())
-		);
-	}, [isFetching, data, search, gmsId]);
+		if (search.length) {
+			return createPickerData(data, { name: 'designation' }).filter((item) =>
+				item.name.toLowerCase().includes(search.toLowerCase())
+			);
+		}
+		return createPickerData(data, { name: 'designation' });
+	}, [isFetching, data, search, prevGMS]);
 
 	return (
 		<>
@@ -57,7 +79,13 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 				placeholder={placeholder}
 				data={listData}
 			>
-				<InputBase label="" name="" icon="search" hideError>
+				<InputBase
+					label=""
+					name=""
+					icon="search"
+					hideError
+					onIconPress={() => setSearch('')}
+				>
 					<InputInner
 						placeholder="rechercher"
 						value={search}
@@ -70,4 +98,4 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 		</>
 	);
 };
-export default ProductsCheckList;
+export default React.memo(ProductsCheckList);

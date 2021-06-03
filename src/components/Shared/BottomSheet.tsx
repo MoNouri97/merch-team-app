@@ -58,7 +58,7 @@ const Content = styled.Pressable`
 	min-height: 200px;
 	flex-shrink: 1;
 	flex-grow: 0;
-	align-items: center;
+	/* align-items: center; */
 	justify-content: center;
 	background: ${({ theme }) => theme.colors.white};
 	padding: 10px;

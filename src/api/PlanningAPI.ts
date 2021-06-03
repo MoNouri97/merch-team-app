@@ -4,29 +4,32 @@ import { useQuery } from 'react-query';
 import api from '~/config/api';
 import UserContext from '~/context/UserContext';
 import { QueryFn } from '~/types/ApiHelpers';
-import { PlanningDetails } from '~/types/models/PlanningDetails';
+import { Planning, PlanningDetails } from '~/types/models/PlanningDetails';
 
 // TODO : this implementation
 export type GetPlanningsParams = number;
-const getPlannings: QueryFn<PlanningDetails[], GetPlanningsParams> = async ({
+const getPlannings: QueryFn<Planning, GetPlanningsParams> = async ({
 	queryKey,
 }) => {
 	const [_key, id] = queryKey;
 
-	const { data } = await api.get<PlanningDetails[]>(
-		`/taskPlanning/merchandiser/${id}`
-	);
+	const { data } = await api.get<Planning>(`/taskPlanning/merchandiser/${id}`);
 	return data;
 };
 
 const useGetPlannings = () => {
 	const { user } = useContext(UserContext)!;
-	return useQuery<
-		PlanningDetails[],
-		unknown,
-		PlanningDetails[],
-		[string, GetPlanningsParams]
-	>(['get_planning', user!.id], getPlannings);
+	return useQuery(['get_planning', user!.id], getPlannings);
+};
+const getTask: QueryFn<PlanningDetails, number> = async ({ queryKey }) => {
+	const [_key, id] = queryKey;
+
+	const { data } = await api.get<PlanningDetails>(`/task/${id}`);
+	return data;
 };
 
-export default useGetPlannings;
+const useGetTask = (id?: number) => {
+	return useQuery(['get_task', id ?? 0], getTask, { enabled: !!id });
+};
+
+export { useGetPlannings, useGetTask };
