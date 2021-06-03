@@ -1,18 +1,13 @@
 import { useField } from 'formik';
 import React from 'react';
-import {
-	CategoriesPicker,
-	CheckBox,
-	ImageInput,
-	ProductsCheckList,
-} from '~/components/Forms';
+import { CheckBox, ImageInput, ProductsCheckList } from '~/components/Forms';
 import EventContainer from '~/components/Report/EventContainer';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
 import { ReportEventFrom } from '~/types/ReportEventForm';
 
 export const schemaRupture = yup.object({
-	category: yup.string().optional(),
+	// category: yup.string().optional(),
 	products: yup.array().required().min(1),
 	purchaseOrder: yup.boolean().required(),
 	image: yup.mixed().when('purchaseOrder', {
@@ -21,7 +16,7 @@ export const schemaRupture = yup.object({
 	}),
 });
 export const initialRupture = {
-	category: '',
+	// category: '',
 	products: [],
 	purchaseOrder: false,
 	image: undefined,
@@ -29,13 +24,16 @@ export const initialRupture = {
 
 const Rupture: React.FC<ReportEventFrom> = ({ name }) => {
 	const [{ value: purchaseOrderValue }] = useField(`${name}.purchaseOrder`);
+	const [{ value: GMS }] = useField('GMS');
 
 	return (
 		<EventContainer title="Rupture">
-			<CategoriesPicker name={`${name}.category`} />
+			{/* <CategoriesPicker name={`${name}.category`} /> */}
 			<ProductsCheckList
 				name={`${name}.products`}
-				placeholder="Choisir Une Catégorie"
+				placeholder="..."
+				withParams
+				params={{ gms: GMS }}
 			/>
 
 			<CheckBox

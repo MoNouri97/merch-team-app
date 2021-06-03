@@ -1,75 +1,45 @@
-import { useField } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
-import useGetProducts from '~/api/productAPI';
+import React, { useState } from 'react';
+import useGetProducts, { getProductsParams } from '~/api/productAPI';
 import CheckList from '~/components/Forms/CheckList';
 import { InputInner } from '~/components/Forms/Input';
 import InputBase from '~/components/Forms/InputBase';
 import createPickerData from '~/Helpers/createPickerData';
-import { Product } from '~/types/models/Product';
 
-interface ProductsCheckListProps {
+type ProductsCheckListProps = {
 	name?: string;
 	label?: string;
 	placeholder?: string;
-}
+	disabled?: boolean;
+} & (
+	| { withParams?: never; params?: getProductsParams }
+	| { withParams?: true; params: getProductsParams }
+);
 
-// TODO test-this
 const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 	name = 'products',
 	label = 'Produits',
 	placeholder = 'Choisir une GMS ...',
+	params,
+	withParams,
+	disabled = false,
 }) => {
-	const [, { touched }, { setValue: setProducts, setTouched }] = useField(name);
-	const [{ value: GMS }, , { setValue: setGMS }] = useField('GMS');
-	const [prevGMS, setPrevGMS] = useState(GMS);
-
-	const { data, isFetching } = useGetProducts();
-
-	useGetProducts(
-		{ gms: prevGMS },
-		{
-			enabled: !!prevGMS,
-			onSuccess: (res: Product[]) => {
-				setProducts(res?.map((product) => product.id.toString()));
-			},
-		}
-	);
-	useEffect(() => {
-		if (GMS === prevGMS) return;
-		if (!touched) {
-			setPrevGMS(GMS);
-			return;
-		}
-		Alert.alert('Confirmation', 'Vos modifications seront perdues', [
-			{
-				text: 'Oui',
-				onPress: () => {
-					setTouched(false);
-					setPrevGMS(GMS);
-				},
-			},
-			{
-				text: 'Non',
-				onPress: () => {
-					setGMS(prevGMS);
-				},
-			},
-		]);
-	}, [GMS]);
+	const enabled = withParams ? !!params?.gms : !disabled;
+	const { data, isFetching } = useGetProducts(params, {
+		enabled,
+	});
 
 	const [search, setSearch] = useState('');
 
 	const listData = React.useMemo(() => {
-		if (!prevGMS) return [];
 		if (isFetching) return [];
+		if (!enabled) return [];
 		if (search.length) {
 			return createPickerData(data, { name: 'designation' }).filter((item) =>
 				item.name.toLowerCase().includes(search.toLowerCase())
 			);
 		}
 		return createPickerData(data, { name: 'designation' });
-	}, [isFetching, data, search, prevGMS]);
+	}, [isFetching, data, search, enabled]);
 
 	return (
 		<>

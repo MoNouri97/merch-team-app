@@ -1,5 +1,5 @@
 import { FieldArray, Formik } from 'formik';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { usePostReport } from '~/api/reportAPI';
 import { uploadApi } from '~/api/uploadApi';
 import { SubmitBtn } from '~/components/Forms';
@@ -65,36 +65,41 @@ const ReportForm: React.FC<ReportFormProps> = ({
 				setSubmitting(false);
 			}}
 		>
-			{({ setFieldValue }) => (
-				<>
-					<FieldArray name="events">
-						{() => (
-							<React.Fragment>
-								{events.map((e, i) => (
-									<ReportEvent
-										key={e.id}
-										type={e.type}
-										id={e.id}
-										actions={i !== 0 ? actions : undefined}
-										// name={`${e.type} ${e.id}`}
-										name={`events.${i}`}
-										setFieldValue={setFieldValue}
-									/>
-								))}
-							</React.Fragment>
-						)}
-					</FieldArray>
-					<AddEventModal
-						visible={modal}
-						onRequestClose={() => setModal(false)}
-						handleValues={(v) => {
-							addEvents(v as any);
-							setModal(false);
-						}}
-					/>
-					<SubmitBtn>Soumettre</SubmitBtn>
-				</>
-			)}
+			{({ setFieldValue }) => {
+				useEffect(() => {
+					setFieldValue('GMS', task?.gms ?? 100);
+				}, []);
+				return (
+					<>
+						<FieldArray name="events">
+							{() => (
+								<React.Fragment>
+									{events.map((e, i) => (
+										<ReportEvent
+											key={e.id}
+											type={e.type}
+											id={e.id}
+											actions={i !== 0 ? actions : undefined}
+											// name={`${e.type} ${e.id}`}
+											name={`events.${i}`}
+											setFieldValue={setFieldValue}
+										/>
+									))}
+								</React.Fragment>
+							)}
+						</FieldArray>
+						<AddEventModal
+							visible={modal}
+							onRequestClose={() => setModal(false)}
+							handleValues={(v) => {
+								addEvents(v as any);
+								setModal(false);
+							}}
+						/>
+						<SubmitBtn>Soumettre</SubmitBtn>
+					</>
+				);
+			}}
 		</Formik>
 	);
 };

@@ -1,11 +1,13 @@
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import { useQueryClient } from 'react-query';
+import useGetProducts from '~/api/productAPI';
 import usePostRefProducts from '~/api/refProductsAPI';
 import { GMSPicker, ProductsCheckList, SubmitBtn } from '~/components/Forms';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
+import { Product } from '~/types/models/Product';
 
 const initial = {
 	GMS: '',
@@ -37,14 +39,54 @@ const RefProducts: React.FC = () => {
 				initialValues={initial}
 				validationSchema={validation}
 			>
-				{() => (
-					<>
-						{/* <FormDebug /> */}
-						<GMSPicker />
-						<ProductsCheckList />
-						<SubmitBtn>Ajouter</SubmitBtn>
-					</>
-				)}
+				{({ setFieldValue, values, touched, setFieldTouched }) => {
+					const GMS = useMemo(() => values.GMS, [values.GMS]);
+					const [prevGMS, setPrevGMS] = useState(GMS);
+
+					useGetProducts(
+						{ gms: prevGMS },
+						{
+							enabled: !!prevGMS,
+							onSuccess: (res: Product[]) => {
+								setFieldValue(
+									'products',
+									res?.map((product) => product.id.toString())
+								);
+							},
+						}
+					);
+					useEffect(() => {
+						if (GMS === prevGMS) return;
+						if (!touched.products) {
+							setPrevGMS(GMS);
+							return;
+						}
+						Alert.alert('Confirmation', 'Vos modifications seront perdues', [
+							{
+								text: 'Oui',
+								onPress: () => {
+									setFieldTouched('products', false);
+									setPrevGMS(GMS);
+								},
+							},
+							{
+								text: 'Non',
+								onPress: () => {
+									setFieldValue('GMS', prevGMS);
+								},
+							},
+						]);
+					}, [GMS]);
+
+					return (
+						<>
+							{/* <FormDebug /> */}
+							<GMSPicker />
+							<ProductsCheckList disabled={!GMS} />
+							<SubmitBtn>Ajouter</SubmitBtn>
+						</>
+					);
+				}}
 			</Formik>
 		</AppScreen>
 	);

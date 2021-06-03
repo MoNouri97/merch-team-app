@@ -8,8 +8,8 @@ import InputBase from './InputBase';
 
 const EmptyListItem = () => (
 	<View style={styles.listContent}>
-		<AppText style={styles.center} type="title">
-			Chargement ...
+		<AppText style={styles.center} type="label">
+			Pas De Données...
 		</AppText>
 	</View>
 );
