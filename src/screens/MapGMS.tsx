@@ -1,14 +1,16 @@
 import { Feather } from '@expo/vector-icons';
 import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import * as Location from 'expo-location';
+import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
+import { GEO_FENCING_TASK } from '~/Helpers/defineGeofencingTask';
+import useLocation from '~/Helpers/useLocation';
 import { HomeStackParams } from '~/types/navigation';
 
 type MapGMSProps = {
@@ -18,7 +20,15 @@ type MapGMSProps = {
 
 const { width, height } = Dimensions.get('screen');
 const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
-	const { data } = useGetTask(route.params?.id);
+	const { data: GMS } = useGetGMS(route.params.id);
+	const { error, location, refresh } = useLocation();
+	useEffect(() => {
+		if (!GMS) return;
+		Location.startGeofencingAsync(GEO_FENCING_TASK, [
+			// FIXME : review radius
+			{ latitude: GMS.latitude, longitude: GMS.longitude, radius: 500 },
+		]);
+	}, [GMS]);
 	return (
 		<>
 			<MapView
@@ -34,14 +44,16 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 					height,
 				}}
 			>
-				<Marker
-					coordinate={{
-						latitude: 35.8146462228069,
-						longitude: 10.640393067151308,
-					}}
-					title="marker.title"
-					description="marker.description"
-				/>
+				{location && (
+					<Marker
+						coordinate={{
+							latitude: location.latitude,
+							longitude: location.longitude,
+						}}
+						title="marker.title"
+						description="marker.description"
+					/>
+				)}
 			</MapView>
 			<FloatingBtn onPress={() => navigation.goBack()}>
 				<Feather size={20} name="arrow-left" />
@@ -55,8 +67,8 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 					<Btn
 						primary
 						onPress={() => {
-							if (!data) return;
-							navigation.navigate('Report', { id: data.id });
+							if (!GMS) return;
+							navigation.navigate('Report', { GMS });
 						}}
 					>
 						Commencer
