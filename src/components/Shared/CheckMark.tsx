@@ -1,16 +1,17 @@
-import React from 'react';
 import { Feather } from '@expo/vector-icons';
+import React from 'react';
 import { useTheme } from 'styled-components';
 import styled from '~/config/styled-components';
 
 interface IProps {
 	checked?: boolean;
+	scale?: number;
 }
 
-const CheckMark: React.FC<IProps> = ({ checked = false }) => {
+const CheckMark: React.FC<IProps> = ({ checked = false, scale = 1 }) => {
 	const theme = useTheme();
 	return (
-		<Container checked={checked}>
+		<Container checked={checked} style={{ transform: [{ scale }] }}>
 			<Feather
 				size={20}
 				name="check"

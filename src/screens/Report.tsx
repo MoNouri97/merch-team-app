@@ -70,6 +70,7 @@ const validate = async (values: { events: any[] }) => {
 const Report: React.FC = () => {
 	const { goBack } = useNavigation();
 	const { params } = useRoute<RouteProp<HomeStackParams, 'Report'>>();
+	const [timer, setTimer] = useState(0);
 	const { data: task } = useGetTask(params?.id ?? 100);
 	const gms = React.useMemo(() => task?.gms, [task]);
 	// TODO previous report
@@ -122,7 +123,7 @@ const Report: React.FC = () => {
 							<AppText type="label">
 								Temps estimée {gms?.estimatedTime}:00
 							</AppText>
-							<Timer />
+							<Timer {...{ timer, setTimer }} />
 						</Time>
 						<ReportForm
 							{...{

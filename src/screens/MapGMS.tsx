@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { useGetGMS } from '~/api/gmsAPI';
+import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
 import Btn from '~/components/Shared/Btn';
@@ -18,7 +18,7 @@ type MapGMSProps = {
 
 const { width, height } = Dimensions.get('screen');
 const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
-	const { data } = useGetGMS(route.params.id);
+	const { data } = useGetTask(route.params?.id);
 	return (
 		<>
 			<MapView
@@ -56,7 +56,7 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 						primary
 						onPress={() => {
 							if (!data) return;
-							navigation.navigate('Report', { GMS: data });
+							navigation.navigate('Report', { id: data.id });
 						}}
 					>
 						Commencer

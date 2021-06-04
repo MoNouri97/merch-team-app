@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import AppText from '~/components/AppText';
 
-const Timer: React.FC = () => {
-	const [timer, setTimer] = useState(0);
+type TimerProp = {
+	timer: number;
+	setTimer: React.Dispatch<React.SetStateAction<number>>;
+};
+const Timer: React.FC<TimerProp> = ({ timer, setTimer }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
 	const countRef = useRef<NodeJS.Timeout>();

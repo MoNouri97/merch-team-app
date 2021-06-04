@@ -13,6 +13,7 @@ const ProgressBar: React.FC<IProps> = ({ percent }) => (
 const Bar = styled.View`
 	background: ${({ theme }) => `${theme.colors.gray[2]}`};
 	height: 20px;
+	max-height: 20px;
 	flex-grow: 1;
 	border-radius: ${({ theme }) => `${theme.borderRadius}`};
 `;

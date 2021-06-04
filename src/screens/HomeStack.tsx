@@ -20,11 +20,11 @@ const HomeStack: React.FC = () => (
 		<Stack.Screen
 			name="Report"
 			component={Report}
-			options={{
-				cardOverlayEnabled: true,
-				gestureEnabled: true,
-				...TransitionPresets.ModalSlideFromBottomIOS,
-			}}
+			// options={{
+			// 	cardOverlayEnabled: true,
+			// 	gestureEnabled: true,
+			// 	...TransitionPresets.ModalSlideFromBottomIOS,
+			// }}
 		/>
 	</Stack.Navigator>
 );

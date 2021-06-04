@@ -5,9 +5,9 @@ import {
 	Pressable,
 	StyleProp,
 	StyleSheet,
+	View,
 	ViewStyle,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from '~/config/styled-components';
 
 export type BottomSheetProps = {
@@ -25,7 +25,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 }) => {
 	const ContentContainer = center ? CloseSpaceCenter : CloseSpace;
 	return (
-		<Modal animationType="slide" transparent {...modalProps}>
+		<Modal
+			statusBarTranslucent
+			animationType="slide"
+			transparent
+			{...modalProps}
+		>
 			<SafeContainer
 				style={StyleSheet.flatten([containerStyle && containerStyle])}
 				{...props}
@@ -49,9 +54,9 @@ const CloseSpaceCenter = styled(Pressable)`
 	padding: 10px;
 	justify-content: center;
 `;
-const SafeContainer = styled(SafeAreaView)`
+const SafeContainer = styled(View)`
 	flex: 1;
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.5);
 	flex-direction: column-reverse;
 `;
 const Content = styled.Pressable`

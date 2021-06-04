@@ -1,6 +1,8 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import React from 'react';
 import ChatStack from '~/screens/Chat/ChatStack';
+import LocateGMS from '~/screens/LocateGMS';
+import MapGMS from '~/screens/MapGMS';
 import Report from '~/screens/Report';
 import Testing from '~/screens/Testing';
 import Claim from '../Claim';
@@ -26,6 +28,8 @@ const DrawerNav: React.FC = () => (
 		<Drawer.Screen name="Planning" component={MonthlyPlanning} />
 		<Drawer.Screen name="Test" component={Testing} />
 		<Drawer.Screen name="Report" component={Report} />
+		<Drawer.Screen name="Map" component={MapGMS} />
+		<Drawer.Screen name="Localiser GMS" component={LocateGMS} />
 	</Drawer.Navigator>
 );
 export default DrawerNav;

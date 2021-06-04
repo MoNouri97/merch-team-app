@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import { Stomp } from '@stomp/stompjs';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import SockJS from 'sockjs-client';
 import useGetCategories from '~/api/categoryAPI';
 import { uploadApi } from '~/api/uploadApi';
@@ -20,6 +20,7 @@ import Btn from '~/components/Shared/Btn';
 import api from '~/config/api';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
+import ModalContext from '~/context/ModalContext';
 import { fakeCategories } from '~/Helpers/FakeData';
 import { jsonToForm } from '~/Helpers/jsonToForm';
 
@@ -40,11 +41,28 @@ const validation = yup.object({
 const Testing: React.FC = () => {
 	const navigation = useNavigation();
 	const [modal, setModal] = useState(false);
+	const { showText, showProgress, hide } = useContext(ModalContext)!;
 	return (
 		<AppScreen navbar>
 			{/* <TestApi /> */}
 			{/* <TestChat /> */}
 			<TestUpload />
+			<Btn
+				onPress={() => {
+					// showText('Veiller patienter');
+					let a = 0;
+					const r = setInterval(() => {
+						if (a >= 100) {
+							clearInterval(r);
+							hide();
+						}
+						showProgress(a);
+						a += 10;
+					}, 100);
+				}}
+			>
+				Modal Global
+			</Btn>
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet
 				center
