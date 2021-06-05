@@ -1,7 +1,7 @@
 /* eslint-disable arrow-body-style */
 import axios from 'axios';
-import { useMutation } from 'react-query';
-import { URL } from '~/config/api';
+import { useMutation, useQuery } from 'react-query';
+import api, { URL } from '~/config/api';
 import { User } from '~/types/models/User';
 
 type LoginRequest = { username: string; password: string };
@@ -22,5 +22,12 @@ const login = (credentials: LoginRequest) => {
 const useLogin = () => {
 	return useMutation('login', login);
 };
+const getAdmin = async () => {
+	const { data } = await api.get<User[]>('/user/role/ADMIN');
+	return data;
+};
 
-export { useLogin, LoginRequest };
+const useGetAdmin = () => {
+	return useQuery('get_admins', getAdmin);
+};
+export { useLogin, LoginRequest, useGetAdmin };
