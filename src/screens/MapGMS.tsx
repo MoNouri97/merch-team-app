@@ -5,6 +5,7 @@ import * as Location from 'expo-location';
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
 import Btn from '~/components/Shared/Btn';
@@ -20,7 +21,8 @@ type MapGMSProps = {
 
 const { width, height } = Dimensions.get('screen');
 const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
-	const { data: GMS } = useGetGMS(route.params.id);
+	const { data } = useGetTask(route.params?.id);
+	const GMS = data?.gms;
 	const { error, location, refresh } = useLocation();
 	useEffect(() => {
 		if (!GMS) return;
@@ -67,8 +69,8 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 					<Btn
 						primary
 						onPress={() => {
-							if (!GMS) return;
-							navigation.navigate('Report', { GMS });
+							if (!data) return;
+							navigation.navigate('Report', { id: data.id });
 						}}
 					>
 						Commencer
