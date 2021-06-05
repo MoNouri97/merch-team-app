@@ -1,44 +1,38 @@
-import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import AppText from '~/components/AppText';
+import { useGetAdmin } from '~/api/UserAPI';
+import ChatListItem from '~/components/Chat/ChatListItem';
 import AppScreen from '~/components/Shared/AppScreen';
-import styled from '~/config/styled-components';
-import { fakeProducts } from '~/Helpers/FakeData';
+import { ChatStackNav } from '~/types/navigation';
 
+// TODO : test
 const ChatList: React.FC = () => {
-	const nav = useNavigation();
+	const nav = useNavigation<ChatStackNav<'ChatList'>>();
+	const { data: admins } = useGetAdmin();
 
 	return (
 		<AppScreen title="Chat" navbar>
-			{fakeProducts.slice(0, 3).map((v) => (
-				<TouchableOpacity
-					key={v.id}
-					onPress={() => {
-						setTimeout(() => {
-							nav.navigate('ChatIndividual');
-						}, 0);
-					}}
-				>
-					<ChatCard>
-						<AppText size={15}>{v.name}</AppText>
-						<Icon size={20} name="chevron-right" />
-					</ChatCard>
-				</TouchableOpacity>
-			))}
+			{admins &&
+				admins.map((admin) => (
+					<ChatListItem
+						data={admin}
+						onPress={() => {
+							setTimeout(() => {
+								nav.navigate('ChatIndividual', { id: admin.id });
+							}, 0);
+						}}
+					/>
+				))}
+			{/* <ChatListItem
+				data={{ id: -1, name: 'Groupe' }}
+				onPress={() => {
+					setTimeout(() => {
+						nav.navigate('ChatIndividual', { id: -1 });
+					}, 0);
+				}}
+			/> */}
 		</AppScreen>
 	);
 };
-const ChatCard = styled.View`
-	border-bottom-width: 1px;
-	border-bottom-color: ${({ theme }) => theme.colors.gray[2]};
-	padding: 20px;
-	margin: 5px;
-	flex-direction: row;
-	justify-content: space-between;
-`;
-const Icon = styled(Feather)`
-	color: ${({ theme }) => theme.colors.gray[3]};
-`;
+
 export default ChatList;

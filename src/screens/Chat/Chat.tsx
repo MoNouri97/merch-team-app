@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/core';
 import React, { useContext, useState } from 'react';
 import { useChatAPI, useGetChatMsg } from '~/api/chatApi';
 import AppText from '~/components/AppText';
@@ -8,6 +9,7 @@ import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
 import UserContext from '~/context/UserContext';
 import { ChatMessageModel } from '~/types/models/ChatMessage';
+import { ChatStackRoute } from '~/types/navigation';
 
 const mergeMessages = (
 	existing: ChatMessageModel[],
@@ -28,8 +30,9 @@ const Chat: React.FC = () => {
 	const [hasMore, setHasMore] = useState(false);
 	const [offset, setOffset] = useState(0);
 	const [autoScroll, setAutoScroll] = useState(true);
+	const { params } = useRoute<ChatStackRoute<'ChatIndividual'>>();
 
-	useGetChatMsg({ count: 5, offset }, (data) => {
+	useGetChatMsg({ count: 5, offset }, params.id, (data) => {
 		setMessages(mergeMessages(messages, data.messages));
 		setHasMore(data.more);
 	});
@@ -46,8 +49,9 @@ const Chat: React.FC = () => {
 			if (!stompClient.connected) {
 				console.log('not active ');
 			}
+
 			stompClient.send(
-				'/app/chat/2',
+				`/app/chat/${params.id}`,
 				{},
 				JSON.stringify({
 					sender: user!.id,
@@ -85,14 +89,14 @@ const Chat: React.FC = () => {
 									setAutoScroll(false);
 								}}
 							>
-								charger
+								plus
 							</Btn>
 						)}
 					</Center>
 					{messages.length <= 0 ? (
 						<NoMessages>
 							<AppText type="subtitle" color="dimmed">
-								Commencer la conversation
+								Pas des messages
 							</AppText>
 						</NoMessages>
 					) : (
@@ -106,9 +110,11 @@ const Chat: React.FC = () => {
 					)}
 				</Messages>
 			</AppScreen>
-			<Send>
-				<ChatField send={addMsg} />
-			</Send>
+			{params.id !== -1 && (
+				<Send>
+					<ChatField send={addMsg} />
+				</Send>
+			)}
 		</>
 	);
 };

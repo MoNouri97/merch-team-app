@@ -35,7 +35,15 @@ export const useChatAPI = (
 					},
 					headers
 				);
+				stompClient.subscribe(
+					`/topic/messages/-1`, // -1 for broadcast
+					(payload) => {
+						handleMessage(JSON.parse(payload.body));
+					},
+					headers
+				);
 			};
+
 			stompClient.activate();
 		});
 
@@ -51,23 +59,26 @@ type MessagesResponse = {
 	more: boolean;
 };
 type ChatMsgParams = { count: number; offset: number };
-const getChatMsg: QueryFn<MessagesResponse, ChatMsgParams> = async ({
-	queryKey,
-}) => {
-	const [_, params] = queryKey;
-	const { data } = await api.get<MessagesResponse>('/chat', { params });
+const getChatMsg: QueryFn<
+	MessagesResponse,
+	ChatMsgParams & { fromId: number }
+> = async ({ queryKey }) => {
+	const [_, args] = queryKey;
+	const { data } = await api.get<MessagesResponse>(`/chat/${args.fromId}`, {
+		params: { count: args.count, offset: args.offset },
+	});
 	return data;
 };
 
 export const useGetChatMsg = (
 	params: ChatMsgParams,
+	fromId: number,
 	onSuccess: (data: MessagesResponse) => void
 ) => {
-	return useQuery<any, any, MessagesResponse, [string, ChatMsgParams]>(
-		['chat_msg', params],
-		getChatMsg,
-		{ refetchOnMount: 'always', onSuccess }
-	);
+	return useQuery(['chat_msg', { ...params, fromId }], getChatMsg, {
+		refetchOnMount: 'always',
+		onSuccess,
+	});
 };
 
 export default useChatAPI;

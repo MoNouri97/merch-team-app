@@ -1,3 +1,5 @@
+import { NavigationProp, RouteProp } from '@react-navigation/core';
+
 export type ParamList = {
 	'Demande Congé': undefined;
 	'Ref Products': undefined;
@@ -11,7 +13,19 @@ export type HomeStackParams = {
 	MapGMS: { id: number };
 	Report: { id: number };
 };
+export type HomeStackNav<T extends keyof HomeStackParams> = NavigationProp<
+	HomeStackParams,
+	T
+>;
 export type ChatStackParams = {
-	ChatIndividual: undefined;
+	ChatIndividual: { id: number };
 	ChatList: undefined;
 };
+export type ChatStackNav<T extends keyof ChatStackParams> = NavigationProp<
+	ChatStackParams,
+	T
+>;
+export type ChatStackRoute<T extends keyof ChatStackParams> = RouteProp<
+	ChatStackParams,
+	T
+>;
