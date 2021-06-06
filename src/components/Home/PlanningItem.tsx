@@ -16,7 +16,7 @@ const PlanningItem: React.FC<PlanningDetails> = (planning) => {
 			<Location
 				onPress={() => {
 					// FIXME
-					navigate('Report', { id: planning.id });
+					navigate('MapGMS', { id: planning.id });
 				}}
 			>
 				<Feather size={30} name="map-pin" color={theme.colors.primary} />

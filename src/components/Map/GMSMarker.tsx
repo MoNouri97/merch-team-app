@@ -3,16 +3,38 @@ import { LatLng, Marker } from 'react-native-maps';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
 
-interface GMSMarkerProp {
+interface MarkerProp {
 	coordinate: LatLng;
 	text?: string;
+	icon?: 'GMS' | 'Person';
+	draggable?: boolean;
 }
 
-const GMSMarker: React.FC<GMSMarkerProp> = ({ coordinate, text }) => {
+const GMSMarker: React.FC<MarkerProp> = (props) => {
+	return <AppMarker {...props} icon="GMS" />;
+};
+const PersonMarker: React.FC<MarkerProp> = (props) => {
+	return <AppMarker {...props} icon="Person" />;
+};
+const AppMarker: React.FC<MarkerProp> = ({
+	coordinate,
+	text,
+	icon,
+	draggable = false,
+}) => {
+	const image = React.useMemo(() => {
+		if (icon == 'GMS') {
+			return require('../../../assets/shop-50.png');
+		}
+		if (icon == 'Person') {
+			return require('../../../assets/standing-man-50.png');
+		}
+		return require('../../../assets/standing-man-50.png');
+	}, []);
 	return (
 		<Marker
-			draggable
-			image={require('../../../assets/shop-50.png')}
+			draggable={draggable}
+			image={image}
 			coordinate={coordinate}
 			anchor={{ x: 0.2, y: 1 }}
 		>
@@ -23,4 +45,4 @@ const GMSMarker: React.FC<GMSMarkerProp> = ({ coordinate, text }) => {
 const Title = styled(AppText)`
 	margin-left: 30px;
 `;
-export default GMSMarker;
+export { GMSMarker, PersonMarker, AppMarker };

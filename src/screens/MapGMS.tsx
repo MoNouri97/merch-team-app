@@ -4,10 +4,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import * as Location from 'expo-location';
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Circle } from 'react-native-maps';
 import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
+import { GMSMarker, PersonMarker } from '~/components/Map/GMSMarker';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
 import { GEO_FENCING_TASK } from '~/Helpers/defineGeofencingTask';
@@ -28,32 +29,57 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 		if (!GMS) return;
 		Location.startGeofencingAsync(GEO_FENCING_TASK, [
 			// FIXME : review radius
-			{ latitude: GMS.latitude, longitude: GMS.longitude, radius: 500 },
+			{ latitude: GMS.latitude, longitude: GMS.longitude, radius: 1 },
 		]);
-	}, [GMS]);
+		return () => {
+			Location.stopGeofencingAsync(GEO_FENCING_TASK);
+		};
+	}, [data?.gms]);
 	return (
 		<>
 			<MapView
 				showsMyLocationButton
-				initialRegion={{
-					latitude: 35.8146462228069,
-					latitudeDelta: 0.0012900715168910892,
-					longitude: 10.640393067151308,
-					longitudeDelta: 0.0007533654570579529,
-				}}
+				initialRegion={
+					data && {
+						latitude: data?.gms.latitude,
+						latitudeDelta: 0.0012900715168910892,
+						longitude: data?.gms.longitude,
+						longitudeDelta: 0.0007533654570579529,
+					}
+				}
+				rotateEnabled={false}
+				maxZoomLevel={18.5}
 				style={{
 					width,
 					height,
 				}}
 			>
+				{data && (
+					<>
+						<Circle
+							center={{
+								latitude: data.gms.latitude,
+								longitude: data.gms.longitude,
+							}}
+							radius={50}
+							fillColor="rgba(78, 173, 254, 0.2)"
+							strokeColor="rgba(78, 173, 254,0)"
+						/>
+						<GMSMarker
+							coordinate={{
+								latitude: data.gms.latitude,
+								longitude: data.gms.longitude,
+							}}
+							text={data?.gms.name}
+						/>
+					</>
+				)}
 				{location && (
-					<Marker
+					<PersonMarker
 						coordinate={{
 							latitude: location.latitude,
 							longitude: location.longitude,
 						}}
-						title="marker.title"
-						description="marker.description"
 					/>
 				)}
 			</MapView>
@@ -62,8 +88,8 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 			</FloatingBtn>
 			<Card>
 				<Col>
-					<Subtitle numberOfLines={2}>Aziza Ibn Khaldoun</Subtitle>
-					<AppText>15min</AppText>
+					<Subtitle numberOfLines={2}>{data?.gms.name}</Subtitle>
+					<AppText>{data?.gms.estimatedTime}min</AppText>
 				</Col>
 				<Col>
 					<Btn

@@ -1,10 +1,11 @@
 import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
-import MapView, { Circle, LatLng, Marker } from 'react-native-maps';
+import MapView, { Circle, LatLng } from 'react-native-maps';
+import { useUpdateGMS } from '~/api/gmsAPI';
 import AppText from '~/components/AppText';
 import { ErrorMessage, GMSPicker, SubmitBtn } from '~/components/Forms';
 import { Subtitle } from '~/components/Forms/styles';
-import GMSMarker from '~/components/Map/GMSMarker';
+import { GMSMarker, PersonMarker } from '~/components/Map/GMSMarker';
 import AppScreen from '~/components/Shared/AppScreen';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
@@ -13,7 +14,7 @@ import useLocation from '~/Helpers/useLocation';
 
 const initial = {
 	GMS: '',
-	coord: undefined,
+	coord: undefined as { longitude: number; latitude: number } | undefined,
 };
 const validation = yup.object({
 	GMS: yup.string().required(),
@@ -25,6 +26,7 @@ const validation = yup.object({
 // 	return location;
 // };
 const LocateGMS: React.FC = () => {
+	const { mutateAsync } = useUpdateGMS();
 	const [pin, setPin] = useState<LatLng>();
 	const { location, refresh } = useLocation();
 	let region = useRef({
@@ -34,8 +36,6 @@ const LocateGMS: React.FC = () => {
 		longitudeDelta: 0.001,
 	});
 	useEffect(() => {
-		console.log('setting');
-
 		region.current = {
 			...region.current,
 			...location,
@@ -50,6 +50,7 @@ const LocateGMS: React.FC = () => {
 				validationSchema={validation}
 				onSubmit={(values, { setSubmitting }) => {
 					console.log(values);
+					mutateAsync({ id: values.GMS, ...values.coord });
 					setSubmitting(false);
 				}}
 			>
@@ -70,12 +71,12 @@ const LocateGMS: React.FC = () => {
 									region.current = r;
 								}}
 								rotateEnabled={false}
-								zoomEnabled={false}
+								maxZoomLevel={18.5}
 								style={{
 									flex: 1,
 								}}
 							>
-								{pin && <GMSMarker coordinate={pin} text="GMS" />}
+								{pin && <GMSMarker draggable coordinate={pin} text="GMS" />}
 								{location && (
 									<>
 										<Circle
@@ -84,11 +85,7 @@ const LocateGMS: React.FC = () => {
 											fillColor="rgba(78, 173, 254, 0.2)"
 											strokeColor="rgba(78, 173, 254,0)"
 										/>
-										<Marker
-											image={require('../../assets/standing-man-50.png')}
-											coordinate={location}
-											title="Votre Position"
-										/>
+										<PersonMarker coordinate={location} />
 									</>
 								)}
 							</MapView>
@@ -105,6 +102,7 @@ const LocateGMS: React.FC = () => {
 									longitudeDelta: 0.001,
 								};
 								setPin(location);
+								setFieldValue('coord', location);
 							}}
 						>
 							Utiliser L'emplacement Actuel

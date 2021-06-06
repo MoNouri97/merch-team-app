@@ -1,5 +1,5 @@
 export type GMS = {
-	id: number;
+	id: number | string;
 	name: string;
 	image: string;
 	estimatedTime: number;
