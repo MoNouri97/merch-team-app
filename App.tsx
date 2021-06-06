@@ -15,6 +15,7 @@ import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import { ModalContextProvider } from '~/context/ModalContext';
 import { UserContextProvider } from '~/context/UserContext';
+import defineGeofencingTask from '~/Helpers/defineGeofencingTask';
 import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
 
 // react-native warning
@@ -32,6 +33,9 @@ export default function App() {
 		DMSans_500Medium,
 		DMSans_700Bold,
 	});
+	// geoFencing
+	defineGeofencingTask();
+
 	if (!fontsLoaded) {
 		return <AppLoading />;
 	}
