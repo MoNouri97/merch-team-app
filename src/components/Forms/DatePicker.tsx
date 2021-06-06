@@ -1,7 +1,7 @@
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import {} from 'date-fns';
 import { useField } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import AppText from '~/components/AppText';
 import styled from '~/config/styled-components';
@@ -14,7 +14,12 @@ interface IProps {
 }
 
 const DatePicker: React.FC<IProps> = ({ name, label }) => {
-	const [{ value: date }, , { setValue: setDate }] = useField<Date>(name);
+	const [{ value: date }, , { setValue: setDate }] =
+		useField<Date | undefined>(name);
+	useEffect(() => {
+		if (date) return;
+		setDate(new Date());
+	}, []);
 	// const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
@@ -27,6 +32,7 @@ const DatePicker: React.FC<IProps> = ({ name, label }) => {
 	const showDatePicker = () => {
 		setShow(true);
 	};
+	if (!date) return null;
 
 	return (
 		<InputBase label={label ?? name} name={name} icon="calendar">
