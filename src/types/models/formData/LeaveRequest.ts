@@ -1,5 +1,9 @@
+import { Entity } from '~/types/models/Entity';
+
 export type LeaveRequestData = {
-	start: Date;
-	end: Date;
+	startDate: string;
+	endDate: string;
 	reason: string;
+	requester: Entity;
+	image: string;
 };

@@ -66,6 +66,7 @@ const Content = styled.Pressable`
 	/* align-items: center; */
 	justify-content: center;
 	background: ${({ theme }) => theme.colors.white};
+	elevation: 10;
 	padding: 10px;
 	border-radius: ${({ theme }) => theme.borderRadiusLarge};
 `;

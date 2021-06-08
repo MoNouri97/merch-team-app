@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const DatePicker: React.FC<IProps> = ({ name, label }) => {
-	const [{ value: date }, , { setValue: setDate }] =
+	const [{ value: date }, , { setValue: setDate, setTouched }] =
 		useField<Date | undefined>(name);
 	useEffect(() => {
 		if (date) return;
@@ -27,6 +27,7 @@ const DatePicker: React.FC<IProps> = ({ name, label }) => {
 		const currentDate = selectedDate || date;
 		setShow(Platform.OS === 'ios');
 		setDate(currentDate);
+		setTouched(true);
 	};
 
 	const showDatePicker = () => {

@@ -1,5 +1,6 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
+import { useTheme } from 'styled-components';
 import AppText from '~/components/AppText';
 import ProgressBar from '~/components/Home/ProgressBar';
 import BottomSheet from '~/components/Shared/BottomSheet';
@@ -9,7 +10,7 @@ import styled from '~/config/styled-components';
 type ModalState = {
 	visible: boolean;
 	showProgress: (p: number) => void;
-	showText: (t: string) => void;
+	showText: (t: string, callback?: () => void) => void;
 	hide: () => void;
 };
 type ModalType = 'text' | 'progress';
@@ -22,45 +23,50 @@ export const ModalContextProvider: React.FC = ({ children }) => {
 	const [type, setType] = useState<ModalType>('text');
 	const [text, setText] = useState('');
 	const [progress, setProgress] = useState(0);
+	// const [onClose, setOnClose] = useState<() => void>();
 
-	const showText = useCallback(
-		(t: string) => {
-			setType('text');
-			setText(t);
-			!visible && setVisible(true);
-		},
-		[visible, setVisible, setType, setText]
-	);
+	React.useEffect(() => {
+		console.log(type);
+	}, [type]);
 
-	const showProgress = useCallback(
-		(p: number) => {
-			setType('progress');
-			setProgress(p);
-			!visible && setVisible(true);
-		},
-		[visible, setVisible, setType, setProgress]
-	);
+	const showText = (t: string, callback?: () => void) => {
+		setType('text');
+		setText(t);
+		// setOnClose(callback);
+		setVisible(true);
+	};
+
+	const showProgress = (p: number) => {
+		// setOnClose(undefined);
+		setType('progress');
+		setProgress(p);
+		setVisible(true);
+	};
 
 	const hide = useCallback(() => {
+		// setOnClose(undefined);
+
+		if (type == 'text') {
+			return setVisible(false);
+		}
 		setDone(true);
 		setTimeout(() => {
 			setVisible(false);
 			setDone(false);
-		}, 500);
-	}, [setVisible]);
-
-	// const Content = () => {
-	// 	return (
-
-	// 	)
-	// }
+		}, 200);
+	}, [setVisible, type, setDone]);
+	const onRequestClose = useMemo(
+		() => (type == 'text' ? hide : undefined),
+		[type]
+	);
+	const { colors } = useTheme();
 	return (
 		<ModalContext.Provider value={{ showProgress, showText, hide, visible }}>
 			<BottomSheet
 				center
 				modalProps={{
 					visible,
-					onRequestClose: () => setVisible(false),
+					onRequestClose,
 					animationType: 'fade',
 				}}
 			>
@@ -71,16 +77,27 @@ export const ModalContextProvider: React.FC = ({ children }) => {
 						</Center>
 					) : type == 'progress' ? (
 						<Container>
-							<AppText size={18}>Veiller patienter</AppText>
-							<AppText size={18}>{progress}%</AppText>
-							<ProgressBar percent={progress} />
+							<AppText size={18} type="label">
+								Veiller patienter
+							</AppText>
+							{progress ? (
+								<>
+									<AppText size={18}>{progress}%</AppText>
+									<ProgressBar percent={progress} />
+								</>
+							) : (
+								<ActivityIndicator color={colors.primary} size="large" />
+							)}
 						</Container>
 					) : (
 						<>
-							<AppText style={{ textAlign: 'center' }} type="title">
+							<AppText
+								style={{ textAlign: 'center' }}
+								type="label"
+								numberOfLines={99}
+							>
 								{text}
 							</AppText>
-							<ActivityIndicator color="purple" size={'large'} />
 						</>
 					)}
 				</Container>
@@ -91,7 +108,7 @@ export const ModalContextProvider: React.FC = ({ children }) => {
 };
 
 const Container = styled.View`
-	align-items: stretch;
+	align-items: center;
 	justify-content: space-evenly;
 	flex: 1;
 	padding: 10px;
