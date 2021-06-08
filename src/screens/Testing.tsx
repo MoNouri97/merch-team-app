@@ -50,13 +50,14 @@ const Testing: React.FC = () => {
 			<Btn
 				onPress={() => {
 					// showText('Veiller patienter');
+					showProgress(0);
 					let a = 0;
 					const r = setInterval(() => {
 						if (a >= 100) {
 							clearInterval(r);
-							hide();
+							return hide();
 						}
-						showProgress(a);
+						// showProgress(a);
 						a += 10;
 					}, 100);
 				}}

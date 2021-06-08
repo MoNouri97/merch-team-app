@@ -14,7 +14,7 @@ const PlanningCard: React.FC = () => {
 				Planning: {displayDate(new Date())}
 			</AppText>
 			<Plannings>
-				{data && data?.tasks.length > 0 ? (
+				{data && data?.tasks?.length > 0 ? (
 					data?.tasks
 						.filter((task) => task.day == new Date().getDay())
 						.map((planning) => (

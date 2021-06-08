@@ -21,6 +21,10 @@ export const yupFrLocal = {
 		max: 'ce champ doit contenir au plus ${max} éléments',
 		length: 'ce champ doit contenir ${length} éléments',
 	},
+	date: {
+		min: 'la date doit être valide',
+		max: 'la date doit être valide',
+	},
 };
 yup.setLocale(yupFrLocal);
 export { yup };

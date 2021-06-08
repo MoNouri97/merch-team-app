@@ -11,5 +11,6 @@ export type ReportData = {
 	latitude?: number;
 	valid?: boolean;
 	time?: number;
+	dateTime?: Date;
 	events: EventSection[];
 };

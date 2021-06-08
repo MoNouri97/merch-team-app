@@ -33,7 +33,7 @@ const Rupture: React.FC<ReportEventFrom> = ({ name }) => {
 				name={`${name}.products`}
 				placeholder="..."
 				withParams
-				params={{ gms: GMS }}
+				params={{ gms: GMS.id }}
 			/>
 
 			<CheckBox

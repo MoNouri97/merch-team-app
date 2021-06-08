@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { Alert } from 'react-native';
 import usePostClaim from '~/api/ClaimAPI';
 import useGetClaimTypes from '~/api/ClaimTypeAPI';
+import { uploadApi } from '~/api/uploadApi';
 import {
 	Form,
 	GMSPicker,
@@ -13,6 +13,7 @@ import {
 import { Subtitle } from '~/components/Forms/styles';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
+import ModalContext from '~/context/ModalContext';
 import UserContext from '~/context/UserContext';
 
 const initial = {
@@ -31,21 +32,24 @@ const Claim: React.FC = () => {
 	let { data: claimTypes, refetch } = useGetClaimTypes();
 	const { mutateAsync } = usePostClaim();
 	const { user } = useContext(UserContext)!;
+	const { showProgress, hide } = useContext(ModalContext)!;
 
 	return (
 		<AppScreen navbar>
 			<Subtitle>Détails</Subtitle>
 			<Form
 				onSubmit={async (values, { setSubmitting, resetForm }) => {
+					const filePaths = await uploadApi(values.image, console.log);
+					showProgress(0);
 					await mutateAsync({
 						gms: { id: values.GMS },
 						type: { id: values.type },
 						merchandiser: { id: user!.id },
-						image: values.image,
+						image: filePaths[0].path,
 						content: values.content,
 					});
 					resetForm();
-					Alert.alert('Reclamation', 'Enregistrée');
+					hide();
 					setSubmitting(false);
 				}}
 				initialValues={initial}

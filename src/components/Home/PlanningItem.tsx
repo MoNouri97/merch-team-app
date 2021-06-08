@@ -16,6 +16,8 @@ const PlanningItem: React.FC<PlanningDetails> = (planning) => {
 			<Location
 				onPress={() => {
 					// FIXME
+
+					if (planning.state !== 'TODO') return;
 					navigate('MapGMS', { id: planning.id });
 				}}
 			>

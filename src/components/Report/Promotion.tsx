@@ -15,8 +15,8 @@ export const schemaPromotion = yup.object({
 	product: yup.string().required(),
 	oldPrice: yup.number().positive().required(),
 	newPrice: yup.number().positive().required(),
-	startdate: yup.date(),
-	enddate: yup.date(),
+	startDate: yup.date(),
+	endDate: yup.date(),
 	images: yup.array().required().min(1),
 });
 export const initialPromotion = {
@@ -24,8 +24,8 @@ export const initialPromotion = {
 	product: '',
 	oldPrice: null,
 	newPrice: null,
-	startdate: new Date(),
-	enddate: new Date(),
+	startDate: new Date(),
+	endDate: new Date(),
 	images: [],
 };
 const Promotion: React.FC<ReportEventFrom> = ({ name }) => (
@@ -46,8 +46,8 @@ const Promotion: React.FC<ReportEventFrom> = ({ name }) => (
 			placeholder="6.99"
 			icon="dollar-sign"
 		/>
-		<DatePicker name={`${name}.startdate`} label="debut" />
-		<DatePicker name={`${name}.enddate`} label="fin" />
+		<DatePicker name={`${name}.startDate`} label="debut" />
+		<DatePicker name={`${name}.endDate`} label="fin" />
 		<ImageInput name={`${name}.images`} label="Images" multiple />
 	</EventContainer>
 );

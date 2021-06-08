@@ -18,17 +18,21 @@ import Timer from '~/components/Report/Timer';
 import { SafeScreen } from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
 import { EventType } from '~/types/events';
-import { HomeStackParams } from '~/types/navigation';
+import { HomeStackNav, HomeStackParams } from '~/types/navigation';
 
 type EventList = { type: EventType; id: number }[];
 const initial = {
-	events: [{ id: 0, type: 'BeforeAfter' }] as EventList,
+	events: [] as EventList,
+	// events: [{ id: 0, type: 'BeforeAfter' }] as EventList,
 };
 
 const validate = async (values: { events: any[] }) => {
 	let errors = { events: [] as ({} | null)[] };
 	errors.events = await Promise.all(
 		values.events.map(async (e: any, i: number) => {
+			if (!e) {
+				return null;
+			}
 			if (!e?.type) {
 				return null;
 			}
@@ -68,7 +72,7 @@ const validate = async (values: { events: any[] }) => {
 };
 
 const Report: React.FC = () => {
-	const { goBack } = useNavigation();
+	const { navigate } = useNavigation<HomeStackNav<'Report'>>();
 	const { params } = useRoute<RouteProp<HomeStackParams, 'Report'>>();
 	const [timer, setTimer] = useState(0);
 	const { data: task } = useGetTask(params?.id ?? 100);
@@ -76,10 +80,8 @@ const Report: React.FC = () => {
 	// TODO previous report
 	// const { data: initReport } = useGetReport(GMS?.id ?? 100, { enabled: !!GMS });
 
-	const eventId = useRef(0);
-	const [events, setEvents] = useState<EventList>([
-		{ id: eventId.current++, type: 'BeforeAfter' },
-	]);
+	const eventId = useRef(1);
+	const [events, setEvents] = useState<EventList>(initial.events);
 	const [modal, setModal] = useState(false);
 
 	const addEvents = (types: EventType[]) => {
@@ -110,7 +112,7 @@ const Report: React.FC = () => {
 			<SafeScreen>
 				<ReportHeader
 					onActionPress={() => setModal(true)}
-					onClosePress={() => goBack()}
+					onClosePress={() => navigate('Accueil')}
 				/>
 				<ScrollView
 					// eslint-disable-next-line react-native/no-inline-styles

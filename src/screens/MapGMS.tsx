@@ -5,6 +5,7 @@ import * as Location from 'expo-location';
 import React, { useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { Circle } from 'react-native-maps';
+import { useTheme } from 'styled-components';
 import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
 import { Subtitle } from '~/components/Forms/styles';
@@ -25,11 +26,13 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 	const { data } = useGetTask(route.params?.id);
 	const GMS = data?.gms;
 	const { error, location, refresh } = useLocation();
+	const { colors } = useTheme();
+
 	useEffect(() => {
 		if (!GMS) return;
 		Location.startGeofencingAsync(GEO_FENCING_TASK, [
 			// FIXME : review radius
-			{ latitude: GMS.latitude, longitude: GMS.longitude, radius: 1 },
+			{ latitude: GMS.latitude, longitude: GMS.longitude, radius: 50 },
 		]);
 		return () => {
 			Location.stopGeofencingAsync(GEO_FENCING_TASK);
@@ -62,7 +65,7 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 								longitude: data.gms.longitude,
 							}}
 							radius={50}
-							fillColor="rgba(78, 173, 254, 0.2)"
+							fillColor={colors.green + '22'}
 							strokeColor="rgba(78, 173, 254,0)"
 						/>
 						<GMSMarker

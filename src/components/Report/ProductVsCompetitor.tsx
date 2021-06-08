@@ -14,6 +14,7 @@ import EventContainer from './EventContainer';
 export const schemaPvC = yup.object({
 	category: yup.string().optional(),
 	product: yup.string().required(),
+	competitor: yup.string().required(),
 	purchaseOrder: yup.boolean().required(),
 	imageCompetitor: yup.array().required().min(1),
 	imageProduct: yup.array().required().min(1),

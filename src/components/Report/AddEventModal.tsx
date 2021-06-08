@@ -7,10 +7,10 @@ import { PRODUCT } from '~/config/constants';
 const events = [
 	{ name: 'Before/After', id: 'BeforeAfter' },
 	{ name: 'Action', id: 'Action' },
-	{ name: 'Événement Conçurent', id: 'CompetitorEvent' },
+	{ name: 'Événement Concurent', id: 'CompetitorEvent' },
 	{ name: 'Nouveau produit', id: 'NewProduct' },
 	{ name: 'Changement de prix', id: 'PriceChange' },
-	{ name: `${PRODUCT} Vs Conçurent`, id: 'ProductVsCompetitor' },
+	{ name: `${PRODUCT} Vs Concurent`, id: 'ProductVsCompetitor' },
 	{ name: 'Promotion', id: 'Promotion' },
 	{ name: 'Rupture', id: 'Rupture' },
 ];

@@ -13,10 +13,8 @@ export type HomeStackParams = {
 	MapGMS: { id: number };
 	Report: { id: number };
 };
-export type HomeStackNav<T extends keyof HomeStackParams> = NavigationProp<
-	HomeStackParams,
-	T
->;
+export type HomeStackNav<T extends keyof HomeStackParams = 'Accueil'> =
+	NavigationProp<HomeStackParams, T>;
 export type ChatStackParams = {
 	ChatIndividual: { id: number };
 	ChatList: undefined;

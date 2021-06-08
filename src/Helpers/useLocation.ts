@@ -1,5 +1,8 @@
+import { useNavigation } from '@react-navigation/core';
 import * as Location from 'expo-location';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import ModalContext from '~/context/ModalContext';
+import { HomeStackNav } from '~/types/navigation';
 
 const useLocation = () => {
 	const [location, setLocation] =
@@ -9,16 +12,21 @@ const useLocation = () => {
 		}>();
 	const [error, setError] = useState<string>();
 	const getLocation = async () => {
+		console.log('getting location ...');
+
 		const { granted, ios } = await Location.requestForegroundPermissionsAsync();
+		const { granted: bgGranted } =
+			await Location.requestBackgroundPermissionsAsync();
 
 		if (!granted) {
 			return setError('location permission is required');
 		}
+		console.log({ ios });
+
 		// on ios scope must be always for geofencing
-		if (ios && ios?.scope !== 'always') {
+		if ((ios && ios?.scope !== 'always') || !bgGranted) {
 			return setError("'always' is required");
 		}
-
 		const lastKnownPos = await Location.getCurrentPositionAsync({
 			accuracy: Location.LocationAccuracy.Highest,
 		});
@@ -35,6 +43,15 @@ const useLocation = () => {
 			});
 		}
 	};
+	const { showText, hide } = useContext(ModalContext)!;
+	const { navigate } = useNavigation<HomeStackNav>();
+
+	useEffect(() => {
+		if (error) {
+			showText(error);
+			navigate('Accueil');
+		}
+	}, [error]);
 
 	useEffect(() => {
 		getLocation();

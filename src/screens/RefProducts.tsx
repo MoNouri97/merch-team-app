@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import { useQueryClient } from 'react-query';
 import useGetProducts from '~/api/productAPI';
@@ -7,6 +7,7 @@ import usePostRefProducts from '~/api/refProductsAPI';
 import { GMSPicker, ProductsCheckList, SubmitBtn } from '~/components/Forms';
 import AppScreen from '~/components/Shared/AppScreen';
 import { yup } from '~/config/yupFrLocal';
+import ModalContext from '~/context/ModalContext';
 import { Product } from '~/types/models/Product';
 
 const initial = {
@@ -22,12 +23,14 @@ const validation = yup.object({
 const RefProducts: React.FC = () => {
 	const { mutateAsync } = usePostRefProducts();
 	const queryClient = useQueryClient();
+	const { showProgress, hide } = useContext(ModalContext)!;
 
 	return (
 		<AppScreen navbar>
 			<Formik
 				onSubmit={async (values, { resetForm }) => {
-					Alert.alert('ajouté', JSON.stringify(values, null, 2));
+					// Alert.alert('ajouté', JSON.stringify(values, null, 2));
+					showProgress(0);
 					// invalidate;
 					await mutateAsync({
 						GMS: { id: values.GMS },
@@ -35,6 +38,7 @@ const RefProducts: React.FC = () => {
 					});
 					await queryClient.invalidateQueries('get_products');
 					resetForm();
+					hide();
 				}}
 				initialValues={initial}
 				validationSchema={validation}

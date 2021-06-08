@@ -19,7 +19,9 @@ const getPlannings: QueryFn<Planning, GetPlanningsParams> = async ({
 
 const useGetPlannings = () => {
 	const { user } = useContext(UserContext)!;
-	return useQuery(['get_planning', user!.id], getPlannings);
+	return useQuery(['get_planning', user!.id], getPlannings, {
+		enabled: !!user,
+	});
 };
 const getTask: QueryFn<PlanningDetails, number> = async ({ queryKey }) => {
 	const [_key, id] = queryKey;
