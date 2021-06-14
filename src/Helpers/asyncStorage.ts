@@ -9,12 +9,13 @@ export const loadFromStorage = async <T = string>(key: string) => {
 		const secureStoreIsAvailable = await SecureStore.isAvailableAsync();
 		if (key === TOKEN_KEY && secureStoreIsAvailable) {
 			loaded = await SecureStore.getItemAsync(key);
-			return loaded;
+			return loaded as unknown as T;
 		}
 		loaded = await AsyncStorage.getItem(key);
 	} catch (error) {
 		console.log(error);
 	}
+	console.log(`Loaded ${loaded}`);
 	return loaded ? (JSON.parse(loaded) as T) : null;
 };
 export const saveToStorage = (toSave: any | null, key: string) => {
@@ -28,5 +29,5 @@ export const saveToStorage = (toSave: any | null, key: string) => {
 		return;
 	}
 	AsyncStorage.setItem(key, JSON.stringify(toSave));
-	console.log(`Saved ${key} - ${toSave}`);
+	console.log(`Saved ${key} - ${JSON.stringify(toSave)}`);
 };

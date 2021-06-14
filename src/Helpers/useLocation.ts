@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import * as Location from 'expo-location';
-import { useContext, useEffect, useState } from 'react';
-import ModalContext from '~/context/ModalContext';
+import { useEffect, useState } from 'react';
+import { useModal } from '~/Helpers/useModal';
 import { HomeStackNav } from '~/types/navigation';
 
 const useLocation = () => {
@@ -21,7 +21,6 @@ const useLocation = () => {
 		if (!granted) {
 			return setError('location permission is required');
 		}
-		console.log({ ios });
 
 		// on ios scope must be always for geofencing
 		if ((ios && ios?.scope !== 'always') || !bgGranted) {
@@ -43,12 +42,12 @@ const useLocation = () => {
 			});
 		}
 	};
-	const { showText, hide } = useContext(ModalContext)!;
+	const { show } = useModal();
 	const { navigate } = useNavigation<HomeStackNav>();
 
 	useEffect(() => {
 		if (error) {
-			showText(error);
+			show({ content: error });
 			navigate('Accueil');
 		}
 	}, [error]);

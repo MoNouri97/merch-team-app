@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { useField } from 'formik';
 import React, { useMemo, useState } from 'react';
-import { FlatList, Modal, StyleSheet, View } from 'react-native';
+import { Dimensions, FlatList, Modal, StyleSheet, View } from 'react-native';
 import styled from '~/config/styled-components';
 import AppText from '../AppText';
 import InputBase from './InputBase';
@@ -111,8 +111,13 @@ const Picker: React.FC<Props> = ({
 		</InputBase>
 	);
 };
+
+const { height, width } = Dimensions.get('screen');
 const styles = StyleSheet.create({
-	listContent: { justifyContent: 'center', flexGrow: 1 },
+	listContent: {
+		justifyContent: 'center',
+		flexGrow: 1,
+	},
 	center: { textAlign: 'center' },
 });
 const Touchable = styled.TouchableOpacity`
@@ -131,7 +136,7 @@ const Separator = styled.View`
 	margin-horizontal: 50px;
 `;
 const ListContainer = styled.SafeAreaView`
-	padding-vertical: 20px;
 	flex-grow: 1;
+	max-height: ${height}px;
 `;
 export default Picker;

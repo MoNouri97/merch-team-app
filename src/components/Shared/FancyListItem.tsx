@@ -12,7 +12,7 @@ const FancyListItem: React.FC<IProps> = ({ color, ...props }) => (
 );
 const Item = styled(Card)<{ color?: string }>`
 	elevation: 0;
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 	background: ${({ theme: { colors }, color }) => color ?? colors.gray[2]};
 	padding: 10px;
 	/* min-width: 300px; */

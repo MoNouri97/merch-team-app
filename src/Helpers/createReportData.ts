@@ -20,7 +20,6 @@ export const setPaths = (filePaths: FilePath[], values: any) => {
 			cpy.events[event][field] = fp.path;
 		}
 	}
-	console.log({ cpy });
 
 	return cpy;
 };

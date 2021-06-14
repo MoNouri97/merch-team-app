@@ -24,6 +24,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 	...props
 }) => {
 	const ContentContainer = center ? CloseSpaceCenter : CloseSpace;
+	const ContentBg = center ? ContentCenter : Content;
 	return (
 		<Modal
 			statusBarTranslucent
@@ -36,7 +37,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 				{...props}
 			>
 				<ContentContainer onPress={modalProps?.onRequestClose}>
-					<Content>{children}</Content>
+					<ContentBg>{children}</ContentBg>
 				</ContentContainer>
 			</SafeContainer>
 		</Modal>
@@ -47,6 +48,7 @@ const CloseSpace = styled(Pressable)`
 	flex-grow: 1;
 	flex-direction: column-reverse;
 	display: flex;
+	/* padding: 10px; */
 `;
 const CloseSpaceCenter = styled(Pressable)`
 	flex-grow: 1;
@@ -59,15 +61,27 @@ const SafeContainer = styled(View)`
 	background-color: rgba(0, 0, 0, 0.5);
 	flex-direction: column-reverse;
 `;
-const Content = styled.Pressable`
+const ContentCenter = styled.Pressable`
 	min-height: 200px;
 	flex-shrink: 1;
 	flex-grow: 0;
-	/* align-items: center; */
+	/* align-items: flex-end; */
 	justify-content: center;
 	background: ${({ theme }) => theme.colors.white};
 	elevation: 10;
 	padding: 10px;
 	border-radius: ${({ theme }) => theme.borderRadiusLarge};
+`;
+const Content = styled.Pressable`
+	min-height: 200px;
+	flex-shrink: 1;
+	flex-grow: 0;
+	/* align-items: flex-end; */
+	justify-content: center;
+	background: ${({ theme }) => theme.colors.white};
+	elevation: 10;
+	padding: 10px;
+	border-top-left-radius: ${({ theme }) => theme.borderRadiusLarge};
+	border-top-right-radius: ${({ theme }) => theme.borderRadiusLarge};
 `;
 export default BottomSheet;

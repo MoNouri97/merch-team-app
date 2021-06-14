@@ -15,6 +15,7 @@ const ChatList: React.FC = () => {
 			{admins &&
 				admins.map((admin) => (
 					<ChatListItem
+						key={admin.id}
 						data={admin}
 						onPress={() => {
 							setTimeout(() => {

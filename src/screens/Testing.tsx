@@ -41,28 +41,40 @@ const validation = yup.object({
 const Testing: React.FC = () => {
 	const navigation = useNavigation();
 	const [modal, setModal] = useState(false);
-	const { showText, showProgress, hide } = useContext(ModalContext)!;
+	const { show, showProgress, hideProgress } = useContext(ModalContext)!;
 	return (
 		<AppScreen navbar>
 			{/* <TestApi /> */}
 			{/* <TestChat /> */}
-			<TestUpload />
+			{/* <TestUpload /> */}
 			<Btn
-				onPress={() => {
-					// showText('Veiller patienter');
-					showProgress(0);
+				onPress={async () => {
+					showProgress({});
 					let a = 0;
-					const r = setInterval(() => {
-						if (a >= 100) {
-							clearInterval(r);
-							return hide();
-						}
-						// showProgress(a);
-						a += 10;
-					}, 100);
+					const r = new Promise((res, rej) => {
+						setTimeout(() => {
+							res(null);
+						}, 1000);
+					});
+					await r;
+					hideProgress();
 				}}
 			>
-				Modal Global
+				Loading Global
+			</Btn>
+			<Btn
+				onPress={async () => {
+					show({
+						content:
+							'halo team lorem qsdlmqks dqs dqsm ldkmdl fgs dmfglkjdf mgdfgjmkdjfg ize mqkd fiaz mkdfj mqiojf mqsd it is real eas y to dothalo team lorem qsdlmqks dqs dqsm ldkmdl fgs dmfglkjdf mgdfgjmkdjfg ize mqkd fiaz mkdfj mqiojf mqsd it is real eas y to dothalo team lorem qsdlmqks dqs dqsm ldkmdl fgs dmfglkjdf mgdfgjmkdjfg ize mqkd fiaz mkdfj mqiojf mqsd it is real eas y to dothalo team lorem qsdlmqks dqs dqsm ldkmdl fgs dmfglkjdf mgdfgjmkdjfg ize mqkd fiaz mkdfj mqiojf mqsd it is real eas y to dot',
+						buttons: [
+							{ text: 'ok', onPress: () => console.log('ok') },
+							{ text: 'no' },
+						],
+					});
+				}}
+			>
+				Text Global
 			</Btn>
 			<Btn onPress={() => setModal(!modal)}>Modal</Btn>
 			<BottomSheet

@@ -31,13 +31,13 @@ const CheckList: React.FC<IProps> = ({
 		if (toRemove) {
 			setValue(
 				selected.filter((s) => s !== id),
-				validate
+				false
 			);
 
 			return;
 		}
 
-		setValue([...selected, id], validate);
+		setValue([...selected, id], false);
 	};
 	return (
 		<InputBase name={name} label={label ?? name} container={false}>

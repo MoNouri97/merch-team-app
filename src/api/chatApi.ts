@@ -35,13 +35,13 @@ export const useChatAPI = (
 					},
 					headers
 				);
-				stompClient.subscribe(
-					`/topic/messages/-1`, // -1 for broadcast
-					(payload) => {
-						handleMessage(JSON.parse(payload.body));
-					},
-					headers
-				);
+				// stompClient.subscribe(
+				// 	`/topic/messages/-1`, // -1 for broadcast
+				// 	(payload) => {
+				// 		handleMessage(JSON.parse(payload.body));
+				// 	},
+				// 	headers
+				// );
 			};
 
 			stompClient.activate();

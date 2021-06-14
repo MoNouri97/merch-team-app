@@ -4,5 +4,5 @@ export type Claim = {
 	type: Entity;
 	merchandiser: Entity;
 	content: string;
-	image: string;
+	image?: string;
 };

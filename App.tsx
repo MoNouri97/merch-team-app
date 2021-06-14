@@ -14,6 +14,7 @@ import * as encoding from 'text-encoding';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
 import { ModalContextProvider } from '~/context/ModalContext';
+import { ReportContextProvider } from '~/context/ReportContext';
 import { UserContextProvider } from '~/context/UserContext';
 import defineGeofencingTask from '~/Helpers/defineGeofencingTask';
 import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
@@ -45,7 +46,9 @@ export default function App() {
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={myTheme}>
 					<ModalContextProvider>
-						<MainStackNavigation />
+						<ReportContextProvider>
+							<MainStackNavigation />
+						</ReportContextProvider>
 					</ModalContextProvider>
 				</ThemeProvider>
 			</QueryClientProvider>

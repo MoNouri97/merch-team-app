@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import api from '~/config/api';
 import { QueryFn, QueryOptions } from '~/types/ApiHelpers';
 import { ReportData } from '~/types/models/formData/Report';
@@ -13,7 +13,28 @@ const postReport = async (jsonData: ReportData) => {
 };
 
 const usePostReport = () => {
-	return useMutation('post_report', postReport);
+	const queryClient = useQueryClient();
+	return useMutation('post_report', postReport, {
+		onMutate: () => {
+			queryClient.invalidateQueries('get_planning');
+		},
+	});
+};
+
+const updateReport = async (jsonData: ReportData) => {
+	console.log({ jsonData });
+
+	const { data } = await api.put<Response>('/report', jsonData);
+	return data;
+};
+
+const useUpdateReport = () => {
+	const queryClient = useQueryClient();
+	return useMutation('put_report', postReport, {
+		onMutate: () => {
+			queryClient.invalidateQueries('get_planning');
+		},
+	});
 };
 
 const getReport: QueryFn<ReportData, number> = async ({ queryKey }) => {

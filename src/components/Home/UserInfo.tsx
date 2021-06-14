@@ -5,12 +5,12 @@ import AppText from '~/components/AppText';
 import { Press } from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
 import { UserContext } from '~/context/UserContext';
+import { HomeStackNav } from '~/types/navigation';
 
 const UserInfo: React.FC = () => {
 	const { user, signOut } = useContext(UserContext)!;
-	console.log({ user });
 
-	const navigation = useNavigation();
+	const { navigate } = useNavigation<HomeStackNav>();
 	return (
 		<Container>
 			<Info>
@@ -22,10 +22,14 @@ const UserInfo: React.FC = () => {
 				</AppText>
 			</Info>
 			<Icons>
-				<IconBtn onPress={signOut}>
+				<IconBtn
+					onPress={() => {
+						signOut();
+					}}
+				>
 					<Icon name="log-out" size={20} />
 				</IconBtn>
-				<IconBtn onPress={() => navigation.navigate('Notifications')}>
+				<IconBtn onPress={() => navigate('Notifications')}>
 					<Icon name="bell" size={20} />
 				</IconBtn>
 			</Icons>

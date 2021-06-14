@@ -8,6 +8,7 @@ interface MarkerProp {
 	text?: string;
 	icon?: 'GMS' | 'Person';
 	draggable?: boolean;
+	updateCoord?: (c: LatLng) => void;
 }
 
 const GMSMarker: React.FC<MarkerProp> = (props) => {
@@ -21,6 +22,7 @@ const AppMarker: React.FC<MarkerProp> = ({
 	text,
 	icon,
 	draggable = false,
+	updateCoord,
 }) => {
 	const image = React.useMemo(() => {
 		if (icon == 'GMS') {
@@ -35,6 +37,9 @@ const AppMarker: React.FC<MarkerProp> = ({
 		<Marker
 			draggable={draggable}
 			image={image}
+			onDragEnd={(e) => {
+				updateCoord && updateCoord(e.nativeEvent.coordinate);
+			}}
 			coordinate={coordinate}
 			anchor={{ x: 0.2, y: 1 }}
 		>

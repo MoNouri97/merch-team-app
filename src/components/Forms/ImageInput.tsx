@@ -5,6 +5,7 @@ import React, { useContext, useMemo, useRef, useState } from 'react';
 import { Alert, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from 'styled-components';
 import styled from '~/config/styled-components';
+import { useModal } from '~/Helpers/useModal';
 import { Action } from '~/types/data';
 import { FileType } from '~/types/models/formData/FileType';
 import AppText from '../AppText';
@@ -24,6 +25,7 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 	const [{ value }, , { setValue, setTouched }] = useField<FileType[]>(name);
 	const scrollRef = useRef<ScrollView>(null);
 	const images: FileType[] = value ?? [];
+	const { hide, show } = useModal();
 
 	const displayedLabel = useMemo(() => {
 		if (multiple) {
@@ -51,20 +53,32 @@ const ImageInput: React.FC<Props> = ({ name, label, multiple = false }) => {
 			name: `${name}${fileNameSuffix}`,
 		};
 		// const
-		setValue([...images, image], true);
+		setValue([...images, image]);
 	};
 
 	const pickImage = async (idx?: number) => {
 		if (idx !== undefined && images[idx]) {
-			Alert.alert('Supprimer', 'Supprimer cette image ?', [
-				{
-					text: 'Oui',
-					onPress: () => {
-						deleteImage(idx);
+			show({
+				content: 'Supprimer cette image ?',
+				buttons: [
+					{
+						text: 'Oui',
+						onPress: () => {
+							deleteImage(idx);
+						},
 					},
-				},
-				{ text: 'Non' },
-			]);
+					{ text: 'Non' },
+				],
+			});
+			// Alert.alert('Supprimer', 'Supprimer cette image ?', [
+			// 	{
+			// 		text: 'Oui',
+			// 		onPress: () => {
+			// 			deleteImage(idx);
+			// 		},
+			// 	},
+			// 	{ text: 'Non' },
+			// ]);
 			return;
 		}
 		if (Platform.OS !== 'web') {

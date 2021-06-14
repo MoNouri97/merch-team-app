@@ -24,14 +24,14 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 	disabled = false,
 }) => {
 	const enabled = withParams ? !!params?.gms : !disabled;
-	const { data, isFetching } = useGetProducts(params, {
+	const { data, isLoading } = useGetProducts(params, {
 		enabled,
 	});
 
 	const [search, setSearch] = useState('');
 
 	const listData = React.useMemo(() => {
-		if (isFetching) return [];
+		if (isLoading) return [];
 		if (!enabled) return [];
 		if (search.length) {
 			return createPickerData(data, { name: 'designation' }).filter((item) =>
@@ -39,7 +39,7 @@ const ProductsCheckList: React.FC<ProductsCheckListProps> = ({
 			);
 		}
 		return createPickerData(data, { name: 'designation' });
-	}, [isFetching, data, search, enabled]);
+	}, [isLoading, data, search, enabled]);
 
 	return (
 		<>

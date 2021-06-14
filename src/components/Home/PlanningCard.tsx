@@ -10,13 +10,15 @@ const PlanningCard: React.FC = () => {
 
 	return (
 		<Container>
+			<DragHandle />
 			<AppText type="label" color="dark">
 				Planning: {displayDate(new Date())}
 			</AppText>
+
 			<Plannings>
 				{data && data?.tasks?.length > 0 ? (
 					data?.tasks
-						.filter((task) => task.day == new Date().getDay())
+						// .filter((task) => task.taskDate == format(new Date(), 'dd-MM-yyyy'))
 						.map((planning) => (
 							<PlanningItem
 								key={planning.id}
@@ -42,8 +44,20 @@ const Plannings = styled.View`
 `;
 
 const Container = styled.View`
-	padding: 20px;
+	padding: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 500px;
+	position: relative;
+`;
+
+const DragHandle = styled.View`
+	padding: 3px;
+	width: 50px;
+	background: ${({ theme }) => theme.colors.black};
+	border-radius: ${({ theme }) => theme.borderRadius};
+	position: absolute;
+	left: 50%;
+	top: -20px;
 `;
 export default PlanningCard;

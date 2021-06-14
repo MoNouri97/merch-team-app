@@ -1,5 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+	createStackNavigator,
+	TransitionPresets,
+} from '@react-navigation/stack';
 import AppLoading from 'expo-app-loading';
 import React, { useContext } from 'react';
 import { UserContext } from '~/context/UserContext';
@@ -12,7 +15,12 @@ const MainStackNavigation: React.FC = () => {
 	if (isLoading) return <AppLoading />;
 	return (
 		<NavigationContainer>
-			<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Navigator
+				screenOptions={{
+					headerShown: false,
+					...TransitionPresets.ModalSlideFromBottomIOS,
+				}}
+			>
 				{isSignedIn ? (
 					<Stack.Screen name="Home" component={DrawerNav} />
 				) : (

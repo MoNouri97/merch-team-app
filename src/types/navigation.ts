@@ -8,13 +8,22 @@ export type ParamList = {
 	Test: undefined;
 };
 
+export type MainStackParams = {
+	Home: undefined;
+	Connexion: undefined;
+};
+export type MainStackNav<T extends keyof MainStackParams = 'Home'> =
+	NavigationProp<MainStackParams, T>;
+
 export type HomeStackParams = {
 	Accueil: undefined;
 	MapGMS: { id: number };
 	Report: { id: number };
-};
+	Notifications: undefined;
+} & MainStackParams;
 export type HomeStackNav<T extends keyof HomeStackParams = 'Accueil'> =
 	NavigationProp<HomeStackParams, T>;
+
 export type ChatStackParams = {
 	ChatIndividual: { id: number };
 	ChatList: undefined;

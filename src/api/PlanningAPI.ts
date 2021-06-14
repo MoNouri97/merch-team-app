@@ -7,7 +7,7 @@ import { QueryFn } from '~/types/ApiHelpers';
 import { Planning, PlanningDetails } from '~/types/models/PlanningDetails';
 
 // TODO : this implementation
-export type GetPlanningsParams = number;
+export type GetPlanningsParams = number | undefined;
 const getPlannings: QueryFn<Planning, GetPlanningsParams> = async ({
 	queryKey,
 }) => {
@@ -19,7 +19,7 @@ const getPlannings: QueryFn<Planning, GetPlanningsParams> = async ({
 
 const useGetPlannings = () => {
 	const { user } = useContext(UserContext)!;
-	return useQuery(['get_planning', user!.id], getPlannings, {
+	return useQuery(['get_planning', user?.id], getPlannings, {
 		enabled: !!user,
 	});
 };

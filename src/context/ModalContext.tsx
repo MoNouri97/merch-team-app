@@ -1,121 +1,149 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import React, { createContext, useMemo, useState } from 'react';
+import { ActivityIndicator, AlertButton } from 'react-native';
 import { useTheme } from 'styled-components';
 import AppText from '~/components/AppText';
-import ProgressBar from '~/components/Home/ProgressBar';
 import BottomSheet from '~/components/Shared/BottomSheet';
+import Btn from '~/components/Shared/Btn';
 import CheckMark from '~/components/Shared/CheckMark';
 import styled from '~/config/styled-components';
 
-type ModalState = {
-	visible: boolean;
-	showProgress: (p: number) => void;
-	showText: (t: string, callback?: () => void) => void;
+type ModalValue = {
+	show: (t?: ModalOptions) => void;
+	showProgress: (t?: ModalOptions) => void;
 	hide: () => void;
+	hideProgress: () => void;
 };
+
 type ModalType = 'text' | 'progress';
-export const ModalContext = createContext<ModalState | null>(null);
+export const ModalContext = createContext<ModalValue | null>(null);
 export default ModalContext;
 
+type ModalOptions = {
+	content?: string;
+	type?: ModalType;
+	buttons?: AlertButton[];
+};
+type ModalState = ModalOptions & { visible: boolean; type: ModalType };
+const init: ModalState = {
+	type: 'text',
+	visible: false,
+	buttons: [],
+	content: 'Veuillez patienter',
+};
 export const ModalContextProvider: React.FC = ({ children }) => {
-	const [visible, setVisible] = useState(false);
 	const [done, setDone] = useState(false);
-	const [type, setType] = useState<ModalType>('text');
-	const [text, setText] = useState('');
-	const [progress, setProgress] = useState(0);
-	// const [onClose, setOnClose] = useState<() => void>();
+	const [state, setState] = useState<ModalState>(init);
 
-	React.useEffect(() => {
-		console.log(type);
-	}, [type]);
-
-	const showText = (t: string, callback?: () => void) => {
-		setType('text');
-		setText(t);
-		// setOnClose(callback);
-		setVisible(true);
+	const show = (options?: ModalOptions) => {
+		setDone(false);
+		setState({
+			...state,
+			...options,
+			visible: true,
+		});
 	};
-
-	const showProgress = (p: number) => {
-		// setOnClose(undefined);
-		setType('progress');
-		setProgress(p);
-		setVisible(true);
+	const showProgress = (options?: ModalOptions) => {
+		show({ ...init, ...options, type: 'progress' });
 	};
-
-	const hide = useCallback(() => {
-		// setOnClose(undefined);
-
-		if (type == 'text') {
-			return setVisible(false);
-		}
+	const hideProgress = () => {
 		setDone(true);
 		setTimeout(() => {
-			setVisible(false);
 			setDone(false);
-		}, 200);
-	}, [setVisible, type, setDone]);
+			setState(init);
+		}, 800);
+	};
+
+	const hide = () => {
+		return setState(init);
+	};
+
 	const onRequestClose = useMemo(
-		() => (type == 'text' ? hide : undefined),
-		[type]
+		() => (state.type == 'text' ? hide : undefined),
+		[state.type]
 	);
 	const { colors } = useTheme();
 	return (
-		<ModalContext.Provider value={{ showProgress, showText, hide, visible }}>
+		<>
 			<BottomSheet
 				center
 				modalProps={{
-					visible,
+					visible: state.visible,
 					onRequestClose,
 					animationType: 'fade',
 				}}
 			>
-				<Container>
+				<TextContainer>
 					{done ? (
 						<Center>
 							<CheckMark checked scale={2} />
 						</Center>
-					) : type == 'progress' ? (
+					) : state.type == 'progress' ? (
 						<Container>
 							<AppText size={18} type="label">
-								Veiller patienter
+								{state.content}
 							</AppText>
-							{progress ? (
-								<>
-									<AppText size={18}>{progress}%</AppText>
-									<ProgressBar percent={progress} />
-								</>
-							) : (
-								<ActivityIndicator color={colors.primary} size="large" />
-							)}
+							<ActivityIndicator
+								style={{ marginTop: 20 }}
+								color={colors.primary}
+								size="large"
+							/>
 						</Container>
 					) : (
 						<>
 							<AppText
 								style={{ textAlign: 'center' }}
-								type="label"
-								numberOfLines={99}
+								// type="label"
+								size={16}
+								numberOfLines={10}
 							>
-								{text}
+								{state.content}
 							</AppText>
+							<Row>
+								{state.buttons?.map((btn) => (
+									<Col key={btn.text}>
+										<Btn
+											onPress={() => {
+												btn.onPress && btn.onPress();
+												hide();
+											}}
+										>
+											{btn.text}
+										</Btn>
+									</Col>
+								))}
+							</Row>
 						</>
 					)}
-				</Container>
+				</TextContainer>
 			</BottomSheet>
-			{children}
-		</ModalContext.Provider>
+			<ModalContext.Provider value={{ showProgress, show, hide, hideProgress }}>
+				{children}
+			</ModalContext.Provider>
+		</>
 	);
 };
 
 const Container = styled.View`
 	align-items: center;
-	justify-content: space-evenly;
-	flex: 1;
+	justify-content: space-between;
+	padding: 10px;
+`;
+const TextContainer = styled.View`
+	justify-content: space-between;
+	flex-grow: 1;
 	padding: 10px;
 `;
 const Center = styled.View`
 	align-items: center;
 	justify-content: center;
-	flex: 1;
+	/* flex: 1; */
 	padding: 10px;
+`;
+const Row = styled.View`
+	flex-direction: row;
+	justify-content: space-around;
+	align-self: stretch;
+`;
+const Col = styled.View`
+	flex: 1;
 `;

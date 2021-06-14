@@ -1,5 +1,11 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { Alert, ScrollView } from 'react-native';
 import { ValidationError } from 'yup';
 import { useGetTask } from '~/api/PlanningAPI';
@@ -17,6 +23,9 @@ import { schemaRupture } from '~/components/Report/Rupture';
 import Timer from '~/components/Report/Timer';
 import { SafeScreen } from '~/components/Shared/AppScreen';
 import styled from '~/config/styled-components';
+import ReportContext from '~/context/ReportContext';
+import { useModal } from '~/Helpers/useModal';
+import { useTimer } from '~/Helpers/useTimer';
 import { EventType } from '~/types/events';
 import { HomeStackNav, HomeStackParams } from '~/types/navigation';
 
@@ -74,8 +83,56 @@ const validate = async (values: { events: any[] }) => {
 const Report: React.FC = () => {
 	const { navigate } = useNavigation<HomeStackNav<'Report'>>();
 	const { params } = useRoute<RouteProp<HomeStackParams, 'Report'>>();
-	const [timer, setTimer] = useState(0);
-	const { data: task } = useGetTask(params?.id ?? 100);
+	const {
+		time,
+		updateTime,
+		getTime,
+		task: taskInStorage,
+	} = useContext(ReportContext);
+	const { show } = useModal();
+
+	const { setTimer, timer, timerRef } = useTimer(time ?? 0, () => updateTime);
+	// sync timer with the stored time in the context
+	useEffect(() => {
+		if (!time) return;
+		setTimer(time);
+	}, [time]);
+	// store the current time on exit
+	useEffect(() => {
+		getTime &&
+			getTime().then((t) => {
+				if (!t) return;
+				setTimer(t);
+			});
+
+		if (!taskInStorage || params?.id !== taskInStorage?.id) {
+			show({
+				content: `\nCommencer un nouveau rapport?`,
+				buttons: [
+					{
+						text: 'Commencer',
+						onPress: () => {
+							navigate('MapGMS', { id: params.id });
+							// changeTask!(task!);
+							setTimer(0);
+						},
+					},
+					{
+						text: 'Non',
+						onPress: () => {
+							navigate('Accueil');
+						},
+					},
+				],
+			});
+		}
+		// return cleanUp;
+	}, []);
+	const cleanUp = () => {
+		updateTime!(timerRef.current);
+	};
+
+	const { data: task } = useGetTask(params?.id);
 	const gms = React.useMemo(() => task?.gms, [task]);
 	// TODO previous report
 	// const { data: initReport } = useGetReport(GMS?.id ?? 100, { enabled: !!GMS });
@@ -84,14 +141,18 @@ const Report: React.FC = () => {
 	const [events, setEvents] = useState<EventList>(initial.events);
 	const [modal, setModal] = useState(false);
 
-	const addEvents = (types: EventType[]) => {
-		const toAdd = types.map((type) => {
-			const id = eventId.current++;
-			console.log(id);
-			return { id, type };
-		});
-		setEvents([...events, ...toAdd]);
-	};
+	const addEvents = useCallback(
+		(types: EventType[]) => {
+			console.log({ types });
+
+			const toAdd = types.map((type) => {
+				const id = eventId.current++;
+				return { id, type };
+			});
+			setEvents([...events, ...toAdd]);
+		},
+		[setEvents, eventId.current]
+	);
 	const deleteEvent = useCallback(
 		(id: number) => {
 			Alert.alert('Confirmation', 'Supprimer cette section ?', [
@@ -123,7 +184,7 @@ const Report: React.FC = () => {
 						<AppText type="subtitle"> GMS : {gms?.name}</AppText>
 						<Time>
 							<AppText type="label">
-								Temps estimée {gms?.estimatedTime}:00
+								Temps Estimé: {gms?.estimatedTime}:00
 							</AppText>
 							<Timer {...{ timer, setTimer }} />
 						</Time>
@@ -136,7 +197,8 @@ const Report: React.FC = () => {
 								validate,
 								setModal,
 								modal,
-								task: task!,
+								task: task ?? { id: params.id },
+								time: timerRef,
 							}}
 						/>
 					</Container>

@@ -32,8 +32,8 @@ const PlanningItemDetails: React.FC<PlanningDetails> = ({
 		<FancyListItem
 			color={statusToColor(status, colors)}
 			header={gms.name}
-			// subHeader={`day:${day}`}
-			subHeader={` `}
+			subHeader={`Temps Estimé: ${gms.estimatedTime}min`}
+			// subHeader={` `}
 			checked={status == 'DONE'}
 			lightColor={(status as PlanningStatus) !== 'TODO'}
 		/>

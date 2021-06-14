@@ -1,7 +1,9 @@
+import { useNavigation } from '@react-navigation/core';
 import { Formik } from 'formik';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Alert } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { useQueryClient } from 'react-query';
+import { useTheme } from 'styled-components';
 import useGetProducts from '~/api/productAPI';
 import usePostRefProducts from '~/api/refProductsAPI';
 import { GMSPicker, ProductsCheckList, SubmitBtn } from '~/components/Forms';
@@ -23,14 +25,16 @@ const validation = yup.object({
 const RefProducts: React.FC = () => {
 	const { mutateAsync } = usePostRefProducts();
 	const queryClient = useQueryClient();
-	const { showProgress, hide } = useContext(ModalContext)!;
+	const { showProgress, hideProgress } = useContext(ModalContext)!;
+	const { colors } = useTheme();
+	const { navigate } = useNavigation();
 
 	return (
 		<AppScreen navbar>
 			<Formik
 				onSubmit={async (values, { resetForm }) => {
 					// Alert.alert('ajouté', JSON.stringify(values, null, 2));
-					showProgress(0);
+					showProgress();
 					// invalidate;
 					await mutateAsync({
 						GMS: { id: values.GMS },
@@ -38,7 +42,8 @@ const RefProducts: React.FC = () => {
 					});
 					await queryClient.invalidateQueries('get_products');
 					resetForm();
-					hide();
+					hideProgress();
+					navigate('Accueil');
 				}}
 				initialValues={initial}
 				validationSchema={validation}
@@ -47,11 +52,15 @@ const RefProducts: React.FC = () => {
 					const GMS = useMemo(() => values.GMS, [values.GMS]);
 					const [prevGMS, setPrevGMS] = useState(GMS);
 
-					useGetProducts(
+					const { isFetching } = useGetProducts(
 						{ gms: prevGMS },
 						{
 							enabled: !!prevGMS,
-							onSuccess: (res: Product[]) => {
+							onSettled: (res: Product[], err) => {
+								console.log({ err });
+								if (err || !res) {
+									return setFieldValue('products', []);
+								}
 								setFieldValue(
 									'products',
 									res?.map((product) => product.id.toString())
@@ -86,7 +95,15 @@ const RefProducts: React.FC = () => {
 						<>
 							{/* <FormDebug /> */}
 							<GMSPicker />
-							<ProductsCheckList disabled={!GMS} />
+							{isFetching ? (
+								<ActivityIndicator
+									style={{ marginTop: 20 }}
+									color={colors.primary}
+									size="large"
+								/>
+							) : (
+								<ProductsCheckList disabled={!GMS || isFetching} />
+							)}
 							<SubmitBtn>Ajouter</SubmitBtn>
 						</>
 					);

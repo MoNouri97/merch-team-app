@@ -17,7 +17,7 @@ const getProducts: QueryFn<Product[], getProductsParams> = async ({
 
 const useGetProducts = (params?: getProductsParams, options?: QueryOptions) => {
 	return useQuery<unknown, unknown, Product[], [string, getProductsParams]>(
-		['get_products', params],
+		['get_products', params ?? {}],
 		getProducts,
 		options
 	);

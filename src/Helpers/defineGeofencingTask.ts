@@ -1,6 +1,5 @@
 import { LocationGeofencingEventType, LocationRegion } from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
-import { ToastAndroid } from 'react-native';
 
 type GeoTaskData = {
 	eventType: LocationGeofencingEventType;
@@ -16,9 +15,9 @@ export const defineGeofencingTask = () => {
 		}
 		if (eventType === LocationGeofencingEventType.Enter) {
 			console.log("You've entered region:", region);
-			ToastAndroid.show("You've entered region:", ToastAndroid.LONG);
+			// ToastAndroid.show("You've entered region:", ToastAndroid.LONG);
 		} else if (eventType === LocationGeofencingEventType.Exit) {
-			ToastAndroid.show("You've left region:", ToastAndroid.LONG);
+			// ToastAndroid.show("You've left region:", ToastAndroid.LONG);
 			console.log("You've left region:", region);
 		}
 	});

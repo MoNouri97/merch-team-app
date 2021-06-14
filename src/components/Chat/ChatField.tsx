@@ -46,7 +46,7 @@ const Container = styled.View`
 	padding: 5px;
 	flex-direction: row;
 	padding-left: 30px;
-	border-radius: 55px;
+	border-radius: ${({ theme }) => theme.borderRadiusLarge};
 	background: ${({ theme }) => theme.colors.gray[2]};
 `;
 const TextField = styled.TextInput`

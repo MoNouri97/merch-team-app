@@ -6,6 +6,7 @@ export type PlanningDetails = {
 	id: number;
 	gms: GMS;
 	day: number;
+	taskDate: string;
 	state: PlanningStatus;
 };
 export type Planning = {

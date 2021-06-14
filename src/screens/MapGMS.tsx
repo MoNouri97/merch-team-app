@@ -2,9 +2,9 @@ import { Feather } from '@expo/vector-icons';
 import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as Location from 'expo-location';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
-import MapView, { Circle } from 'react-native-maps';
+import MapView, { Circle, Polyline } from 'react-native-maps';
 import { useTheme } from 'styled-components';
 import { useGetTask } from '~/api/PlanningAPI';
 import AppText from '~/components/AppText';
@@ -12,6 +12,8 @@ import { Subtitle } from '~/components/Forms/styles';
 import { GMSMarker, PersonMarker } from '~/components/Map/GMSMarker';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
+import ReportContext from '~/context/ReportContext';
+import { calcDistance } from '~/Helpers/calcDistance';
 import { GEO_FENCING_TASK } from '~/Helpers/defineGeofencingTask';
 import useLocation from '~/Helpers/useLocation';
 import { HomeStackParams } from '~/types/navigation';
@@ -26,8 +28,20 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 	const { data } = useGetTask(route.params?.id);
 	const GMS = data?.gms;
 	const { error, location, refresh } = useLocation();
+	const [near, setNear] = useState(false);
 	const { colors } = useTheme();
-
+	const { changeTask } = useContext(ReportContext);
+	useEffect(() => {
+		if (!location || !GMS) return;
+		setNear(
+			calcDistance(
+				location?.latitude,
+				location?.longitude,
+				GMS?.latitude,
+				GMS?.longitude
+			) < 0.05
+		);
+	}, [location, GMS]);
 	useEffect(() => {
 		if (!GMS) return;
 		Location.startGeofencingAsync(GEO_FENCING_TASK, [
@@ -38,6 +52,16 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 			Location.stopGeofencingAsync(GEO_FENCING_TASK);
 		};
 	}, [data?.gms]);
+	useEffect(() => {
+		navigation.addListener('beforeRemove', (e) => {
+			if (e.data.action.type === 'GO_BACK') {
+				e.preventDefault();
+				navigation.navigate('Accueil');
+				return;
+			}
+			// navigation.pop();
+		});
+	}, []);
 	return (
 		<>
 			<MapView
@@ -68,6 +92,20 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 							fillColor={colors.green + '22'}
 							strokeColor="rgba(78, 173, 254,0)"
 						/>
+						{!near && location && (
+							<Polyline
+								lineCap="round"
+								strokeWidth={2}
+								strokeColor={colors.green}
+								coordinates={[
+									location,
+									{
+										latitude: data.gms.latitude,
+										longitude: data.gms.longitude,
+									},
+								]}
+							/>
+						)}
 						<GMSMarker
 							coordinate={{
 								latitude: data.gms.latitude,
@@ -86,19 +124,22 @@ const MapGMS: React.FC<MapGMSProps> = ({ navigation, route }) => {
 					/>
 				)}
 			</MapView>
-			<FloatingBtn onPress={() => navigation.goBack()}>
+			<FloatingBtn onPress={() => navigation.navigate('Accueil')}>
 				<Feather size={20} name="arrow-left" />
 			</FloatingBtn>
 			<Card>
 				<Col>
+					<AppText>Temp Estimée: {data?.gms.estimatedTime}min</AppText>
 					<Subtitle numberOfLines={2}>{data?.gms.name}</Subtitle>
-					<AppText>{data?.gms.estimatedTime}min</AppText>
+					<AppText color="primary">{near ? 'ok' : 'trop loin'}</AppText>
 				</Col>
 				<Col>
 					<Btn
-						primary
+						// primary
+						disabled={!near}
 						onPress={() => {
 							if (!data) return;
+							changeTask!(data);
 							navigation.navigate('Report', { id: data.id });
 						}}
 					>

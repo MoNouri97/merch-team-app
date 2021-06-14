@@ -1,16 +1,17 @@
+import { useNavigation } from '@react-navigation/core';
 import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import MapView, { Circle, LatLng } from 'react-native-maps';
 import { useUpdateGMS } from '~/api/gmsAPI';
 import AppText from '~/components/AppText';
 import { ErrorMessage, GMSPicker, SubmitBtn } from '~/components/Forms';
-import { Subtitle } from '~/components/Forms/styles';
 import { GMSMarker, PersonMarker } from '~/components/Map/GMSMarker';
 import AppScreen from '~/components/Shared/AppScreen';
 import Btn from '~/components/Shared/Btn';
 import styled from '~/config/styled-components';
 import { yup } from '~/config/yupFrLocal';
 import useLocation from '~/Helpers/useLocation';
+import { useModal } from '~/Helpers/useModal';
 
 const initial = {
 	GMS: '',
@@ -21,14 +22,13 @@ const validation = yup.object({
 	coord: yup.object().required(),
 });
 
-// const getLocation = async () => {
-// 	let location = await Location.getCurrentPositionAsync({});
-// 	return location;
-// };
 const LocateGMS: React.FC = () => {
 	const { mutateAsync } = useUpdateGMS();
 	const [pin, setPin] = useState<LatLng>();
 	const { location, refresh } = useLocation();
+	const { showProgress, hideProgress } = useModal();
+	const { navigate } = useNavigation();
+
 	let region = useRef({
 		longitude: 0,
 		latitude: 0,
@@ -48,18 +48,19 @@ const LocateGMS: React.FC = () => {
 			<Formik
 				initialValues={initial}
 				validationSchema={validation}
-				onSubmit={(values, { setSubmitting }) => {
-					console.log(values);
-					mutateAsync({ id: values.GMS, ...values.coord });
-					setSubmitting(false);
+				onSubmit={async (values, { setSubmitting }) => {
+					showProgress();
+					await mutateAsync({ id: values.GMS, ...values.coord });
+					hideProgress();
+					navigate('Accueil');
 				}}
 			>
 				{({ setFieldValue }) => (
 					<>
 						<GMSPicker />
-						<Subtitle>Détails</Subtitle>
+						{/* <Subtitle>Détails</Subtitle> */}
 
-						<AppText type="label">Carte</AppText>
+						<AppText type="label">Position</AppText>
 						<Map>
 							<MapView
 								onPress={(e) => {
@@ -76,7 +77,14 @@ const LocateGMS: React.FC = () => {
 									flex: 1,
 								}}
 							>
-								{pin && <GMSMarker draggable coordinate={pin} text="GMS" />}
+								{pin && (
+									<GMSMarker
+										updateCoord={setPin}
+										draggable
+										coordinate={pin}
+										text="GMS"
+									/>
+								)}
 								{location && (
 									<>
 										<Circle
@@ -121,7 +129,7 @@ const Map = styled.View`
 	border-radius: 20px;
 	overflow: hidden;
 	flex: 1;
-	height: 400px;
+	height: 300px;
 	margin: 20px 0;
 	border: solid 1px ${({ theme }) => theme.colors.gray[2]};
 `;

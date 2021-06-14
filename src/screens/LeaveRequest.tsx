@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import { addDays, differenceInDays, format, isAfter } from 'date-fns';
 import { useFormikContext } from 'formik';
 import React, { useContext } from 'react';
@@ -36,7 +37,8 @@ const validation = yup.object({
 const LeaveRequest: React.FC = () => {
 	const { mutateAsync } = usePostLeaveRequest();
 	const { user } = useContext(UserContext)!;
-	const { showProgress, hide } = useContext(ModalContext)!;
+	const { showProgress, hideProgress } = useContext(ModalContext)!;
+	const { navigate } = useNavigation();
 
 	return (
 		<AppScreen navbar>
@@ -56,7 +58,7 @@ const LeaveRequest: React.FC = () => {
 					}
 					if (!valid) return;
 
-					showProgress(0);
+					showProgress();
 
 					const toSend: LeaveRequestData = {
 						image: '',
@@ -71,9 +73,10 @@ const LeaveRequest: React.FC = () => {
 					}
 					await mutateAsync(toSend);
 
-					hide();
 					resetForm();
 					setSubmitting(false);
+					hideProgress();
+					navigate('Accueil');
 				}}
 			>
 				<DatePicker name="startDate" label="de" />
