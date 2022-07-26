@@ -1,12 +1,15 @@
-import { DefaultTheme } from 'styled-components';
+/* eslint-disable no-shadow */
 import 'styled-components';
+import { DefaultTheme } from 'styled-components';
 // import original module declarations
 
 // and extend them!
 declare module 'styled-components' {
 	export interface DefaultTheme {
 		borderRadius: string;
+		borderRadiusLarge: string;
 		colors: {
+			transparent: string;
 			primary: string;
 			secondary: string;
 			black: string;
@@ -24,10 +27,12 @@ declare module 'styled-components' {
 	}
 }
 const myTheme: DefaultTheme = {
-	borderRadius: '5px',
+	borderRadius: '10px',
+	borderRadiusLarge: '20px',
 	colors: {
+		transparent: 'rgba(255, 255, 255, 0.2)',
 		primary: '#9D3D8E',
-		secondary: '#8947CB',
+		secondary: '#7488D1',
 		black: '#111',
 		white: '#FFFFFF',
 		green: '#24CE85',

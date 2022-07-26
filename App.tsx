@@ -1,41 +1,57 @@
-import AppLoading from 'expo-app-loading';
-import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable camelcase */
 import {
 	DMSans_400Regular,
 	DMSans_500Medium,
 	DMSans_700Bold,
 	useFonts,
 } from '@expo-google-fonts/dm-sans';
+import AppLoading from 'expo-app-loading';
+import React from 'react';
+import { LogBox } from 'react-native';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import * as encoding from 'text-encoding';
 import { ThemeProvider } from '~/config/styled-components';
 import { myTheme } from '~/config/theme';
-import Testing from '~/screens/Testing';
+import { ModalContextProvider } from '~/context/ModalContext';
+import { ReportContextProvider } from '~/context/ReportContext';
+import { UserContextProvider } from '~/context/UserContext';
+import defineGeofencingTask from '~/Helpers/defineGeofencingTask';
+import MainStackNavigation from '~/screens/Navigation/MainStackNavigation';
 
-const Drawer = createDrawerNavigator();
+// react-native warning
+LogBox.ignoreLogs(['Setting a timer']);
+// necessary for Stomjs
+console.log(!!encoding);
+
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { retry: false, staleTime: 5000 } },
+});
 export default function App() {
 	// fonts
-	let [fontsLoaded] = useFonts({
+	const [fontsLoaded] = useFonts({
 		DMSans_400Regular,
 		DMSans_500Medium,
 		DMSans_700Bold,
 	});
+	// geoFencing
+	defineGeofencingTask();
+
 	if (!fontsLoaded) {
 		return <AppLoading />;
 	}
 
 	return (
-		<ThemeProvider theme={myTheme}>
-			<StatusBar style="auto" />
-			<NavigationContainer>
-				<Drawer.Navigator initialRouteName="Home">
-					<Drawer.Screen name="Home" component={Testing} />
-				</Drawer.Navigator>
-			</NavigationContainer>
-		</ThemeProvider>
+		<UserContextProvider>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider theme={myTheme}>
+					<ModalContextProvider>
+						<ReportContextProvider>
+							<MainStackNavigation />
+						</ReportContextProvider>
+					</ModalContextProvider>
+				</ThemeProvider>
+			</QueryClientProvider>
+		</UserContextProvider>
 	);
 }
-
-const styles = StyleSheet.create({});
